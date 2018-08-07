@@ -1,3 +1,5 @@
+[![Waffle.io - Issues in progress](https://badge.waffle.io/REACTO-R/reactor.png?label=in%20progress&title=In%20Progress)](http://waffle.io/REACTO-R/reactor)
+
 # Boilermaker
 
 _Good things come in pairs_
