@@ -2,10 +2,6 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const QuestionList = db.define('QuestionList', {
-	text: {
-		type: Sequelize.TEXT,
-		allowNull: false
-	},
 	RQuestion: {
 		type: Sequelize.TEXT,
 		allowNull: false
@@ -15,8 +11,11 @@ const QuestionList = db.define('QuestionList', {
 		allowNull: false
 	},
 	AQuestion: {
-		type: Sequelize.Text,
+		type: Sequelize.TEXT,
 		allowNull: false
+	},
+	AQuestionConsideration: {
+		type: Sequelize.TEXT,
 	},
 	QuestionId: {
 		type: Sequelize.INTEGER

@@ -2,10 +2,6 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const AQuestion = db.define('AQuestion', {
-	text: {
-		type: Sequelize.TEXT,
-		allowNull: false
-	},
 	correct: {
 		type: Sequelize.BOOLEAN,
 	},
@@ -15,11 +11,11 @@ const AQuestion = db.define('AQuestion', {
 	explanationText: {
 		type: Sequelize.TEXT,
 	},
-	OptimizationText: {
+	optimizationText: {
 		type: Sequelize.TEXT,
 	},
 	QuestionId: {
-		type: Sequelize.INTEGER
+		type: Sequelize.INTEGER,
 	}
 })
 
