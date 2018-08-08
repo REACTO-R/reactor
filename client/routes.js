@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, Topic, Subtopic, Problem, Editor} from './components'
 import {me} from './store'
+import {Container} from 'semantic-ui-react'
 
 
 /**
@@ -18,7 +19,7 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <div className="ui container">
+      <Container>
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
@@ -40,7 +41,7 @@ class Routes extends Component {
           {/* Displays our Login component as a fallback */}
           <Route component={Login} />
         </Switch>
-      </div>
+      </Container>
     )
   }
 }
