@@ -1,4 +1,32 @@
 const User = require('./user')
+const MainTopic = require('./mainTopic')
+const SubTopic = require('./subTopic')
+const Question = require('./questions')
+const QuestionList = require('./questionList')
+const RQuestion = require('./RQuestion')
+const EQuestion = require('./EQuestion')
+const AQuestion = require('./AQuestion')
+const CTStuff = require('./CTStuff')
+
+MainTopic.hasMany(SubTopic)
+SubTopic.belongsTo(MainTopic)
+
+SubTopic.hasMany(Question)
+Question.belongsTo(SubTopic)
+
+Question.hasOne(QuestionList)
+QuestionList.belongsTo(Question)
+
+QuestionList.hasMany(RQuestion)
+QuestionList.hasMany(EQuestion)
+QuestionList.hasMany(AQuestion)
+RQuestion.belongsTo(QuestionList)
+EQuestion.belongsTo(QuestionList)
+AQuestion.belongsTo(QuestionList)
+
+Question.hasOne(CTStuff)
+CTStuff.belongsTo(Question)
+
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -14,5 +42,5 @@ const User = require('./user')
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User
+  User, MainTopic, SubTopic, Question, QuestionList, RQuestion, EQuestion, AQuestion, CTStuff
 }
