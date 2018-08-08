@@ -10,9 +10,6 @@ const EQuestion = db.define('EQuestion', {
 	},
 	explanationText: {
 		type: Sequelize.TEXT,
-	},
-	QuestionId: {
-		type: Sequelize.INTEGER
 	}
 })
 

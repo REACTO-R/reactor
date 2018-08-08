@@ -6,9 +6,6 @@ const SubTopic = db.define('SubTopic', {
 		type: Sequelize.STRING,
 		allowNull: false
 	},
-	MainTopicId: {
-		type: Sequelize.INTEGER
-	}
 })
 
 module.exports = SubTopic

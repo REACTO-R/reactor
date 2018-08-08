@@ -13,9 +13,6 @@ const AQuestion = db.define('AQuestion', {
 	},
 	optimizationText: {
 		type: Sequelize.TEXT,
-	},
-	QuestionId: {
-		type: Sequelize.INTEGER,
 	}
 })
 

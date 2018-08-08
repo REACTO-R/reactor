@@ -17,9 +17,6 @@ const QuestionList = db.define('QuestionList', {
 	AQuestionConsideration: {
 		type: Sequelize.TEXT,
 	},
-	QuestionId: {
-		type: Sequelize.INTEGER
-	}
 })
 
 module.exports = QuestionList

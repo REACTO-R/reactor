@@ -5,9 +5,6 @@ const Question = db.define('Question', {
 	text: {
 		type: Sequelize.STRING,
 		allowNull: false
-	},
-	SubTopicId: {
-		type: Sequelize.INTEGER
 	}
 })
 

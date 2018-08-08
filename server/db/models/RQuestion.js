@@ -11,9 +11,6 @@ const RQuestion = db.define('RQuestion', {
 	explanationText: {
 		type: Sequelize.TEXT,
 	},
-	QuestionId: {
-		type: Sequelize.INTEGER
-	}
 })
 
 module.exports = RQuestion
