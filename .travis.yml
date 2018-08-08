@@ -14,14 +14,14 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "reactor-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy:
+  - npm run build-client # make the bundle
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: reacto-r # see README
+  api_key:
+    secure: "jnWSPM5uWFPcCyGb7pCkkhL4uBr2TMIqysmBc9kl3g4qOlqihvztD8SDUUMjAimWcYokm9azeTqLZ+fxcV+x7uaO43RDyAY90NZmCFLfLW90d/DAoWo4ABO3a5jH4rl0AhGrpTNbDgyRnhnUGzV3MfYWv0rp1Re7CtuCnruOc8pdG3vqtyBCx78O581eHktHF8meSbKTRmSFq1Z/DmFWw2N4cplfu8V3XE8YWRFDXYOmv9Q2XWu752jkASkZq7J5cEZsRVu37FP4EyogjU7E0nccXsCQuqfluYSpiaLjVrWQqGQw9HoNSNcswQUlz3tnqZ6Td/KHdYCsEunGVSOt6A0I3FTroJrdXlCo33dXZyO0Q1OgIGCFTG7BZLnWzqhQ96TNA2bgm1vSSPBioAAzQTfjhKkWk2WtUZOGy+BHiCO+rV5BDQnFxTyXKd9Y0NKfwztXE0yOcQ/YUPudGEK90EZGwi4QQ2HNZdb457TwDy19nhJtQol5j01+DtV+7QUQ4sOsKZngfWovOjiqf12vwGDfxyZdnCLZmyr+8ooYDr8RvyAWepcy065NKieYFjGBs1YxzawU8+m95gwpLUjtdX0tCvpparSM4FGuretktOiR9KMpeVgI8ogDV6D3jLBdlC6hFB/T6pB7y70NFVM4xrL1zYu+xGhTE97eLlMrIo8="
