@@ -8,28 +8,28 @@ import {Input, Menu} from 'semantic-ui-react'
 const Navbar = ({handleClick, isLoggedIn}) => (
   <Menu secondary>
     <Menu.Item name="REACTO" />
-    <nav>
-      {isLoggedIn ? (
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Link to="/home">Home</Link>
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </Menu.Item>
-        </Menu.Menu>
-      ) : (
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Link to="/login">Login</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/signup">Sign Up</Link>
-          </Menu.Item>
-        </Menu.Menu>
-      )}
-    </nav>
-    <hr />
+
+    {isLoggedIn ? (
+      <Menu.Menu position="right">
+        <Menu.Item>
+          <Link to="/home">Home</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <a href="#" onClick={handleClick}>
+            Logout
+          </a>
+        </Menu.Item>
+      </Menu.Menu>
+    ) : (
+      <Menu.Menu position="right">
+        <Menu.Item>
+          <Link to="/login">Login</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/signup">Sign Up</Link>
+        </Menu.Item>
+      </Menu.Menu>
+    )}
   </Menu>
 )
 

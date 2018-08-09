@@ -5,8 +5,9 @@
  */
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
-export {default as Question} from './question'
+export {default as SmartQuestion} from './smartQuestion'
 export {Login, Signup} from './auth-form'
+export {default as Editor } from './editor'
 export {default as Topic} from './topic'
 export {default as Subtopic} from './subtopic'
 export {default as Problem} from './problem'

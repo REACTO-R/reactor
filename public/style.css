@@ -19,3 +19,8 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+Container{
+  padding: 10px;
+  margin: 10px;
+}

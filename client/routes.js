@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Topic, Subtopic, Problem, Question} from './components'
+import {Login, Signup, UserHome, Topic, Subtopic, Problem, SmartQuestion, Editor} from './components'
 import {me} from './store'
+import {Container} from 'semantic-ui-react'
+
 
 /**
  * COMPONENT
@@ -17,12 +19,13 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <div className="ui container">
+      <Container>
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/topic/subtopic/question/:id" component={Question} />
+          <Route path="/topic/subtopic/question/:id" component={SmartQuestion} />
+          <Route path='/editor' component={Editor} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
@@ -39,7 +42,7 @@ class Routes extends Component {
           {/* Displays our Login component as a fallback */}
           <Route component={Login} />
         </Switch>
-      </div>
+      </Container>
     )
   }
 }
