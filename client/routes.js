@@ -24,9 +24,7 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          <Route exact path="/:topic/:subtopic/:question/repeat" component={Repeat} />
-          <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
-          <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
+         
 
 
 
@@ -37,11 +35,10 @@ class Routes extends Component {
               <Route path="/home" component={UserHome} />
               <Route exact path="/:topic" component={Topic} />
               <Route exact path="/:topic/:subtopic" component={Subtopic} />
-              <Route
-                exact
-                path="/:topic/:subtopic/:problem"
-                component={Problem}
-              />
+              <Route exact path="/:topic/:subtopic/:question/repeat" component={Repeat} />
+              <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
+             <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
+             <Route exact path="/:topic/:subtopic/:question/repeat/example/approach/editor" component={Editor} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
