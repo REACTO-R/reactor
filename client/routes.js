@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Topic, Subtopic, Problem, SmartQuestion, Editor} from './components'
+import {Login, Signup, UserHome, Topic, Subtopic, Problem, Repeat, Editor, Example, Approach} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
 
@@ -23,10 +23,10 @@ class Routes extends Component {
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/topic/subtopic/question/:id/repeat" component={SmartQuestion} />
-          <Route path="/topic/subtopic/question/:id/repeat/example" component={SmartQuestion} />
-          <Route path="/topic/subtopic/question/:id/repeat/example/approach" component={SmartQuestion} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/:topic/:subtopic/:question/repeat" component={Repeat} />
+          <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
+          <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
 
 
 
