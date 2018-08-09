@@ -5,45 +5,67 @@ import {dispatch} from 'redux'
 import {fetchQuestions} from '../store/questions'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import { List, Button, Header, Container, Segment, Dimmer, Loader } from 'semantic-ui-react'
+import { List, Button, Header, Container, Message } from 'semantic-ui-react'
 
 
-const  DumbQuestion = props => {
-    console.log('PROPS',props)
-    let clickHandlerCounter =0;
-    console.log(props.clickHandlers)
+class  DumbQuestion extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {}
+    }
+    // console.log('PROPS',props)
+    // let clickHandlerCounter =0;
+    // console.log(props.clickHandlers)
     
-    return (
-        <div>
-            
-            
-        <Container>
-            <Header size='large'>{ props.question }</Header>
-            <List animated relaxed verticalAlign='middle'>
-            {props.answers.map(answer => {
-                   return (
-                       
-
-                           <List.Item key={answer.id}  >
-                               <List.Content>
-                                   <Button onClick={() => props.clickHandlers[clickHandlerCounter]} size='large' basic>{answer.answerText}</Button>
-                               </List.Content>
-                           </List.Item>
-                      
-                   )
-                   clickHandlerCounter++;
-                   }
-                     
-                    
-            )}
-             </List> 
-                 
-
-        </Container>
-
-    </div>
+    render(){
+        for (let i =0; i<this.props.answers;i++){
+            this.setState({[answer.id]: false})
+        }
+        console.log('DQ PROPS',this.props)
        
-    )
+        return (
+            <div>
+                
+                
+            <Container>
+                <Header size='large'>{ this.props.question }</Header>
+                <List animated relaxed verticalAlign='middle'>
+                {this.props.answers.map(answer => {
+                    let show = false;
+                       return (
+                           
+                            <div>
+                               <List.Item key={answer.id}  >
+                                   <List.Content>
+                                       <Button onClick={() => {
+                                           this.setState({[answer.id]:true})
+                                       }} size='large' basic>{answer.answerText}</Button>
+                                   </List.Content>
+                               </List.Item>
+                               {this.state[answer.id] && <Message visible> {answer.explanationText}</Message>}
+                               <div>
+                                   <Link to={this.props.linkToNext}> GO NEXT </Link>
+                                </div>
+                               
+                            </div>
+                          
+                       )
+                       clickHandlerCounter++;
+                       }
+                         
+                        
+                )}
+                 </List> 
+                     
+    
+            </Container>
+    
+        </div>
+           
+        )
+    }
+    
 }
 
 

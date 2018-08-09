@@ -24,7 +24,12 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/topic/subtopic/question/:id" component={SmartQuestion} />
+          <Route path="/topic/subtopic/question/:id/repeat" component={SmartQuestion} />
+          <Route path="/topic/subtopic/question/:id/repeat/example" component={SmartQuestion} />
+          <Route path="/topic/subtopic/question/:id/repeat/example/approach" component={SmartQuestion} />
+
+
+
           <Route path='/editor' component={Editor} />
           {isLoggedIn && (
             <Switch>
