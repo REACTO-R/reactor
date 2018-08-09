@@ -33,7 +33,7 @@ export class Topic extends Component {
 			return (
 				<div>
 					<h1>Subtopics to study for {this.state.topics[this.state.topicId-1].name}</h1>
-					{this.state.topics[0].SubTopics.map((subtopic, index) => {
+					{this.state.topics[this.state.topicId-1].SubTopics.map((subtopic, index) => {
 						return (
 							<Link
 								to={'/' + (this.state.topicId) + '/' + (index+1)}

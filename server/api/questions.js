@@ -10,3 +10,5 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get(':topicId/:subtopicId/:questionId')
