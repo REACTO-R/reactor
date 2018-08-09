@@ -4,6 +4,7 @@ import {fetchQuestions} from '../store/questions'
 import {Link} from 'react-router-dom'
 
 import {List, Button, Header, Container, Message} from 'semantic-ui-react'
+import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 class Question extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class Question extends React.Component {
       answers: '',
       nextMode: 'repeat',
       linkToNext: false,
-      showNext: false
+      showNext: false,
+      showAnswers: []
     }
     this.changeMode = this.changeMode.bind(this)
   }
@@ -28,13 +30,27 @@ class Question extends React.Component {
       answers: root.RQuestions,
       loaded: true
     })
+
+    let newShowArr = [];
+    for(let i=0; i<this.state.answers; i++){
+      newShowArr.push(false)
+    }
+    this.setState({showAnswers: newShowArr})
   }
 
   componentDidUpdate(prevProps, prevState) {
     // console.log('prevProps', prevProps.match.url)
     // console.log('prevState', prevState.nextMode)
     // console.log('nextProps', this.props)
-    console.log('nextState', this.state)
+    // console.log('nextState', this.state)
+
+    //reset show answers
+    let newShowArr = this.state.showAnswers;
+    for(let i=0; i<newShowArr.length; i++){
+      newShowArr[i] = false;
+    }
+    this.setState({showAnswers: newShowArr})
+
     if (prevState.nextMode !== this.state.nextMode) {
       let root = this.props.questions[0].SubTopics[0].Questions[0].QuestionList
       if (this.state.nextMode === 'approach') {
@@ -91,6 +107,7 @@ class Question extends React.Component {
   }
 
   render() {
+  
     return (
       <div>
         {this.state.loaded && (
@@ -99,13 +116,17 @@ class Question extends React.Component {
               <Header size="large">{this.state.question}</Header>
               <List animated relaxed verticalAlign="middle">
                 {this.state.answers.map(answer => {
+                  this.state.showAnswers.push(false)
                   return (
                     <div key={answer.id}>
                       <List.Item>
                         <List.Content>
+                          {/* ON CLICK FOR ANSWER TO SHOW MESSAGE */}
                           <Button
                             onClick={() => {
-                              this.setState({[answer.id]: true})
+                              let newShowArr = this.state.showAnswers
+                              newShowArr[answer.id-1] = true;
+                              this.setState({showanswers: newShowArr})
                             }}
                             size="large"
                             basic
@@ -114,11 +135,11 @@ class Question extends React.Component {
                           </Button>
                         </List.Content>
                       </List.Item>
-                      {this.state[answer.id] && (
+                      {this.state.showAnswers[answer.id-1] && (
                         <React.Fragment>
                           <Message visible> {answer.explanationText}</Message>
                           {answer.correct &&
-                            this.props.history.location.pathname.endsWith(
+                            this.props.history.location.pathname.slice(-10).includes(
                               'repeat'
                             ) && (
                               <Link
@@ -138,7 +159,7 @@ class Question extends React.Component {
                               </Link>
                             )}
                           {answer.correct &&
-                            this.props.history.location.pathname.endsWith(
+                            this.props.history.location.pathname.slice(-10).includes(
                               'example'
                             ) && (
                               <Link
