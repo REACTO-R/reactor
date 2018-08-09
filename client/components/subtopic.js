@@ -49,7 +49,10 @@ export class Subtopic extends Component {
 										'/' +
 										this.state.subtopicId +
 										'/' +
-										(index+1)
+										(index+1) +
+										'/repeat' 
+										
+
 									}
 									key={question.id}
 									params={{index: index}}

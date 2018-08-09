@@ -24,9 +24,9 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          <Route exact path="/topic/subtopic/question/:id/repeat" component={Repeat} />
-          <Route exact path="/topic/subtopic/question/:id/repeat/example" component={Example} />
-          <Route exact path="/topic/subtopic/question/:id/repeat/example/approach" component={Approach} />
+          <Route exact path="/:topic/:subtopic/:question/repeat" component={Repeat} />
+          <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
+          <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
 
 
 

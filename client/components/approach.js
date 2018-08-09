@@ -79,7 +79,7 @@ class Approach extends React.Component {
                              && (
                               <Link
                                 to={
-                                  this.props.history.location.pathname +
+                                  
                                   '/editor'
                                 }
                               >
