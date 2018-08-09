@@ -4,7 +4,7 @@ import {fetchQuestions} from '../store/questions'
 import {Link} from 'react-router-dom'
 
 import {List, Button, Header, Container, Message} from 'semantic-ui-react'
-import { ENGINE_METHOD_DIGESTS } from 'constants';
+import {ENGINE_METHOD_DIGESTS} from 'constants'
 
 class Question extends React.Component {
   constructor(props) {
@@ -31,8 +31,8 @@ class Question extends React.Component {
       loaded: true
     })
 
-    let newShowArr = [];
-    for(let i=0; i<this.state.answers; i++){
+    let newShowArr = []
+    for (let i = 0; i < this.state.answers; i++) {
       newShowArr.push(false)
     }
     this.setState({showAnswers: newShowArr})
@@ -45,9 +45,9 @@ class Question extends React.Component {
     // console.log('nextState', this.state)
 
     //reset show answers
-    let newShowArr = this.state.showAnswers;
-    for(let i=0; i<newShowArr.length; i++){
-      newShowArr[i] = false;
+    let newShowArr = this.state.showAnswers
+    for (let i = 0; i < newShowArr.length; i++) {
+      newShowArr[i] = false
     }
     this.setState({showAnswers: newShowArr})
 
@@ -107,7 +107,6 @@ class Question extends React.Component {
   }
 
   render() {
-  
     return (
       <div>
         {this.state.loaded && (
@@ -125,7 +124,7 @@ class Question extends React.Component {
                           <Button
                             onClick={() => {
                               let newShowArr = this.state.showAnswers
-                              newShowArr[answer.id-1] = true;
+                              newShowArr[answer.id - 1] = true
                               this.setState({showanswers: newShowArr})
                             }}
                             size="large"
@@ -135,13 +134,13 @@ class Question extends React.Component {
                           </Button>
                         </List.Content>
                       </List.Item>
-                      {this.state.showAnswers[answer.id-1] && (
+                      {this.state.showAnswers[answer.id - 1] && (
                         <React.Fragment>
                           <Message visible> {answer.explanationText}</Message>
                           {answer.correct &&
-                            this.props.history.location.pathname.slice(-10).includes(
-                              'repeat'
-                            ) && (
+                            this.props.history.location.pathname
+                              .slice(-10)
+                              .includes('repeat') && (
                               <Link
                                 to={
                                   this.props.history.location.pathname +
@@ -159,9 +158,9 @@ class Question extends React.Component {
                               </Link>
                             )}
                           {answer.correct &&
-                            this.props.history.location.pathname.slice(-10).includes(
-                              'example'
-                            ) && (
+                            this.props.history.location.pathname
+                              .slice(-10)
+                              .includes('example') && (
                               <Link
                                 to={
                                   this.props.history.location.pathname +
