@@ -35,10 +35,10 @@ export default class Editor extends React.Component {
     const { isWorking } = this.state
     return(
       <div>
-        <p>Write a function that returns the sum of two number</p>
+        <p>Given a target sum and an array of positive integers, return true if any combination of numbers in the array can add to the target. Each number in the array may only be used once. Return false if the numbers cannot be used to add to the target sum.</p>
         <p>Input: ({this.state.input.map((el,idx)=> {
           return (
-            <span key={idx}>{el},</span>
+            <span key={idx}>{JSON.stringify(el)},</span>
           )
         }
         )})</p>
