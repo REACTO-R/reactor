@@ -1,10 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchQuestions} from '../store/questions'
+import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 
 import {List, Button, Header, Container, Message} from 'semantic-ui-react'
-
 
 class Repeat extends React.Component {
   constructor(props) {
@@ -19,8 +18,15 @@ class Repeat extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.getAllQuestions()
-    let root = this.props.questions[0].SubTopics[0].Questions[0].QuestionList
+    let pathnameArr = this.props.location.pathname.split('/')
+    let topicId = pathnameArr[1]
+    let subtopicId = pathnameArr[2]
+    let questionId = pathnameArr[3]
+
+    await this.props.getQuestion(topicId, subtopicId, questionId)
+    console.log('prop', this.props)
+
+    let root = this.props.questions.QuestionList
 
     this.setState({
       question: root.RQuestion,
@@ -28,18 +34,14 @@ class Repeat extends React.Component {
       loaded: true
     })
 
-    let newShowArr = [];
-    for(let i=0; i<this.state.answers; i++){
+    let newShowArr = []
+    for (let i = 0; i < this.state.answers; i++) {
       newShowArr.push(false)
     }
     this.setState({showAnswers: newShowArr})
   }
 
-  
-
-
   render() {
-  
     return (
       <div>
         {this.state.loaded && (
@@ -57,12 +59,12 @@ class Repeat extends React.Component {
                           <Button
                             onClick={() => {
                               let newShowArr = this.state.showAnswers
-                              if(newShowArr[answer.id-1]){
-                                newShowArr[answer.id-1] = false ;
-                              } else{
-                                newShowArr[answer.id-1] = true;
+                              if (newShowArr[answer.id - 1]) {
+                                newShowArr[answer.id - 1] = false
+                              } else {
+                                newShowArr[answer.id - 1] = true
                               }
-                              
+
                               this.setState({showanswers: newShowArr})
                             }}
                             size="large"
@@ -72,22 +74,19 @@ class Repeat extends React.Component {
                           </Button>
                         </List.Content>
                       </List.Item>
-                      {this.state.showAnswers[answer.id-1] && (
+                      {this.state.showAnswers[answer.id - 1] && (
                         <React.Fragment>
                           <Message visible> {answer.explanationText}</Message>
-                          {answer.correct
-                             && (
-                              <Link
-                                to={
-                                  this.props.history.location.pathname +
-                                  '/example'
-                                }
-                              >
-                                <Button>
-                                  GO NEXT
-                                </Button>
-                              </Link>
-                            )}
+                          {answer.correct && (
+                            <Link
+                              to={
+                                this.props.history.location.pathname +
+                                '/example'
+                              }
+                            >
+                              <Button>GO NEXT</Button>
+                            </Link>
+                          )}
                         </React.Fragment>
                       )}
                     </div>
@@ -110,7 +109,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAllQuestions: () => dispatch(fetchQuestions())
+    getQuestion: (topicId, subtopicId, questionId) =>
+      dispatch(fetchQuestion(topicId, subtopicId, questionId))
   }
 }
 
