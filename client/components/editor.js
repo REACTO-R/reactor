@@ -6,7 +6,7 @@ import 'brace/theme/monokai'
 import {fetchQuestion} from '../store/questions'
 import {connect} from 'react-redux'
 import {List, Header, Card, Container} from 'semantic-ui-react'
-import {expect} from 'chai'
+
 
 const initialState = {
   code: '',
@@ -24,7 +24,8 @@ class Editor extends React.Component {
       input: [10, [1,10,5,3]],
       output: true,
       isWorking: 0, // 0: default state; 1: if the user func works; 2: if user func doesn't work
-      errorMessage: ''
+      errorMessage: '',
+      results: ''
     }
     this.onChange = this.onChange.bind(this)
     this.handleClick= this.handleClick.bind(this)
@@ -56,32 +57,36 @@ class Editor extends React.Component {
   handleClick(){
     const tests = this.props.questions.CTStuffs
     
-    let arr = [1,2]
-    let arr2 = [1,2]
-    console.log(expect(arr).to.equal(arr))
+    
    
-    // try{
-    //   let userFunc = new Function(`return ${this.state.code}`)()
-    //   let resultArr = tests.map( test => {
-    //       let input = JSON.parse(test.Input)
-    //       let output = JSON.parse(test.Output)
-    //       if(userFunc(input))
-    //   })
-    //   if((userFunc(...this.state.input)) === this.state.output){
-    //     this.setState({isWorking: 1})
-    //   } else{
-    //     this.setState({isWorking: 2})
-    //   }
-    // } catch(err){
-    //   const error = new Error(err)
-    //   this.setState({errorMessage: error.message})
-    // }
+    try{
+      let userFunc = new Function(`return ${this.state.code}`)()
+      let resultArr = tests.map( test => {
+        
+          let input = JSON.parse(test.Input)
+          let result = JSON.stringify(userFunc(...input))
+          console.log('REULST', result)
+          console.log('TEST', test.Output.trim())
+          if(result === test.Output){
+            return true
+          } else {
+            return false
+          }
+      })
+      console.log(resultArr)
+     this.setState({results: resultArr})
+      
+    } catch(err){
+      const error = new Error(err)
+      this.setState({errorMessage: error.message})
+    }
+    
+    console.log('STATE', this.state)
   }
 
   render(){
     const { isWorking, errorMessage, code } = this.state
     const tests = this.props.questions.CTStuffs
-    console.log('TESTS',tests)
     return(
       <div>
         {tests && 
