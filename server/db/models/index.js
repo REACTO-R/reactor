@@ -46,5 +46,5 @@ CTStuff.belongsTo(Question)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, MainTopic, SubTopic, Question, QuestionList, RQuestion, EQuestion, AQuestion, CTStuff
+  User, MainTopic, SubTopic, Question, QuestionList, RQuestion, EQuestion, AQuestion, CTStuff, UserQuestions
 }

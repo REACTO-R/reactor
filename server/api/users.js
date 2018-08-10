@@ -19,8 +19,9 @@ router.get('/', async (req, res, next) => {
 router.post('/:userId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
+    console.log(req.body)
     const newUserQuestion = await UserQuestions.create({
-      questionId: req.params.questionId,
+      questionId: Number(req.body.questionId),
     })
     await user.addUserQuestions(newUserQuestion)
     res.status(201)
