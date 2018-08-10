@@ -80,8 +80,17 @@ async function seed() {
     explanationText: "Correct! This is the most efficient solution for both time and space for this problem.",
     optimizationText: "You used pointers to iterate through the loop, great! This solution would be O(n+m)."
   })
-  let m1s1Q1CT = await CTStuff.create({
-    Code: "Here is where we'd put in the code for parsing what the user codes in.",
+  let m1s1Q1CT1 = await CTStuff.create({
+    Input: "[[0,1,2,3,4,5,6], [2,4,6,8]]",
+    Output: "[2,4,6,8]"
+  })
+  let m1s1Q1CT2 = await CTStuff.create({
+    Input: "[[0,1,2,3], [4,5,6,7,8]]",
+    Output: "[]"
+  })
+  let m1s1Q1CT3 = await CTStuff.create({
+    Input: "[[4, 8, 15, 16, 23, 42], [2, 4, 8, 16, 32, 64]]",
+    Output: "[4, 8, 16]"
   })
 
 //Subtopic 2
@@ -129,8 +138,17 @@ async function seed() {
     explanationText: "Yep. When dealing with permutations, there tends not to be any efficient way except for going through each permutation.",
     optimizationText: "As stated before, this function will always be some form of O(n!).",
   })
-  let m1s2Q1CT = await CTStuff.create({
-    Code: "Here's where the code for the 2nd problem CT stuff would be."
+  let m1s2Q1CT1 = await CTStuff.create({
+    Input: "['app']",
+    Output: "['app', 'pap', 'ppa']"
+  })
+  let m1s2Q1CT2 = await CTStuff.create({
+    Input: "['lll']",
+    Output: "['lll']"
+  })
+  let m1s2Q1CT3 = await CTStuff.create({
+    Input: "['one']",
+    Output: "['eno', 'eon', 'neo', 'noe', 'oen', 'one']"
   })
   
   await mainTopic1.addSubTopic(m1subTopic1) //Assign subtopic to main topic
@@ -139,7 +157,7 @@ async function seed() {
   await m1s1Q1QuestionList.addRQuestion([m1s1Q1R1, m1s1Q1R2, m1s1Q1R3]) //Assign REA questions to question list
   await m1s1Q1QuestionList.addEQuestion([m1s1Q1E1, m1s1Q1E2, m1s1Q1E3])
   await m1s1Q1QuestionList.addAQuestion([m1s1Q1A1, m1s1Q1A2, m1s1Q1A3])
-  await m1s1Question1.setCTStuff(m1s1Q1CT) //Assign CTStuff to Question
+  await m1s1Question1.addCTStuff([m1s1Q1CT1, m1s1Q1CT2, m1s1Q1CT3]) //Assign CTStuff to Question
 
   await mainTopic1.addSubTopic(m1subTopic2)
   await m1subTopic2.addQuestion(m1s2Question1)
@@ -147,7 +165,7 @@ async function seed() {
   await m1s2Q1QuestionList.addRQuestion([m1s2Q1R1, m1s2Q1R2, m1s2Q1R3])
   await m1s2Q1QuestionList.addEQuestion([m1s2Q1E1, m1s2Q1E2, m1s2Q1E3])
   await m1s2Q1QuestionList.addAQuestion([m1s2Q1A1])
-  await m1s2Question1.setCTStuff(m1s2Q1CT)
+  await m1s2Question1.addCTStuff([m1s2Q1CT1, m1s2Q1CT2, m1s2Q1CT3])
 
   //Topic 2
 
@@ -208,8 +226,17 @@ async function seed() {
     explanationText: "That's right! While this may take a while upfront, the functions you'll use later on for the tree will be much more efficient.",
     optimizationText: "This particular kind of tree tends to be called a trie, which tend to be used for search engine predictions.",
   })
-  let m2s1Q1CT = await CTStuff.create({
-    Code: "Code for 2nd topic, 1st subtopic, 1st question here."
+  let m2s1Q1CT1 = await CTStuff.create({
+    Input: "['Sea sells sea shells by the seashore', 'se']",
+    Output: "[4, 10, 27]",
+  })
+  let m2s1Q1CT2 = await CTStuff.create({
+    Input: "['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'ShouldntExist']",
+    Output: "[]",
+  })
+  let m2s1Q1CT3 = await CTStuff.create({
+    Input: "['Alice was beginning to get very tired of sitting by her sister on the bank and having nothing to do.', 'si']",
+    Output: "[42, 57]",
   })
 
   await mainTopic2.addSubTopic(m2subTopic1)
@@ -218,7 +245,7 @@ async function seed() {
   await m2s1Q1QuestionList.addRQuestion([m2s1Q1R1, m2s1Q1R2, m2s1Q1R3]) //Assign REA questions to question list
   await m2s1Q1QuestionList.addEQuestion([m2s1Q1E1, m2s1Q1E2, m2s1Q1E3])
   await m2s1Q1QuestionList.addAQuestion([m2s1Q1A1, m2s1Q1A2, m2s1Q1A3])
-  await m2s1Question1.setCTStuff(m2s1Q1CT)
+  await m2s1Question1.addCTStuff([m2s1Q1CT1, m2s1Q1CT2, m2s1Q1CT3])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)

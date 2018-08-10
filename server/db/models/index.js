@@ -24,7 +24,7 @@ RQuestion.belongsTo(QuestionList)
 EQuestion.belongsTo(QuestionList)
 AQuestion.belongsTo(QuestionList)
 
-Question.hasOne(CTStuff)
+Question.hasMany(CTStuff)
 CTStuff.belongsTo(Question)
 
 
