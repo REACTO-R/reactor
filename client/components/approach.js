@@ -10,6 +10,7 @@ class Approach extends React.Component {
     super(props)
     this.state = {
       loaded: false,
+      questionText: '',
       question: '',
       answers: '',
       showNext: false,
@@ -29,6 +30,7 @@ class Approach extends React.Component {
     let root = this.props.questions.QuestionList
 
     this.setState({
+      questionText: this.props.questions.text,
       question: root.AQuestion,
       answers: root.AQuestions,
       loaded: true
@@ -47,7 +49,8 @@ class Approach extends React.Component {
         {this.state.loaded && (
           <div>
             <Container>
-              <Header size="large">{this.state.question}</Header>
+              <Header size="large">{this.state.questionText}</Header>
+              <Header size="medium">{this.state.question}</Header>
               <List animated relaxed verticalAlign="middle">
                 {this.state.answers.map(answer => {
                   this.state.showAnswers.push(false)
