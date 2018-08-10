@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Topic, Subtopic, Problem, Repeat, Editor, Example, Approach} from './components'
+import {Login, Signup, UserHome, Topic, Subtopic, Problem, Repeat, Editor, Example, Approach, Optimize} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
 
@@ -39,6 +39,7 @@ class Routes extends Component {
               <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
              <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
              <Route exact path="/:topic/:subtopic/:question/repeat/example/approach/editor" component={Editor} />
+             <Route exact path="/:topic/:subtopic/:question/repeat/example/approach/editor/optimize" component={Optimize} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}

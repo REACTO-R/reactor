@@ -7,6 +7,10 @@ const RQuestion = require('./RQuestion')
 const EQuestion = require('./EQuestion')
 const AQuestion = require('./AQuestion')
 const CTStuff = require('./CTStuff')
+const UserQuestions = require('./userQuestions')
+
+User.hasMany(UserQuestions)
+UserQuestions.belongsTo(User)
 
 MainTopic.hasMany(SubTopic)
 SubTopic.belongsTo(MainTopic)
