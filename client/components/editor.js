@@ -27,6 +27,12 @@ export default class Editor extends React.Component {
   }
 
   onChange(newValue) {
+    if(this.state.isWorking !== 0){
+      this.setState({isWorking: 0})
+    }
+    if(this.state.errorMessage){
+      this.setState({errorMessage: ''})
+    }
     this.setState({code: newValue})
   }
 
@@ -68,7 +74,7 @@ export default class Editor extends React.Component {
       }}
       />
       <button onClick={this.handleClick}>run</button>
-      {isWorking === 0 ? null : isWorking === 1 ? <p>Your Func is right</p> : <p>Your func is not right, sorry</p>
+      {isWorking ===  0 ? null : isWorking === 1 ? <p>Your Func is right</p> : <p>Your func is not right, sorry</p>
       }
       {errorMessage && <p>{errorMessage}</p>}
       </div>
