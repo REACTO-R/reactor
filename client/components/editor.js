@@ -25,9 +25,19 @@ class Editor extends React.Component {
 
   async componentDidMount() {
     let pathnameArr = this.props.location.pathname.split('/')
-    let topicId = pathnameArr[1]
-    let subtopicId = pathnameArr[2]
-    let questionId = pathnameArr[3]
+    let topicId;
+    let subtopicId;
+    let questionId;
+    if(this.props.location.pathname.includes('nohelp')){
+      topicId = pathnameArr[2]
+      subtopicId = pathnameArr[3]
+      questionId = pathnameArr[4]
+    } else {
+      topicId = pathnameArr[1]
+      subtopicId = pathnameArr[2]
+      questionId = pathnameArr[3]
+    }
+    
     await this.props.getQuestion(topicId, subtopicId, questionId)
   }
 

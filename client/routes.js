@@ -2,7 +2,18 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Topic, Subtopic, Problem, Repeat, Editor, Example, Approach} from './components'
+import {Login, 
+  Signup, 
+  UserHome, 
+  Topic, 
+  Subtopic,  
+  Repeat, 
+  Editor, 
+  Example, 
+  Approach, 
+  RepeatNoHelp,
+  ExampleNoHelp,
+  ApproachNoHelp} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
 
@@ -35,6 +46,11 @@ class Routes extends Component {
               <Route path="/home" component={UserHome} />
               <Route exact path="/:topic" component={Topic} />
               <Route exact path="/:topic/:subtopic" component={Subtopic} />
+              <Route exact path="/nohelp/:topic/:subtopic/:question/repeat" component={RepeatNoHelp} />
+              <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example" component={ExampleNoHelp} />
+              <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach" component={ApproachNoHelp} />
+              <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach/editor" component={Editor} />
+
               <Route exact path="/:topic/:subtopic/:question/repeat" component={Repeat} />
               <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
              <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
