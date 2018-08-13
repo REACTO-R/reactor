@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import {Card, Button} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -28,6 +29,7 @@ export class Subtopic extends Component {
 		let newQuestion = await axios.post('/api/users/'+this.props.userId, {
 			questionId: question
 		})
+		console.log(newQuestion)
 	}
 
 	render() {
@@ -45,28 +47,53 @@ export class Subtopic extends Component {
 						Questions for subtopic{' '}
 						{subtopicArray[this.state.subtopicId - 1].name}
 					</h1>
+					<Card.Group>
 					{subtopicArray[this.state.subtopicId - 1].Questions.map(
 						(question, index) => {
 							return (
-								<Link
-									to={
-										'/' +
-										this.state.topicId +
-										'/' +
-										this.state.subtopicId +
-										'/' +
-										(index + 1) +
-										'/repeat'
-									}
-									key={question.id}
-									params={{index: index}}
-									onClick={() => {this.handleClick(question.id)}}
-								>
-									<h3>{question.text}</h3>
-								</Link>
+								<Card key={question.id}>
+									<Card.Content>
+										<Card.Header> {question.text} </Card.Header>
+									</Card.Content>
+									<Card.Content extra>
+										<Button basic> <Link
+											to={
+												'/nohelp/' + 
+												this.state.topicId +
+												'/' +
+												this.state.subtopicId +
+												'/' +
+												(index + 1) +
+												'/repeat'
+												}
+											params={{ index: index }}
+										>
+										Don't help me!
+										</Link>
+										</Button>
+										<Button basic> <Link
+											to={
+												'/' +
+												this.state.topicId +
+												'/' +
+												this.state.subtopicId +
+												'/' +
+												(index + 1) +
+												'/repeat'
+												}
+												onClick={() => {this.handleClick(question.id)}}
+												params={{ index: index }}
+										>
+										Guide me please!
+										</Link>
+										</Button>
+									</Card.Content>
+								
+								</Card>
 							)
 						}
 					)}
+					</Card.Group>
 				</div>
 			)
 		}

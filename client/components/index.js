@@ -6,6 +6,10 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {default as Repeat} from './repeat'
+export {default as RepeatNoHelp} from './repeatNoHelp'
+export {default as ApproachNoHelp} from './approachNoHelp'
+export {default as ExampleNoHelp} from './exampleNoHelp'
+
 export {default as Example} from './example'
 export {default as Approach} from './approach'
 export {Login, Signup} from './auth-form'
