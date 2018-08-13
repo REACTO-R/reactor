@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import axios from 'axios'
+import {Button} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -33,9 +34,18 @@ export class UserHome extends Component {
     return (
       <div>
         <h1>Topics Available for Study</h1>
-        {this.state.topics.map((maintopic, index) => {
-          return <Link to={'/'+(index+1)} key={maintopic.name} params={{index: index}}><h3>{maintopic.name}</h3></Link>
-        })}
+        <Button.Group vertical color="blue">
+          {this.state.topics.map((maintopic, index) => {
+            return (
+              <div key={maintopic.name}>
+                <Link to={'/' + (index + 1)} params={{index: index}}>
+                  <Button>{maintopic.name}</Button>
+                </Link>
+                <br />
+              </div>
+            )
+          })}
+        </Button.Group>
       </div>
     )
   }
