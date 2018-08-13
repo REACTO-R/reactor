@@ -82,6 +82,7 @@ class Repeat extends React.Component {
                                   this.props.history.location.pathname +
                                   '/example'
                                 }
+                                onClick={this.handleClick()}
                               >
                                 <Button>
                                   GO NEXT

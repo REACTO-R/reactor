@@ -18,10 +18,11 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId, {include: [{all: true}]})
+    const user = await User.findById(req.params.userId, {
+      include: [{all: true}]
+    })
     res.json(user)
-  }
-  catch (err) {
+  } catch (err) {
     next(err)
   }
 })
@@ -30,31 +31,40 @@ router.post('/:userId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     console.log(req.body)
-    const newUserQuestion = await UserQuestions.create({
-      questionId: Number(req.body.questionId),
+    const newUserQuestion = await UserQuestions.findOrCreate({
+      where: {
+        questionId: Number(req.body.questionId)
+      }
     })
-    await user.addUserQuestions(newUserQuestion)
-    res.status(201)
-    res.json(newUserQuestion)
-  }
-  catch (err) {
-    next (err)
+    console.log(newUserQuestion[0].questionId)
+    console.log(newUserQuestion[1])
+    if (newUserQuestion[1]) {
+      await user.addUserQuestions(newUserQuestion[0])
+      res.status(201)
+      res.json(newUserQuestion[0])
+    } else {
+      res.status(200)
+      res.json(newUserQuestion[0])
+    }
+  } catch (err) {
+    next(err)
   }
 })
 
 router.put('/:userId/:questionId', async (req, res, next) => {
   try {
+    const propToUpdate = req.body.propUpdate
     const userQuestionList = await UserQuestions.update(
-      {AQuestion: true},
-      {where: {
-        userId: req.params.userId,
-        questionId: req.params.questionId
-      }}
+      {propToUpdate: true},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
     )
     userQuestionList.update()
-  }
-  catch (err) {
-    next (err)
+  } catch (err) {
+    next(err)
   }
 })
-
