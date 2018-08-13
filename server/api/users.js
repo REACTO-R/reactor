@@ -54,8 +54,10 @@ router.post('/:userId', async (req, res, next) => {
 router.put('/:userId/:questionId', async (req, res, next) => {
   try {
     const propToUpdate = req.body.propUpdate
-    const userQuestionList = await UserQuestions.update(
-      {propToUpdate: true},
+    switch (propToUpdate) {
+      case "RQuestion":
+        await UserQuestions.update(
+      {RQuestion: true},
       {
         where: {
           userId: req.params.userId,
@@ -63,7 +65,43 @@ router.put('/:userId/:questionId', async (req, res, next) => {
         }
       }
     )
-    userQuestionList.update()
+      break;
+      case "EQuestion":
+        await UserQuestions.update(
+      {EQuestion: true},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
+    )
+      break;
+      case "AQuestion":
+        await UserQuestions.update(
+      {AQuestion: true, AQuestionApproach: req.body.AQuestionApproach},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
+    )
+      break;
+      case "CTQuestion":
+        await UserQuestions.update(
+      {CTQuestion: true},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
+    )
+      break;
+    default:
+      break;
+    }
   } catch (err) {
     next(err)
   }

@@ -2,23 +2,28 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 import {List, Button, Header, Container, Message} from 'semantic-ui-react'
 
 class Repeat extends React.Component {
   constructor(props) {
     super(props)
+    console.log("Constructing")
     this.state = {
       loaded: false,
       questionText: '',
       question: '',
       answers: '',
       showNext: false,
-      showAnswers: []
+      showAnswers: [],
+      questionid: 0,
     }
+    this.handleClick = this.handleClick.bind(this)
   }
 
   async componentDidMount() {
+    console.log("Mounting")
     let pathnameArr = this.props.location.pathname.split('/')
     let topicId = pathnameArr[1]
     let subtopicId = pathnameArr[2]
@@ -33,7 +38,8 @@ class Repeat extends React.Component {
       questionText: this.props.questions.text,
       question: root.RQuestion,
       answers: root.RQuestions,
-      loaded: true
+      loaded: true,
+      questionid: this.props.questions.id
     })
 
     let newShowArr = []
@@ -41,6 +47,12 @@ class Repeat extends React.Component {
       newShowArr.push(false)
     }
     this.setState({showAnswers: newShowArr})
+  }
+
+  async handleClick() {
+    await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
+      propUpdate: "RQuestion",
+    })
   }
 
   render() {
@@ -87,7 +99,7 @@ class Repeat extends React.Component {
                                   this.props.history.location.pathname +
                                   '/example'
                                 }
-                                onClick={this.handleClick()}
+                                onClick={() => {this.handleClick()}}
                               >
                                 <Button>
                                   GO NEXT
@@ -110,7 +122,8 @@ class Repeat extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    questions: state.questions
+    questions: state.questions,
+    userId: state.user.id
   }
 }
 
