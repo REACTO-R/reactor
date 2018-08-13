@@ -7,6 +7,10 @@ const RQuestion = require('./RQuestion')
 const EQuestion = require('./EQuestion')
 const AQuestion = require('./AQuestion')
 const CTStuff = require('./CTStuff')
+const UserQuestions = require('./userQuestions')
+
+User.hasMany(UserQuestions)
+UserQuestions.belongsTo(User)
 
 MainTopic.hasMany(SubTopic)
 SubTopic.belongsTo(MainTopic)
@@ -42,5 +46,5 @@ CTStuff.belongsTo(Question)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, MainTopic, SubTopic, Question, QuestionList, RQuestion, EQuestion, AQuestion, CTStuff
+  User, MainTopic, SubTopic, Question, QuestionList, RQuestion, EQuestion, AQuestion, CTStuff, UserQuestions
 }

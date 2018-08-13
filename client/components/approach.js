@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 import {List, Button, Header, Container, Message} from 'semantic-ui-react'
 
@@ -14,8 +15,10 @@ class Approach extends React.Component {
       question: '',
       answers: '',
       showNext: false,
-      showAnswers: []
+      showAnswers: [],
+      questionid: 0
     }
+    this.handleClick = this.handleClick.bind(this)
   }
 
   async componentDidMount() {
@@ -33,7 +36,8 @@ class Approach extends React.Component {
       questionText: this.props.questions.text,
       question: root.AQuestion,
       answers: root.AQuestions,
-      loaded: true
+      loaded: true,
+      questionid: this.props.questions.id
     })
 
     let newShowArr = []
@@ -41,6 +45,17 @@ class Approach extends React.Component {
       newShowArr.push(false)
     }
     this.setState({showAnswers: newShowArr})
+  }
+
+  async handleClick(answerId) {
+    try {
+    await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
+      propUpdate: "AQuestion",
+      AQuestionApproach: answerId
+    })}
+    catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
@@ -85,6 +100,7 @@ class Approach extends React.Component {
                               to={
                                 this.props.history.location.pathname + '/editor'
                               }
+                              onClick={() => {this.handleClick(answer.id)}}
                             >
                               <Button>GO NEXT</Button>
                             </Link>
@@ -105,7 +121,8 @@ class Approach extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    questions: state.questions
+    questions: state.questions,
+    userId: state.user.id
   }
 }
 
