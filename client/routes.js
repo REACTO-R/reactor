@@ -42,8 +42,29 @@ class Routes extends Component {
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/home" component={UserHome} />
+              <Route exact path="/profile" component={Profile} />
               <Route exact path="/:topic" component={Topic} />
               <Route exact path="/:topic/:subtopic" component={Subtopic} />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat"
+                component={Repeat}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example"
+                component={Example}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example/approach"
+                component={Approach}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example/approach/editor"
+                component={Editor}
+              />
               <Route
                 exact
                 path="/:topic/:subtopic/:question/repeat"
