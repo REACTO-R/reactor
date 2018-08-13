@@ -11,13 +11,13 @@ import {Login,
   Editor, 
   Example, 
   Approach, 
+  Profile,
   RepeatNoHelp,
   ExampleNoHelp,
   ApproachNoHelp,
   Optimize} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
-
 
 /**
  * COMPONENT
@@ -36,15 +36,13 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-         
 
-
-
-          <Route path='/editor' component={Editor} />
+          <Route path="/editor" component={Editor} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/home" component={UserHome} />
+              <Route exact path="/profile" component={Profile} />
               <Route exact path="/:topic" component={Topic} />
               <Route exact path="/:topic/:subtopic" component={Subtopic} />
               <Route exact path="/nohelp/:topic/:subtopic/:question/repeat" component={RepeatNoHelp} />
@@ -52,11 +50,52 @@ class Routes extends Component {
               <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach" component={ApproachNoHelp} />
               <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach/editor" component={Editor} />
 
-              <Route exact path="/:topic/:subtopic/:question/repeat" component={Repeat} />
-              <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
-             <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
-             <Route exact path="/:topic/:subtopic/:question/repeat/example/approach/editor" component={Editor} />
-             <Route exact path="/:topic/:subtopic/:question/repeat/example/approach/editor/optimize" component={Optimize} />
+            
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat"
+                component={Repeat}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example"
+                component={Example}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example/approach"
+                component={Approach}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example/approach/editor"
+                component={Editor}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat"
+                component={Repeat}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example"
+                component={Example}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example/approach"
+                component={Approach}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example/approach/editor"
+                component={Editor}
+              />
+              <Route
+                exact
+                path="/:topic/:subtopic/:question/repeat/example/approach/editor/optimize"
+                component={Optimize}
+              />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
