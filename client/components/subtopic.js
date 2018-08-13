@@ -14,12 +14,19 @@ export class Subtopic extends Component {
 			topicId: Number(props.match.params.topic),
 			subtopicId: Number(props.match.params.subtopic)
 		}
+		this.handleClick = this.handleClick.bind(this)
 	}
 
 	async componentDidMount() {
 		let topics = await axios.get('/api/questions')
 		this.setState({
 			topics: topics.data
+		})
+	}
+
+	async handleClick(question) {
+		let newQuestion = await axios.post('/api/users/'+this.props.userId, {
+			questionId: question
 		})
 	}
 
@@ -31,8 +38,7 @@ export class Subtopic extends Component {
 				</div>
 			)
 		} else {
-			let subtopicArray = this.state.topics[this.state.topicId - 1]
-				.SubTopics
+			let subtopicArray = this.state.topics[this.state.topicId - 1].SubTopics
 			return (
 				<div>
 					<h1>
@@ -49,13 +55,12 @@ export class Subtopic extends Component {
 										'/' +
 										this.state.subtopicId +
 										'/' +
-										(index+1) +
-										'/repeat' 
-										
-
+										(index + 1) +
+										'/repeat'
 									}
 									key={question.id}
 									params={{index: index}}
+									onClick={() => {this.handleClick(question.id)}}
 								>
 									<h3>{question.text}</h3>
 								</Link>
@@ -73,7 +78,8 @@ export class Subtopic extends Component {
  */
 const mapState = state => {
 	return {
-		email: state.user.email
+		email: state.user.email,
+		userId: state.user.id
 	}
 }
 
