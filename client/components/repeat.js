@@ -9,7 +9,6 @@ import {List, Button, Header, Container, Message} from 'semantic-ui-react'
 class Repeat extends React.Component {
   constructor(props) {
     super(props)
-    console.log("Constructing")
     this.state = {
       loaded: false,
       questionText: '',
@@ -23,7 +22,6 @@ class Repeat extends React.Component {
   }
 
   async componentDidMount() {
-    console.log("Mounting")
     let pathnameArr = this.props.location.pathname.split('/')
     let topicId = pathnameArr[1]
     let subtopicId = pathnameArr[2]

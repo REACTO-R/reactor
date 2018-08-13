@@ -13,4 +13,5 @@ export {default as Editor } from './editor'
 export {default as Topic} from './topic'
 export {default as Subtopic} from './subtopic'
 export {default as Problem} from './problem'
+export {default as Optimize} from './optimize'
 
