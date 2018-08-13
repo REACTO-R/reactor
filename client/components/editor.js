@@ -1,7 +1,9 @@
 import React from 'react'
 import brace from 'brace'
+import {connect} from 'react-redux'
 import AceEditor from 'react-ace'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 
@@ -13,7 +15,7 @@ const initialState = {
 	errorMessage: ''
 }
 
-export default class Editor extends React.Component {
+export class Editor extends React.Component {
 	constructor() {
 		super()
 		this.state = {
@@ -51,6 +53,19 @@ export default class Editor extends React.Component {
 		}
 	}
 
+	async handleForward() {
+		try {
+			await axios.put(
+				'/api/users/' + this.props.userId + '/' + this.state.questionid,
+				{
+					propUpdate: 'CTQuestion'
+				}
+			)
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
 	render() {
 		const {isWorking, errorMessage, output, code} = this.state
 		return (
@@ -82,12 +97,18 @@ export default class Editor extends React.Component {
 				<button onClick={this.handleClick}>run</button>
 				{isWorking === 0 ? null : isWorking === 1 ? (
 					<p>
-						Your Func is right 
+						Your Func is right
 						<Link
 							to={
-								this.props.history.location.pathname + '/optimize'
+								this.props.history.location.pathname +
+								'/optimize'
 							}
-						>Go next </Link>
+							onClick={() => {
+								this.handleForward()
+							}}
+						>
+							Go next{' '}
+						</Link>
 					</p>
 				) : (
 					<p>Your func is not right, sorry</p>
@@ -97,3 +118,11 @@ export default class Editor extends React.Component {
 		)
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+		userId: state.user.id
+	}
+}
+
+export default connect(mapStateToProps)(Editor)

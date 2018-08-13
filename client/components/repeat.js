@@ -50,9 +50,13 @@ class Repeat extends React.Component {
   }
 
   async handleClick() {
+    try {
     await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
       propUpdate: "RQuestion",
-    })
+    })}
+    catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
