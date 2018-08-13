@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, UserQuestions} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -11,6 +11,97 @@ router.get('/', async (req, res, next) => {
       attributes: ['id', 'email']
     })
     res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId, {
+      include: [{all: true}]
+    })
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    console.log(req.body)
+    const newUserQuestion = await UserQuestions.findOrCreate({
+      where: {
+        questionId: Number(req.body.questionId)
+      }
+    })
+    console.log(newUserQuestion[0].questionId)
+    console.log(newUserQuestion[1])
+    if (newUserQuestion[1]) {
+      await user.addUserQuestions(newUserQuestion[0])
+      res.status(201)
+      res.json(newUserQuestion[0])
+    } else {
+      res.status(200)
+      res.json(newUserQuestion[0])
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:userId/:questionId', async (req, res, next) => {
+  try {
+    const propToUpdate = req.body.propUpdate
+    switch (propToUpdate) {
+      case "RQuestion":
+        await UserQuestions.update(
+      {RQuestion: true},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
+    )
+      break;
+      case "EQuestion":
+        await UserQuestions.update(
+      {EQuestion: true},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
+    )
+      break;
+      case "AQuestion":
+        await UserQuestions.update(
+      {AQuestion: true, AQuestionApproach: req.body.AQuestionApproach},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
+    )
+      break;
+      case "CTQuestion":
+        await UserQuestions.update(
+      {CTQuestion: true},
+      {
+        where: {
+          userId: req.params.userId,
+          questionId: req.params.questionId
+        }
+      }
+    )
+      break;
+    default:
+      break;
+    }
   } catch (err) {
     next(err)
   }

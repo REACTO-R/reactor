@@ -2,8 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
-import {List, Button, Header, Container, Form, TextArea, Icon} from 'semantic-ui-react'
+import {Button, Header, Container, Form, TextArea, Icon} from 'semantic-ui-react'
 
 class RepeatNoHelp extends React.Component {
   constructor(props) {
@@ -13,7 +14,19 @@ class RepeatNoHelp extends React.Component {
       questionText: '',
       question: '',
       answers: '',
-      showNext: false
+      questionid: 0
+    }
+
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  async handleClick() {
+    try {
+    await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
+      propUpdate: "RQuestion",
+    })}
+    catch (err) {
+      console.log(err)
     }
   }
 
@@ -24,7 +37,6 @@ class RepeatNoHelp extends React.Component {
     let questionId = pathnameArr[4]
 
     await this.props.getQuestion(topicId, subtopicId, questionId)
-    console.log('prop', this.props)
 
     let root = this.props.questions.QuestionList
 
@@ -32,18 +44,17 @@ class RepeatNoHelp extends React.Component {
       questionText: this.props.questions.text,
       question: root.RQuestion,
       answers: root.RQuestions,
-      loaded: true
+      loaded: true,
+      questionid: this.props.questions.id
     })
 
    
   }
 
   render() {
-      console.log('answers', this.state.answers)
       let rightAnswer
       if(this.state.loaded){
         rightAnswer = this.state.answers.filter(el => el.correct)[0].answerText
-        console.log(rightAnswer)
       }
       
     return (
@@ -68,6 +79,7 @@ class RepeatNoHelp extends React.Component {
                                 this.props.history.location.pathname +
                                 '/example'
                               }
+                              onClick={() => {this.handleClick()}}
                     >
                     <Button icon labelPosition='right' color='green'> 
                      Move on 
@@ -85,7 +97,8 @@ class RepeatNoHelp extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    questions: state.questions
+    questions: state.questions,
+    userId: state.user.id
   }
 }
 

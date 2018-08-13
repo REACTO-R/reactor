@@ -1,14 +1,14 @@
 import React from 'react'
 import brace from 'brace'
+import {connect} from 'react-redux'
 import AceEditor from 'react-ace'
+import {Link} from 'react-router-dom'
+import axios from 'axios'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 import {fetchQuestion} from '../store/questions'
-import {connect} from 'react-redux'
 import {List, Header, Card, Container, Button} from 'semantic-ui-react'
 import { expect } from 'chai'
-import { Link } from 'react-router-dom'
-
 
 class Editor extends React.Component {
   constructor() {
@@ -17,7 +17,8 @@ class Editor extends React.Component {
       code: '',
       isWorking: 0, // 0: default state; 1: if the user func works; 2: if user func doesn't work
       errorMessage: '',
-      results: []
+      results: [],
+      questionid: 0
     }
     this.onChange = this.onChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -39,6 +40,9 @@ class Editor extends React.Component {
     }
     
     await this.props.getQuestion(topicId, subtopicId, questionId)
+    this.setState({
+    	questionid: this.props.questions.id
+    })
   }
 
   onChange(newValue) {
@@ -75,6 +79,19 @@ class Editor extends React.Component {
     }
 
   }
+  	async handleForward() {
+		try {
+			await axios.put(
+				'/api/users/' + this.props.userId + '/' + this.state.questionid,
+				{
+					propUpdate: 'CTQuestion'
+				}
+			)
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
 
   render() {
     const {isWorking, errorMessage, code, results} = this.state
@@ -124,7 +141,8 @@ class Editor extends React.Component {
       </div>
       <Button disabled={!checkResults}><Link to={
         this.props.history.location.pathname +
-        '/optimize'}> GO NEXT </Link> </Button>
+        '/optimize'}
+        onClick={() => {this.handleForward()}}> GO NEXT </Link> </Button>
     </div>
     )
   }
@@ -132,7 +150,8 @@ class Editor extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    questions: state.questions
+    questions: state.questions,
+    userId: state.user.id
   }
 }
 

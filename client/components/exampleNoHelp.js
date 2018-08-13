@@ -2,8 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
-import {List, Button, Header, Container, Form, TextArea, Icon} from 'semantic-ui-react'
+import  {Button, Header, Container, Form, TextArea, Icon} from 'semantic-ui-react'
 
 class ExampleNoHelpNoHelp extends React.Component {
   constructor(props) {
@@ -13,9 +14,11 @@ class ExampleNoHelpNoHelp extends React.Component {
       questionText: '',
       question: '',
       answers: '',
-      showNext: false
+      questionid: 0
     }
   }
+
+  
 
   async componentDidMount() {
     let pathnameArr = this.props.location.pathname.split('/')
@@ -24,7 +27,6 @@ class ExampleNoHelpNoHelp extends React.Component {
     let questionId = pathnameArr[4]
 
     await this.props.getQuestion(topicId, subtopicId, questionId)
-    console.log('prop', this.props)
 
     let root = this.props.questions.QuestionList
 
@@ -32,18 +34,31 @@ class ExampleNoHelpNoHelp extends React.Component {
       questionText: this.props.questions.text,
       question: root.EQuestion,
       answers: root.EQuestions,
-      loaded: true
+      loaded: true,
+      questionid: this.props.questions.id
     })
 
    
   }
 
+  async handleClick() {
+    try {
+      await axios.put('/api/users/' + this.props.userId + '/' + this.state.questionid, {
+        propUpdate: "EQuestion",
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  
+
+  
+
   render() {
-      console.log('answers', this.state.answers)
       let rightAnswer
       if(this.state.loaded){
         rightAnswer = this.state.answers.filter(el => el.correct)[0].answerText
-        console.log(rightAnswer)
       }
       
     return (
@@ -68,6 +83,7 @@ class ExampleNoHelpNoHelp extends React.Component {
                                 this.props.history.location.pathname +
                                 '/approach'
                               }
+                              onClick={() => {this.handleClick()}}
                     >
                     <Button icon labelPosition='right' color='green'> 
                      Move on 
@@ -85,7 +101,8 @@ class ExampleNoHelpNoHelp extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    questions: state.questions
+    questions: state.questions,
+    userId: state.user.id
   }
 }
 

@@ -2,8 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
-
-import {List, Button, Header, Container, Form, TextArea, Icon} from 'semantic-ui-react'
+import axios from 'axios'
+import {Button, Header, Container, Form, TextArea, Icon} from 'semantic-ui-react'
 
 class ApproachNoHelpNoHelp extends React.Component {
   constructor(props) {
@@ -12,8 +12,12 @@ class ApproachNoHelpNoHelp extends React.Component {
       loaded: false,
       questionText: '',
       question: '',
-      answers: ''
+      answers: '',
+      questionid: 0
     }
+
+    this.handleClick = this.handleClick.bind(this)
+
   }
 
   async componentDidMount() {
@@ -23,7 +27,6 @@ class ApproachNoHelpNoHelp extends React.Component {
     let questionId = pathnameArr[4]
 
     await this.props.getQuestion(topicId, subtopicId, questionId)
-    console.log('prop', this.props)
 
     let root = this.props.questions.QuestionList
 
@@ -31,18 +34,30 @@ class ApproachNoHelpNoHelp extends React.Component {
       questionText: this.props.questions.text,
       question: root.AQuestion,
       answers: root.AQuestions,
-      loaded: true
+      loaded: true,
+      questionid: this.props.questions.id
     })
 
    
   }
 
+  async handleClick(answerId) {
+    try {
+    await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
+      propUpdate: "AQuestion",
+      AQuestionApproach: answerId
+    })}
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+
+
   render() {
-      console.log('answers', this.state.answers)
       let rightAnswer
       if(this.state.loaded){
-        rightAnswer = this.state.answers.filter(el => el.correct)[0].answerText
-        console.log(rightAnswer)
+        rightAnswer = this.state.answers.filter(el => el.correct)[0]
       }
       
     return (
@@ -58,7 +73,7 @@ class ApproachNoHelpNoHelp extends React.Component {
               </Form>
               <Button animated fluid size='massive'>
                 <Button.Content visible> Hover for answer</Button.Content>
-                <Button.Content hidden> {rightAnswer ? rightAnswer : null}</Button.Content>
+                <Button.Content hidden> {rightAnswer ? rightAnswer.answerText : null}</Button.Content>
               </Button>
               <br/>
               <br/>
@@ -67,6 +82,7 @@ class ApproachNoHelpNoHelp extends React.Component {
                                 this.props.history.location.pathname +
                                 '/editor'
                               }
+                              onClick={() => {this.handleClick(rightAnswer.id)}}
                     >
                     <Button icon labelPosition='right' color='green'> 
                      Move on 
@@ -84,7 +100,8 @@ class ApproachNoHelpNoHelp extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    questions: state.questions
+    questions: state.questions,
+    userId: state.user.id
   }
 }
 

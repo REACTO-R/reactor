@@ -13,7 +13,8 @@ import {Login,
   Approach, 
   RepeatNoHelp,
   ExampleNoHelp,
-  ApproachNoHelp} from './components'
+  ApproachNoHelp,
+  Optimize} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
 
@@ -55,6 +56,7 @@ class Routes extends Component {
               <Route exact path="/:topic/:subtopic/:question/repeat/example" component={Example} />
              <Route exact path="/:topic/:subtopic/:question/repeat/example/approach" component={Approach} />
              <Route exact path="/:topic/:subtopic/:question/repeat/example/approach/editor" component={Editor} />
+             <Route exact path="/:topic/:subtopic/:question/repeat/example/approach/editor/optimize" component={Optimize} />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
