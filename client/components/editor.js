@@ -5,8 +5,9 @@ import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 import {fetchQuestion} from '../store/questions'
 import {connect} from 'react-redux'
-import {List, Header, Card, Container} from 'semantic-ui-react'
+import {List, Header, Card, Container, Button} from 'semantic-ui-react'
 import { expect } from 'chai'
+import { Link } from 'react-router-dom'
 
 
 class Editor extends React.Component {
@@ -44,7 +45,6 @@ class Editor extends React.Component {
     try {
       const tests = this.props.questions.CTStuffs
       let userFunc = new Function(`return ${this.state.code}`)()
-      console.log('tests:', tests)
       let resultArr = tests.map(test => {
         let result
         try{
@@ -54,7 +54,6 @@ class Editor extends React.Component {
           expect(result).to.be.deep.equal(output)
           return {passed: true, output: result}
         } catch(err){
-          console.log(err)
           const error = new Error(err)
           return {passed: false, output: result, error: error.message}
         }
@@ -68,11 +67,12 @@ class Editor extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     const {isWorking, errorMessage, code, results} = this.state
     const tests = this.props.questions.CTStuffs
+    const checkResults = !!results.length && results.every(el => el.passed === true)
     return (
       <div>
+        <div>
         {tests && (
           <Container>
             <Header as="h1"> {this.props.questions.text} </Header>
@@ -104,7 +104,7 @@ class Editor extends React.Component {
             $blockScrolling: true
           }}
         />
-        <button onClick={this.handleClick}>run</button>
+        <Button onClick={this.handleClick}>run</Button>
         {isWorking === 0 ? null : isWorking === 1 ? (
           <p>Your Func is right</p>
         ) : (
@@ -112,6 +112,10 @@ class Editor extends React.Component {
         )}
         {errorMessage && <p>{errorMessage}</p>}
       </div>
+      <Button disabled={!checkResults}><Link to={
+        this.props.history.location.pathname +
+        '/optimize'}> GO NEXT </Link> </Button>
+    </div>
     )
   }
 }
