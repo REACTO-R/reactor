@@ -372,15 +372,15 @@ async function seed() {
       'Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
   })
   let m2s2Q1CT1 = await CTStuff.create({
-    Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "a", "a"]',
+    Input: '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "a", "a"]',
     Output: 'true'
   })
   let m2s2Q1CT2 = await CTStuff.create({
-    Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "r", "s"]',
+    Input: '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "r", "s"]',
     Output: 'true'
   })
   let m2s2Q1CT3 = await CTStuff.create({
-    Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "s", "a"]',
+    Input: '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "s", "a"]',
     Output: 'false'
   })
 
