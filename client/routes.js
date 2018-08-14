@@ -2,21 +2,21 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, 
-  Signup, 
-  UserHome, 
-  Topic, 
-  Subtopic,  
-  Repeat, 
-  Editor, 
-  Example, 
-  Approach, 
+import {Login,
+  Signup,
+  UserHome,
+  Topic,
+  Subtopic,
+  Repeat,
+  Editor,
+  Example,
+  Approach,
   Profile,
   RepeatNoHelp,
   ExampleNoHelp,
   ApproachNoHelp,
   Optimize,
-  OptimizeNoHelp} from './components'
+  OptimizeNoHelp, TestVideoComponent} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
 
@@ -38,7 +38,7 @@ class Routes extends Component {
           <Route path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
 
-          <Route path="/editor" component={Editor} />
+          <Route exact path='/video' component={TestVideoComponent} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
@@ -53,7 +53,8 @@ class Routes extends Component {
               <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach/editor/optimize" component={OptimizeNoHelp} />
 
 
-            
+
+
               <Route
                 exact
                 path="/:topic/:subtopic/:question/repeat"
