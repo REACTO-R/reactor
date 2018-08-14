@@ -17,9 +17,9 @@ class OptimizeNoHelp extends React.Component {
 
 	async componentDidMount() {
 		let pathnameArr = this.props.location.pathname.split('/')
-		let topicId = pathnameArr[1]
-		let subtopicId = pathnameArr[2]
-		let questionId = pathnameArr[3]
+		let topicId = pathnameArr[2]
+		let subtopicId = pathnameArr[3]
+		let questionId = pathnameArr[4]
 
 		await this.props.getQuestion(topicId, subtopicId, questionId)
 		console.log('prop', this.props)
