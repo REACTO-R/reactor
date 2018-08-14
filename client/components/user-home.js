@@ -34,7 +34,7 @@ export class UserHome extends Component {
     return (
       <div>
         <h1>Topics Available for Study</h1>
-        <Button.Group vertical color="blue">
+        <Button.Group vertical color="blue" size="massive">
           {this.state.topics.map((maintopic, index) => {
             return (
               <div key={maintopic.name}>
