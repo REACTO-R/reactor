@@ -3,8 +3,7 @@ import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-
-import {List, Button, Header, Container, Message} from 'semantic-ui-react'
+import {List, Button, Header, Container, Message, Icon} from 'semantic-ui-react'
 
 class Example extends React.Component {
   constructor(props) {
@@ -105,7 +104,9 @@ class Example extends React.Component {
                                 this.handleClick()
                               }}
                             >
-                              <Button color="green">GO NEXT</Button>
+                              <Button color="green">
+                                GO NEXT <Icon name="right arrow" />
+                              </Button>
                             </Link>
                           )}
                         </React.Fragment>
