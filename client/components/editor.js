@@ -7,7 +7,7 @@ import axios from 'axios'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 import {fetchQuestion} from '../store/questions'
-import {List, Header, Card, Container, Button} from 'semantic-ui-react'
+import {List, Header, Card, Container, Button, Icon} from 'semantic-ui-react'
 import {expect} from 'chai'
 
 class Editor extends React.Component {
@@ -154,7 +154,7 @@ class Editor extends React.Component {
             }}
           >
             {' '}
-            GO NEXT{' '}
+            GO NEXT <Icon name="right arrow" />
           </Link>{' '}
         </Button>
       </div>

@@ -13,7 +13,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    // console.log('user', this.props.user)
+    console.log('user', this.props.user.userQuestions)
     // console.log('questions', this.props.questions)
     // console.log('subtopic', this.props.questions[0])
 
