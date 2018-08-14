@@ -16,7 +16,7 @@ class Repeat extends React.Component {
       answers: '',
       showNext: false,
       showAnswers: [],
-      questionid: 0,
+      questionid: 0
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -49,10 +49,13 @@ class Repeat extends React.Component {
 
   async handleClick() {
     try {
-    await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
-      propUpdate: "RQuestion",
-    })}
-    catch (err) {
+      await axios.put(
+        '/api/users/' + this.props.userId + '/' + this.state.questionid,
+        {
+          propUpdate: 'RQuestion'
+        }
+      )
+    } catch (err) {
       console.log(err)
     }
   }
@@ -94,20 +97,19 @@ class Repeat extends React.Component {
                       {this.state.showAnswers[answer.id - 1] && (
                         <React.Fragment>
                           <Message visible> {answer.explanationText}</Message>
-                          {answer.correct
-                             && (
-                              <Link
-                                to={
-                                  this.props.history.location.pathname +
-                                  '/example'
-                                }
-                                onClick={() => {this.handleClick()}}
-                              >
-                                <Button>
-                                  GO NEXT
-                                </Button>
-                              </Link>
-                            )}
+                          {answer.correct && (
+                            <Link
+                              to={
+                                this.props.history.location.pathname +
+                                '/example'
+                              }
+                              onClick={() => {
+                                this.handleClick()
+                              }}
+                            >
+                              <Button color="green">GO NEXT</Button>
+                            </Link>
+                          )}
                         </React.Fragment>
                       )}
                     </div>

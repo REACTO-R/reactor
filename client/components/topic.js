@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import {Button} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -36,19 +37,23 @@ export class Topic extends Component {
             Subtopics to study for{' '}
             {this.state.topics[this.state.topicId - 1].name}
           </h1>
-          {this.state.topics[this.state.topicId - 1].SubTopics.map(
-            (subtopic, index) => {
-              return (
-                <Link
-                  to={'/' + this.state.topicId + '/' + (index + 1)}
-                  key={subtopic.name}
-                  params={{index: index}}
-                >
-                  <h3>{subtopic.name}</h3>
-                </Link>
-              )
-            }
-          )}
+          <Button.Group vertical color="blue" size="massive">
+            {this.state.topics[this.state.topicId - 1].SubTopics.map(
+              (subtopic, index) => {
+                return (
+                  <div key={subtopic.name}>
+                    <Link
+                      to={'/' + this.state.topicId + '/' + (index + 1)}
+                      params={{index: index}}
+                    >
+                      <Button>{subtopic.name}</Button>
+                    </Link>
+                    <br />
+                  </div>
+                )
+              }
+            )}
+          </Button.Group>
         </div>
       )
     }

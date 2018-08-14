@@ -1,55 +1,75 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {authPut} from '../store'
+import {authPut, fetchUser} from '../store'
+import {fetchQuestions} from '../store/questions'
+import UserForm from './userForm'
 import {List, Button, Form, Header} from 'semantic-ui-react'
 
 class Profile extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      email: this.props.user.email
-      // password: this.props.user.password
-    }
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(evt) {
-    this.setState({
-      [evt.target.name]: evt.target.value
-    })
+  async componentDidMount() {
+    let userId = this.props.user.id
+    await this.props.getUserInfo(userId)
+    await this.props.getTopics()
   }
 
   render() {
-    console.log(this.state)
+    // console.log('user', this.props.user)
+    console.log('questions', this.props.questions)
+    console.log('subtopic', this.props.questions[0])
+
+    const topics = this.props.questions
+
     return (
-      <List>
+      <List celled>
         <List.Item>
-          <Header size="medium">Profile:</Header>
+          <Header size="large">Profile:</Header>
+          <UserForm user={this.props.user} />
         </List.Item>
         <List.Item>
-          <Form onSubmit={this.props.handleSubmit}>
-            <Form.Field>
-              <label>Email:</label>
-              <input
-                placeholder={this.props.user.email}
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </Form.Field>
-            <br />
-            <Form.Field>
-              <label>Password:</label>
-              <input placeholder="******" />
-            </Form.Field>
-            <br />
-            <Button type="submit">Update Profile</Button>
-          </Form>
+          <Header size="large">Progress:</Header>
+          <Header size="medium">Topics:</Header>
         </List.Item>
-        <List.Item />
-        <List.Item>
-          <Header size="medium">Progress:</Header>
-        </List.Item>
-        <List.Item>Topics:</List.Item>
+        {topics.length &&
+          topics.map(topic => {
+            return (
+              <List.Item key={topic.id}>
+                <Header size="medium">{topic.name}</Header>
+                <List>
+                  {topic.SubTopics.map(subtopic => {
+                    return (
+                      <List.Item key={subtopic.id}>
+                        <List.Item>{subtopic.name}:</List.Item>
+                        {subtopic.Questions.map(question => {
+                          return (
+                            <List horizontal key={question.id}>
+                              <List.Item>Q{question.id}:</List.Item>
+                              <List.Item>
+                                <Button circular color="blue">
+                                  R
+                                </Button>
+                              </List.Item>
+                              <List.Item>
+                                <Button circular>E</Button>
+                              </List.Item>
+                              <List.Item>
+                                <Button circular>A</Button>
+                              </List.Item>
+                              <List.Item>
+                                <Button circular>CT</Button>
+                              </List.Item>
+                              <List.Item>
+                                <Button circular>O</Button>
+                              </List.Item>
+                            </List>
+                          )
+                        })}
+                      </List.Item>
+                    )
+                  })}
+                </List>
+              </List.Item>
+            )
+          })}
       </List>
     )
   }
@@ -57,19 +77,14 @@ class Profile extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    questions: state.questions
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const email = evt.target.email.value
-      // const password = evt.target.password.value
-      dispatch(authPut(email))
-    }
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  getUserInfo: id => dispatch(fetchUser(id)),
+  getTopics: () => dispatch(fetchQuestions())
+})
 
-export default connect(mapStateToProps, mapDispatch)(Profile)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
