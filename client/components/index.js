@@ -9,7 +9,7 @@ export {default as Repeat} from './repeat'
 export {default as RepeatNoHelp} from './repeatNoHelp'
 export {default as ApproachNoHelp} from './approachNoHelp'
 export {default as ExampleNoHelp} from './exampleNoHelp'
-
+export {default as OptimizeNoHelp} from './optimizeNoHelp'
 export {default as Example} from './example'
 export {default as Approach} from './approach'
 export {Login, Signup} from './auth-form'

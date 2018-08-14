@@ -53,6 +53,7 @@ class RepeatNoHelp extends React.Component {
 
   render() {
       let rightAnswer
+      console.log(this.state.answers)
       if(this.state.loaded){
         rightAnswer = this.state.answers.filter(el => el.correct)[0].answerText
       }

@@ -15,7 +15,8 @@ import {Login,
   RepeatNoHelp,
   ExampleNoHelp,
   ApproachNoHelp,
-  Optimize} from './components'
+  Optimize,
+  OptimizeNoHelp} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
 
@@ -49,6 +50,8 @@ class Routes extends Component {
               <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example" component={ExampleNoHelp} />
               <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach" component={ApproachNoHelp} />
               <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach/editor" component={Editor} />
+              <Route exact path="/nohelp/:topic/:subtopic/:question/repeat/example/approach/editor/optimize" component={OptimizeNoHelp} />
+
 
             
               <Route
