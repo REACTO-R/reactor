@@ -239,6 +239,74 @@ async function seed() {
     Output: '[41, 56]',
   })
 
+  let m2subTopic2 = await SubTopic.create({name: 'Graph traversal'})
+  let m2s2Question1 = await Question.create({text: "Write a function that determines if a \
+   path exists between two vertices of \
+  a directed graph."})
+  let m2s2Q1QuestionList = await QuestionList.create({
+    RQuestion: 'Repeat: What is the question asking for',
+    EQuestion: "Example: What would the function return for func({ a: ['b'], b: ['c', 'd'], c: ['d'], d: []}, 'a', 'b')",
+    AQuestion: 'Approach: What would be the best approach for this problem?',
+    AQuestionConsideration: 'Consider drawing a graph, does it remind you of any other data structure \
+    remember this is also a directed graph'
+  })
+
+  let m2s2Q1R1 = await RQuestion.create({
+    correct: true,
+    answerText: 'return a boolean value that states whether or not one can traverse from the starting to vertex to the target',
+    explanationText: 'Correct! All the question requires is a true of false value based on if the traversal is possible or not.'
+  })
+
+  let m2s2Q1R2 = await RQuestion.create({
+    correct: false, 
+    answerText: 'The exact path from the starting vertex to the target',
+    explanationText: 'Incorrect: The question is only asking if this path is possible'
+  })
+
+  let m2s2Q1R3 = await RQuestion.create({
+    correct: false, 
+    answerText: 'An array of all possible paths in the graph from the starting vertex',
+    explanationText: 'Incorrect: The question is only asking about the path from the starting vertext to the target'
+  })
+
+  let m2s2Q1E1 = await EQuestion.create({
+    correct: false,
+    answerText: 'false',
+    explanationText: 'Incorrect: The path is plausible'
+  })
+  let m2s2Q1E2 = await EQuestion.create({
+    correct: true,
+    answerText: 'true',
+    explanationText: 'Correct! This path is indeed traversable'
+  })
+
+  let m2s2Q1A1 = await AQuestion.create({
+    correct: true,
+    answerText: 'Recursivley travel through the graph while keeping an array for already visited trees',
+    explanationText: 'This approach will allow you to easily traverse through the graph and make sure to not revisit the same nodes twice',
+    optimizationText: ' Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
+  })
+  let m2s2Q1A2 = await AQuestion.create({
+    correct: true,
+    answerText: 'Take a breath first like approach and iteratively travel through the graph and keep an array for all visited nodes',
+    explanationText: 'This approach will work as you know how many nodes are in the tree and your visited node array will keep you from revisiting nodes',
+    optimizationText: 'Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
+  })
+  let m2s2Q1CT1 = await CTStuff.create({
+    Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "a", "a"]',
+    Output: 'true'
+  })
+  let m2s2Q1CT2 = await CTStuff.create({
+    Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "r", "s"]',
+    Output: 'true'
+  })
+  let m2s2Q1CT3 = await CTStuff.create({
+    Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "s", "a"]',
+    Output: 'false'
+  })
+ 
+  
+
   await mainTopic2.addSubTopic(m2subTopic1)
   await m2subTopic1.addQuestion(m2s1Question1)
   await m2s1Question1.setQuestionList(m2s1Q1QuestionList)
@@ -246,6 +314,16 @@ async function seed() {
   await m2s1Q1QuestionList.addEQuestion([m2s1Q1E1, m2s1Q1E2, m2s1Q1E3])
   await m2s1Q1QuestionList.addAQuestion([m2s1Q1A1, m2s1Q1A2, m2s1Q1A3])
   await m2s1Question1.addCTStuff([m2s1Q1CT1, m2s1Q1CT2, m2s1Q1CT3])
+  
+  await mainTopic2.addSubTopic(m2subTopic2)
+  await m2subTopic2.addQuestion(m2s2Question1)
+  await m2s2Question1.setQuestionList(m2s2Q1QuestionList)
+  await m2s2Q1QuestionList.addRQuestion([m2s2Q1R1, m2s2Q1R2, m2s2Q1R3])
+  await m2s2Q1QuestionList.addEQuestion([m2s2Q1E1, m2s2Q1E2])
+  await m2s2Q1QuestionList.addAQuestion([m2s2Q1A1, m2s2Q1A2])
+  await m2s2Question1.addCTStuff([m2s2Q1CT1, m2s2Q1CT2, m2s2Q1CT3])
+
+
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
