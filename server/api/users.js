@@ -2,7 +2,19 @@ const router = require('express').Router()
 const {User, UserQuestions} = require('../db/models')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+function requireAdmin(req, res, next) {
+  if (
+    req.user ||
+    // && req.user.isAdmin
+    req.user.id === req.params.id
+  ) {
+    next()
+  } else {
+    res.status(401).send('you shall not pass')
+  }
+}
+
+router.get('/', requireAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -16,7 +28,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', requireAdmin, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId, {
       include: [{all: true}]
@@ -27,7 +39,7 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.post('/:userId', async (req, res, next) => {
+router.post('/:userId', requireAdmin, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     console.log(req.body)
@@ -51,56 +63,56 @@ router.post('/:userId', async (req, res, next) => {
   }
 })
 
-router.put('/:userId/:questionId', async (req, res, next) => {
+router.put('/:userId/:questionId', requireAdmin, async (req, res, next) => {
   try {
     const propToUpdate = req.body.propUpdate
     switch (propToUpdate) {
-      case "RQuestion":
+      case 'RQuestion':
         await UserQuestions.update(
-      {RQuestion: true},
-      {
-        where: {
-          userId: req.params.userId,
-          questionId: req.params.questionId
-        }
-      }
-    )
-      break;
-      case "EQuestion":
+          {RQuestion: true},
+          {
+            where: {
+              userId: req.params.userId,
+              questionId: req.params.questionId
+            }
+          }
+        )
+        break
+      case 'EQuestion':
         await UserQuestions.update(
-      {EQuestion: true},
-      {
-        where: {
-          userId: req.params.userId,
-          questionId: req.params.questionId
-        }
-      }
-    )
-      break;
-      case "AQuestion":
+          {EQuestion: true},
+          {
+            where: {
+              userId: req.params.userId,
+              questionId: req.params.questionId
+            }
+          }
+        )
+        break
+      case 'AQuestion':
         await UserQuestions.update(
-      {AQuestion: true, AQuestionApproach: req.body.AQuestionApproach},
-      {
-        where: {
-          userId: req.params.userId,
-          questionId: req.params.questionId
-        }
-      }
-    )
-      break;
-      case "CTQuestion":
+          {AQuestion: true, AQuestionApproach: req.body.AQuestionApproach},
+          {
+            where: {
+              userId: req.params.userId,
+              questionId: req.params.questionId
+            }
+          }
+        )
+        break
+      case 'CTQuestion':
         await UserQuestions.update(
-      {CTQuestion: true},
-      {
-        where: {
-          userId: req.params.userId,
-          questionId: req.params.questionId
-        }
-      }
-    )
-      break;
-    default:
-      break;
+          {CTQuestion: true},
+          {
+            where: {
+              userId: req.params.userId,
+              questionId: req.params.questionId
+            }
+          }
+        )
+        break
+      default:
+        break
     }
   } catch (err) {
     next(err)

@@ -28,7 +28,6 @@ class Repeat extends React.Component {
     let questionId = pathnameArr[3]
 
     await this.props.getQuestion(topicId, subtopicId, questionId)
-    console.log('prop', this.props)
 
     let root = this.props.questions.QuestionList
 
@@ -61,6 +60,7 @@ class Repeat extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div>
         {this.state.loaded && (
