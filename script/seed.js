@@ -303,33 +303,43 @@ async function seed() {
   })
 
   let m2subTopic2 = await SubTopic.create({name: 'Graph traversal'})
-  let m2s2Question1 = await Question.create({text: "Write a function that determines if a \
+  let m2s2Question1 = await Question.create({
+    text:
+      'Write a function that determines if a \
    path exists between two vertices of \
-  a directed graph."})
+  a directed graph.'
+  })
   let m2s2Q1QuestionList = await QuestionList.create({
     RQuestion: 'Repeat: What is the question asking for',
-    EQuestion: "Example: What would the function return for func({ a: ['b'], b: ['c', 'd'], c: ['d'], d: []}, 'a', 'b')",
+    EQuestion:
+      "Example: What would the function return for func({ a: ['b'], b: ['c', 'd'], c: ['d'], d: []}, 'a', 'b')",
     AQuestion: 'Approach: What would be the best approach for this problem?',
-    AQuestionConsideration: 'Consider drawing a graph, does it remind you of any other data structure \
+    AQuestionConsideration:
+      'Consider drawing a graph, does it remind you of any other data structure \
     remember this is also a directed graph'
   })
 
   let m2s2Q1R1 = await RQuestion.create({
     correct: true,
-    answerText: 'return a boolean value that states whether or not one can traverse from the starting to vertex to the target',
-    explanationText: 'Correct! All the question requires is a true of false value based on if the traversal is possible or not.'
+    answerText:
+      'return a boolean value that states whether or not one can traverse from the starting to vertex to the target',
+    explanationText:
+      'Correct! All the question requires is a true of false value based on if the traversal is possible or not.'
   })
 
   let m2s2Q1R2 = await RQuestion.create({
-    correct: false, 
+    correct: false,
     answerText: 'The exact path from the starting vertex to the target',
-    explanationText: 'Incorrect: The question is only asking if this path is possible'
+    explanationText:
+      'Incorrect: The question is only asking if this path is possible'
   })
 
   let m2s2Q1R3 = await RQuestion.create({
-    correct: false, 
-    answerText: 'An array of all possible paths in the graph from the starting vertex',
-    explanationText: 'Incorrect: The question is only asking about the path from the starting vertext to the target'
+    correct: false,
+    answerText:
+      'An array of all possible paths in the graph from the starting vertex',
+    explanationText:
+      'Incorrect: The question is only asking about the path from the starting vertext to the target'
   })
 
   let m2s2Q1E1 = await EQuestion.create({
@@ -345,15 +355,21 @@ async function seed() {
 
   let m2s2Q1A1 = await AQuestion.create({
     correct: true,
-    answerText: 'Recursivley travel through the graph while keeping an array for already visited trees',
-    explanationText: 'This approach will allow you to easily traverse through the graph and make sure to not revisit the same nodes twice',
-    optimizationText: ' Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
+    answerText:
+      'Recursivley travel through the graph while keeping an array for already visited trees',
+    explanationText:
+      'This approach will allow you to easily traverse through the graph and make sure to not revisit the same nodes twice',
+    optimizationText:
+      ' Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
   })
   let m2s2Q1A2 = await AQuestion.create({
     correct: true,
-    answerText: 'Take a breath first like approach and iteratively travel through the graph and keep an array for all visited nodes',
-    explanationText: 'This approach will work as you know how many nodes are in the tree and your visited node array will keep you from revisiting nodes',
-    optimizationText: 'Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
+    answerText:
+      'Take a breath first like approach and iteratively travel through the graph and keep an array for all visited nodes',
+    explanationText:
+      'This approach will work as you know how many nodes are in the tree and your visited node array will keep you from revisiting nodes',
+    optimizationText:
+      'Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
   })
   let m2s2Q1CT1 = await CTStuff.create({
     Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "a", "a"]',
@@ -367,8 +383,6 @@ async function seed() {
     Input: '["{a: ["a", "c"], c: ["r", "s"], r: ["a"], s: [] }", "s", "a"]',
     Output: 'false'
   })
- 
-  
 
   await mainTopic2.addSubTopic(m2subTopic1)
   await m2subTopic1.addQuestion(m2s1Question1)
@@ -377,7 +391,7 @@ async function seed() {
   await m2s1Q1QuestionList.addEQuestion([m2s1Q1E1, m2s1Q1E2, m2s1Q1E3])
   await m2s1Q1QuestionList.addAQuestion([m2s1Q1A1, m2s1Q1A2, m2s1Q1A3])
   await m2s1Question1.addCTStuff([m2s1Q1CT1, m2s1Q1CT2, m2s1Q1CT3])
-  
+
   await mainTopic2.addSubTopic(m2subTopic2)
   await m2subTopic2.addQuestion(m2s2Question1)
   await m2s2Question1.setQuestionList(m2s2Q1QuestionList)
@@ -386,7 +400,96 @@ async function seed() {
   await m2s2Q1QuestionList.addAQuestion([m2s2Q1A1, m2s2Q1A2])
   await m2s2Question1.addCTStuff([m2s2Q1CT1, m2s2Q1CT2, m2s2Q1CT3])
 
+  let mainTopic3 = await MainTopic.create({name: 'Bit Magic'})
+  let m3subTopic1 = await SubTopic.create({name: 'Conversion'})
+  let m3s1Question1 = await Question.create({
+    text:
+      'Write a functions that takes a number in base 10 (decimal) and converts it to the string representation of that number in base 2 (binary)'
+  })
+  let m3s1Q1QuestionList = await QuestionList.create({
+    RQuestion: 'Repeat: What is the question asking for?',
+    EQuestion: 'Example: What would the function return with input 13?',
+    AQuestion: 'Approach: What would be the best approach for this problem?',
+    AQuestionConsideration:
+      'Try not to use parseInt or toString.  Think about if you want to use arithmetic methods or bitwise operators.'
+  })
+  let m3s1Q1R1 = await RQuestion.create({
+    correct: false,
+    answerText: 'We want to convert a binary string to a number in base 10.',
+    explanationText:
+      'Not quite right.  Our input will be a number in base 10, and we want to return a binary string.'
+  })
+  let m3s1Q1R2 = await RQuestion.create({
+    correct: true,
+    answerText: 'We want to convert a decimal into a binary string.',
+    explanationText:
+      'Correct! A decimal is basically a number in base 10 in javascript.  We want to convert that into a binary string.'
+  })
+  let m3s1Q1R3 = await RQuestion.create({
+    correct: false,
+    answerText: 'We want to convert a number in base 10 to its string numeral',
+    explanationText:
+      'Incorrect, the string numeral is just its name ie 7, we want to convert to a binary string like 111.'
+  })
+  let m3s1Q1E1 = await EQuestion.create({
+    correct: false,
+    answerText: '1011',
+    explanationText: 'Incorrect. This binary represents the number 11.'
+  })
+  let m3s1Q1E2 = await EQuestion.create({
+    correct: false,
+    answerText: '1111',
+    explanationText: 'Incorrect.  This binary represents the number 15.'
+  })
+  let m3s1Q1E3 = await EQuestion.create({
+    correct: true,
+    answerText: '1101',
+    explanationText: 'Correct! This binary represents the number 13!'
+  })
+  let m3s1Q1A1 = await AQuestion.create({
+    correct: true,
+    answerText:
+      'Find the largest power of 2 that is smaller than or equal to n, where n is the original decimal.  Subtract that from n and repeat.',
+    explanationText:
+      'While this is correct, its an expensive way to find the solution.',
+    optimizationText:
+      'This solution ends up being O(log n) complexity, since you are effectively dividing by half every time.'
+  })
+  let m3s1Q1A2 = await AQuestion.create({
+    correct: true,
+    answerText:
+      'Find the largest power of 2 that is smaller than or equal to n, where n is the original decimal.  Subtract that from n and repeat.  And increase the divisor by a power of 2 each time.',
+    explanationText: 'This is the most optimal way using arithmetic methods.',
+    optimizationText:
+      'The has table will end up with slightly better than O(log n) complexity, which is pretty efficient.'
+  })
+  let m3s1Q1A3 = await AQuestion.create({
+    correct: true,
+    answerText: 'Use bitwise logic.',
+    explanationText:
+      'Correct!, while a bit trickier, this solution will ultimately be more performant.',
+    optimizationText: 'This solution will just be O(n) complexity.'
+  })
+  let m3s1Q1CT1 = await CTStuff.create({
+    Input: '[13]',
+    Output: '"1101"'
+  })
+  let m3s1Q1CT2 = await CTStuff.create({
+    Input: '[45]',
+    Output: '"101101"'
+  })
+  let m3s1Q1CT3 = await CTStuff.create({
+    Input: '[97]',
+    Output: '"1100001"'
+  })
 
+  await mainTopic3.addSubTopic(m3subTopic1)
+  await m3subTopic1.addQuestion(m3s1Question1)
+  await m3s1Question1.setQuestionList(m3s1Q1QuestionList)
+  await m3s1Q1QuestionList.addRQuestion([m3s1Q1R1, m3s1Q1R2, m3s1Q1R3]) //Assign REA questions to question list
+  await m3s1Q1QuestionList.addEQuestion([m3s1Q1E1, m3s1Q1E2, m3s1Q1E3])
+  await m3s1Q1QuestionList.addAQuestion([m3s1Q1A1, m3s1Q1A2, m3s1Q1A3])
+  await m3s1Question1.addCTStuff([m3s1Q1CT1, m3s1Q1CT2, m3s1Q1CT3])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
