@@ -578,7 +578,7 @@ async function seed() {
   await mainTopic5.addSubTopic(m5subTopic1) //Assign subtopic to main topic
   await m5subTopic1.addQuestion(m5s1Question1) //Assign question to subtopic
   await m5s1Question1.setQuestionList(m5s1Q1QuestionList) //Assign question list to question
-  await m5s1Q1QuestionList.addRQuestion([m1s1Q1R1, m1s1Q1R2, m1s1Q1R3]) //Assign REA questions to question list
+  await m5s1Q1QuestionList.addRQuestion([m5s1Q1R1, m5s1Q1R2, m5s1Q1R3]) //Assign REA questions to question list
   await m5s1Q1QuestionList.addEQuestion([m5s1Q1E1, m5s1Q1E2, m5s1Q1E3])
   await m5s1Q1QuestionList.addAQuestion([m5s1Q1A1, m5s1Q1A2])
   await m5s1Question1.addCTStuff([m5s1Q1CT1, m5s1Q1CT2, m5s1Q1CT3, m5s1Q1CT4]) //Assign CTStuff to Question
