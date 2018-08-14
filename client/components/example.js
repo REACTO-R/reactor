@@ -16,7 +16,7 @@ class Example extends React.Component {
       answers: '',
       showNext: false,
       showAnswers: [],
-      questionid: 0,
+      questionid: 0
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -46,12 +46,15 @@ class Example extends React.Component {
     this.setState({showAnswers: newShowArr})
   }
 
-    async handleClick() {
-      try {
-    await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
-      propUpdate: "EQuestion",
-    })}
-    catch (err) {
+  async handleClick() {
+    try {
+      await axios.put(
+        '/api/users/' + this.props.userId + '/' + this.state.questionid,
+        {
+          propUpdate: 'EQuestion'
+        }
+      )
+    } catch (err) {
       console.log(err)
     }
   }
@@ -99,9 +102,11 @@ class Example extends React.Component {
                                 this.props.history.location.pathname +
                                 '/approach'
                               }
-                              onClick={() => {this.handleClick()}}
+                              onClick={() => {
+                                this.handleClick()
+                              }}
                             >
-                              <Button>GO NEXT</Button>
+                              <Button color="green">GO NEXT</Button>
                             </Link>
                           )}
                         </React.Fragment>

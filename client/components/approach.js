@@ -49,11 +49,14 @@ class Approach extends React.Component {
 
   async handleClick(answerId) {
     try {
-    await axios.put('/api/users/'+this.props.userId+'/'+this.state.questionid, {
-      propUpdate: "AQuestion",
-      AQuestionApproach: answerId
-    })}
-    catch (err) {
+      await axios.put(
+        '/api/users/' + this.props.userId + '/' + this.state.questionid,
+        {
+          propUpdate: 'AQuestion',
+          AQuestionApproach: answerId
+        }
+      )
+    } catch (err) {
       console.log(err)
     }
   }
@@ -100,9 +103,11 @@ class Approach extends React.Component {
                               to={
                                 this.props.history.location.pathname + '/editor'
                               }
-                              onClick={() => {this.handleClick(answer.id)}}
+                              onClick={() => {
+                                this.handleClick(answer.id)
+                              }}
                             >
-                              <Button>GO NEXT</Button>
+                              <Button color="green">GO NEXT</Button>
                             </Link>
                           )}
                         </React.Fragment>
