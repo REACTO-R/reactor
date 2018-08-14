@@ -493,17 +493,24 @@ async function seed() {
 
   let mainTopic5 = await MainTopic.create({name: 'Dynamic Programming'})
   let m5subTopic1 = await SubTopic.create({name: 'Subset Sum'})
-  let m5s1Question1 = await Question.create({text: 'Given a target sum and an array of positive integers, return true if any combination of numbers in the array can add to the target. Each number in the array may only be used once. Return false if the numbers cannot be used to add to the target sum.'})
+  let m5s1Question1 = await Question.create({
+    text:
+      'Given a target sum and an array of positive integers, return true if any combination of numbers in the array can add to the target. Each number in the array may only be used once. Return false if the numbers cannot be used to add to the target sum.'
+  })
   let m5s1Q1QuestionList = await QuestionList.create({
     RQuestion: 'Repeat: What is the question asking for?',
-    EQuestion: 'Example: What would the function return for this input? (2, [1,10,5,3])',
+    EQuestion:
+      'Example: What would the function return for this input? (2, [1,10,5,3])',
     AQuestion: 'Approach: What would be the best approach for this problem?',
-    AQuestionConsideration: 'With dynamic programming techniques—i.e. recognizing overlapping subproblems and avoiding repeated work—we can optimize the funtcion',
+    AQuestionConsideration:
+      'With dynamic programming techniques—i.e. recognizing overlapping subproblems and avoiding repeated work—we can optimize the funtcion'
   })
   let m5s1Q1R1 = await RQuestion.create({
     correct: true,
-    answerText: 'It is asking to return true ig the number can be used to add to the target sum',
-    explanationText: 'Correct! We just want to check whether or not an subset can be used to match the target.'
+    answerText:
+      'It is asking to return true ig the number can be used to add to the target sum',
+    explanationText:
+      'Correct! We just want to check whether or not an subset can be used to match the target.'
   })
   let m5s1Q1R2 = await RQuestion.create({
     correct: false,
@@ -512,18 +519,21 @@ async function seed() {
   })
   let m5s1Q1R3 = await RQuestion.create({
     correct: false,
-    answerText: 'How many differents way the number inside the array can be used to match the target',
+    answerText:
+      'How many differents way the number inside the array can be used to match the target',
     explanationText: 'Incorrect: You only need to return true or false'
   })
   let m5s1Q1E1 = await EQuestion.create({
     correct: true,
     answerText: 'false',
-    explanationText: 'Correct! Tehre is no way to match the target value with the number in the array'
+    explanationText:
+      'Correct! Tehre is no way to match the target value with the number in the array'
   })
   let m5s1Q1E2 = await EQuestion.create({
     correct: false,
     answerText: 'true',
-    explanationText: 'Incorrect. It is not possible to use the number inside the array to add to the target sum'
+    explanationText:
+      'Incorrect. It is not possible to use the number inside the array to add to the target sum'
   })
   let m5s1Q1E3 = await EQuestion.create({
     correct: false,
@@ -532,15 +542,21 @@ async function seed() {
   })
   let m5s1Q1A1 = await AQuestion.create({
     correct: true,
-    answerText: 'Accumulate a set or an array of possible sums starting from 0. We could loop through each given number and add it to every number already in the set. We can then include each of these new possibilities into the possible sums set',
-    explanationText: 'That would work, however you will have to check for a large number of possible combinations on each interation.',
-    optimizationText: 'You used a set or an array to solve. You should take a look at Memoization to find a better solution'
+    answerText:
+      'Accumulate a set or an array of possible sums starting from 0. We could loop through each given number and add it to every number already in the set. We can then include each of these new possibilities into the possible sums set',
+    explanationText:
+      'That would work, however you will have to check for a large number of possible combinations on each interation.',
+    optimizationText:
+      'You used a set or an array to solve. You should take a look at Memoization to find a better solution'
   })
   let m5s1Q1A2 = await AQuestion.create({
     correct: true,
-    answerText: 'Stepping through each number in the array and determining whether 1) including it in the sum will lead to a true result (using the remaining numbers) or 2) excluding it from the sum will lead to a true result (using the remaining numbers).',
-    explanationText: 'Great! This way you will be taking advantage of memoization.',
-    optimizationText: 'You choose to use memoization. That is the best approch for this problem'
+    answerText:
+      'Stepping through each number in the array and determining whether 1) including it in the sum will lead to a true result (using the remaining numbers) or 2) excluding it from the sum will lead to a true result (using the remaining numbers).',
+    explanationText:
+      'Great! This way you will be taking advantage of memoization.',
+    optimizationText:
+      'You choose to use memoization. That is the best approch for this problem'
   })
   let m5s1Q1CT1 = await CTStuff.create({
     Input: '[2, [1,10,5,3]]',
@@ -566,7 +582,6 @@ async function seed() {
   await m5s1Q1QuestionList.addEQuestion([m5s1Q1E1, m5s1Q1E2, m5s1Q1E3])
   await m5s1Q1QuestionList.addAQuestion([m5s1Q1A1, m5s1Q1A2])
   await m5s1Question1.addCTStuff([m5s1Q1CT1, m5s1Q1CT2, m5s1Q1CT3, m5s1Q1CT4]) //Assign CTStuff to Question
-
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)

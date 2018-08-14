@@ -1,9 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {authPut, fetchUser} from '../store'
+import {fetchUser} from '../store'
 import {fetchQuestions} from '../store/questions'
 import UserForm from './userForm'
-import {List, Button, Form, Header} from 'semantic-ui-react'
+import {List, Button, Header} from 'semantic-ui-react'
 
 class Profile extends React.Component {
   async componentDidMount() {
@@ -14,8 +14,8 @@ class Profile extends React.Component {
 
   render() {
     // console.log('user', this.props.user)
-    console.log('questions', this.props.questions)
-    console.log('subtopic', this.props.questions[0])
+    // console.log('questions', this.props.questions)
+    // console.log('subtopic', this.props.questions[0])
 
     const topics = this.props.questions
 
