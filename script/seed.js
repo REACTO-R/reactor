@@ -372,15 +372,18 @@ async function seed() {
       'Your solution is time-optimal at O(V+E) where V is the number of vertices or Nodes an E is the number of edges'
   })
   let m2s2Q1CT1 = await CTStuff.create({
-    Input: '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "a", "a"]',
+    Input:
+      '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "a", "a"]',
     Output: 'true'
   })
   let m2s2Q1CT2 = await CTStuff.create({
-    Input: '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "r", "s"]',
+    Input:
+      '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "r", "s"]',
     Output: 'true'
   })
   let m2s2Q1CT3 = await CTStuff.create({
-    Input: '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "s", "a"]',
+    Input:
+      '[{"a": ["a", "c"], "c": ["r", "s"], "r": ["a"], "s": [] }, "s", "a"]',
     Output: 'false'
   })
 
@@ -491,6 +494,100 @@ async function seed() {
   await m3s1Q1QuestionList.addAQuestion([m3s1Q1A1, m3s1Q1A2, m3s1Q1A3])
   await m3s1Question1.addCTStuff([m3s1Q1CT1, m3s1Q1CT2, m3s1Q1CT3])
 
+  let mainTopic4 = await MainTopic.create({name: 'Arrays'})
+  let m4subTopic1 = await SubTopic.create({name: 'Subsequence'})
+  let m4s1Question1 = await Question.create({
+    text:
+      'Given an an array of numbers, find the length of the longest possible subsequence that is increasing. This subsequence can "jump" over numbers in the array.'
+  })
+  let m4s1Q1QuestionList = await QuestionList.create({
+    RQuestion: 'Repeat: What is the question asking for?',
+    EQuestion:
+      'Example: What would the function return with input [3, 10, 4, 5]?',
+    AQuestion: 'Approach: What would be the best approach for this problem?',
+    AQuestionConsideration:
+      'Try to use dynamic programming: a method for solving a complex problem by breaking it down into a collection of simpler subproblems, solving each of those subproblems just once, and storing their solutions.'
+  })
+  let m4s1Q1R1 = await RQuestion.create({
+    correct: false,
+    answerText: 'We want to get an array of the longest subsequence.',
+    explanationText:
+      'Not quite right.  We want to return the length of the longest subsequence.'
+  })
+  let m4s1Q1R2 = await RQuestion.create({
+    correct: true,
+    answerText: 'We want to return the length of the longest subsequence.',
+    explanationText: 'Correct! We want to just return a number.'
+  })
+  let m4s1Q1R3 = await RQuestion.create({
+    correct: false,
+    answerText:
+      'We want to return an array of arrays of all increasing subsequences.',
+    explanationText:
+      'Not quite right.  We want to return the length of the longest subsequence.'
+  })
+  let m4s1Q1E1 = await EQuestion.create({
+    correct: false,
+    answerText: '2',
+    explanationText:
+      'Incorrect. The longest subsequence is [3, 4, 5] so we want to return 3.'
+  })
+  let m4s1Q1E2 = await EQuestion.create({
+    correct: false,
+    answerText: '1',
+    explanationText:
+      'Incorrect. The longest subsequence is [3, 4, 5] so we want to return 3.'
+  })
+  let m4s1Q1E3 = await EQuestion.create({
+    correct: true,
+    answerText: '3',
+    explanationText: 'Correct! This represents the length of [3, 4, 5]'
+  })
+  let m4s1Q1A1 = await AQuestion.create({
+    correct: true,
+    answerText: 'Use recursion to check all possible approaches.',
+    explanationText:
+      'While this is correct, its not the most optimal, since you are returning all combinations',
+    optimizationText:
+      'This solution ends up being O(2^n) time complexity with O(n) space complexity.'
+  })
+  let m4s1Q1A2 = await AQuestion.create({
+    correct: true,
+    answerText:
+      'Create a new array that just stores the length of the longest increasing subsequence at the index.',
+    explanationText:
+      'Correct! This would be more efficent and use dynamic programming. The next time the same subproblem occurs, instead of recomputing its solution, one simply looks up the previously computed solution, thereby saving computation time at the expense of a (hopefully) modest expenditure in storage space. ',
+    optimizationText: 'Time complexity is O(n^2) with an O(n) space complexity.'
+  })
+  let m4s1Q1A3 = await AQuestion.create({
+    correct: true,
+    answerText: 'Use a loglinear solution using binary search.',
+    explanationText:
+      'Correct!, while more complicated, this solution will ultimately be more performant.',
+    optimizationText:
+      'Big O: For each item in the sequence (length n) we do a binary search (log(n)), giving us a total runtime of n * log(n).'
+  })
+  let m4s1Q1CT1 = await CTStuff.create({
+    Input: '[[3, 4, 2, 1, 10, 6]]',
+    Output: '3'
+  })
+  let m4s1Q1CT2 = await CTStuff.create({
+    Input: '[[10, 22, 9, 33, 20, 50, 41, 60, 80]]',
+    Output: '6'
+  })
+  let m4s1Q1CT3 = await CTStuff.create({
+    Input: '[[10, 22, 9, 33, 20, 50, 41, 60, 80, 21, 23, 24, 25, 26, 27, 28]]',
+    Output: '9'
+  })
+
+  await mainTopic4.addSubTopic(m4subTopic1)
+  await m4subTopic1.addQuestion(m4s1Question1)
+  await m4s1Question1.setQuestionList(m4s1Q1QuestionList)
+  await m4s1Q1QuestionList.addRQuestion([m4s1Q1R1, m4s1Q1R2, m4s1Q1R3]) //Assign REA questions to question list
+  await m4s1Q1QuestionList.addEQuestion([m4s1Q1E1, m4s1Q1E2, m4s1Q1E3])
+  await m4s1Q1QuestionList.addAQuestion([m4s1Q1A1, m4s1Q1A2, m4s1Q1A3])
+  await m4s1Question1.addCTStuff([m4s1Q1CT1, m4s1Q1CT2, m4s1Q1CT3])
+
   let mainTopic5 = await MainTopic.create({name: 'Dynamic Programming'})
   let m5subTopic1 = await SubTopic.create({name: 'Subset Sum'})
   let m5s1Question1 = await Question.create({
@@ -582,6 +679,88 @@ async function seed() {
   await m5s1Q1QuestionList.addEQuestion([m5s1Q1E1, m5s1Q1E2, m5s1Q1E3])
   await m5s1Q1QuestionList.addAQuestion([m5s1Q1A1, m5s1Q1A2])
   await m5s1Question1.addCTStuff([m5s1Q1CT1, m5s1Q1CT2, m5s1Q1CT3, m5s1Q1CT4]) //Assign CTStuff to Question
+
+  let m3s1Question2 = await Question.create({
+    text:
+      'Write a functions that takes a string represation of a number in base 2 (binary) and converts it to that number in base 10 (decimal)'
+  })
+  let m3s1Q2QuestionList = await QuestionList.create({
+    RQuestion: 'Repeat: What is the question asking for?',
+    EQuestion: 'Example: What would the function return with input "100"?',
+    AQuestion: 'Approach: What would be the best approach for this problem?',
+    AQuestionConsideration:
+      'Iterate through all the digits multiplying them by increasing powers of 2'
+  })
+  let m3s1Q2R1 = await RQuestion.create({
+    correct: true,
+    answerText: 'We want to convert a binary string to a number in base 10.',
+    explanationText:
+      'Correct! Our input will be a number in base 10, and we want to return a binary string.'
+  })
+  let m3s1Q2R2 = await RQuestion.create({
+    correct: false,
+    answerText: 'We want to convert a decimal into a binary string.',
+    explanationText:
+      'Incorret! A decimal is basically a number in base 10 in javascript. We want to convert that into a binary string.'
+  })
+  let m3s1Q2R3 = await RQuestion.create({
+    correct: false,
+    answerText: 'We want to convert a binary string to its string numeral',
+    explanationText:
+      'Not quite right, we want the number as result, and not its string representation'
+  })
+  let m3s1Q2E1 = await EQuestion.create({
+    correct: false,
+    answerText: '100',
+    explanationText: 'Incorrect. We want to convert from binary to decimal. 100 would be the answer if we had "1100100" as input'
+  })
+  let m3s1Q2E2 = await EQuestion.create({
+    correct: false,
+    answerText: '64',
+    explanationText: 'Incorrect. This is the hexadecimal representation of 100'
+  })
+  let m3s1Q2E3 = await EQuestion.create({
+    correct: true,
+    answerText: '4',
+    explanationText: 'Correct! This binary represents the number 4!'
+  })
+  let m3s1Q2A1 = await AQuestion.create({
+    correct: true,
+    answerText:
+      'Iterate through all the digits multiplying them by increasing powers of 2. You will have to track the digit position you are checking to match the power you are doing and a variable with the total',
+    explanationText:
+      'It is a good approach and should work fine',
+    optimizationText:
+      'This solution leads to a O(n) time complexity and it is good for this problem'
+  })
+  let m3s1Q2A2 = await AQuestion.create({
+    correct: true,
+    answerText:
+      'Split the string input in to an array and reverse it. Then loop over it, using Math.pow(2) in every single number, multiplying it by the number itself (0 or 1) and holding the current value in a variable',
+    explanationText: 'It is a good approach and should work fine',
+    optimizationText:
+      'This solution leads to a O(n) time complexity and it is good for this problem'
+  })
+
+  let m3s1Q2CT1 = await CTStuff.create({
+    Input: '["100"]',
+    Output: '4'
+  })
+  let m3s1Q2CT2 = await CTStuff.create({
+    Input: '["1010"]',
+    Output: '10'
+  })
+  let m3s1Q2CT3 = await CTStuff.create({
+    Input: '["10011011"]',
+    Output: '155'
+  })
+
+  await m3subTopic1.addQuestion(m3s1Question2)
+  await m3s1Question2.setQuestionList(m3s1Q2QuestionList)
+  await m3s1Q2QuestionList.addRQuestion([m3s1Q2R1, m3s1Q2R2, m3s1Q2R3]) //Assign REA questions to question list
+  await m3s1Q2QuestionList.addEQuestion([m3s1Q2E1, m3s1Q2E2, m3s1Q2E3])
+  await m3s1Q2QuestionList.addAQuestion([m3s1Q2A1, m3s1Q2A2])
+  await m3s1Question2.addCTStuff([m3s1Q2CT1, m3s1Q2CT2, m3s1Q2CT3])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)

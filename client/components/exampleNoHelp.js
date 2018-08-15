@@ -4,7 +4,15 @@ import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
-import  {Button, Header, Container, Form, TextArea, Icon} from 'semantic-ui-react'
+import {
+  Button,
+  Header,
+  Container,
+  Form,
+  TextArea,
+  Icon,
+  Step
+} from 'semantic-ui-react'
 
 class ExampleNoHelpNoHelp extends React.Component {
   constructor(props) {
@@ -17,8 +25,6 @@ class ExampleNoHelpNoHelp extends React.Component {
       questionid: 0
     }
   }
-
-  
 
   async componentDidMount() {
     let pathnameArr = this.props.location.pathname.split('/')
@@ -37,60 +43,109 @@ class ExampleNoHelpNoHelp extends React.Component {
       loaded: true,
       questionid: this.props.questions.id
     })
-
-   
   }
 
   async handleClick() {
     try {
-      await axios.put('/api/users/' + this.props.userId + '/' + this.state.questionid, {
-        propUpdate: "EQuestion",
-      })
+      await axios.put(
+        '/api/users/' + this.props.userId + '/' + this.state.questionid,
+        {
+          propUpdate: 'EQuestion'
+        }
+      )
     } catch (err) {
       console.log(err)
     }
   }
 
-  
-
-  
-
   render() {
-      let rightAnswer
-      if(this.state.loaded){
-        rightAnswer = this.state.answers.filter(el => el.correct)[0].answerText
+    let rightAnswer
+    if (this.state.loaded) {
+      rightAnswer = this.state.answers.filter(el => el.correct)[0].answerText
+    }
+    let pathnameArr = this.props.location.pathname.split('/')
+    const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}/${
+      pathnameArr[4]
+    }`
+    const steps = [
+      {
+        key: 'R',
+        title: 'R',
+        description: 'Repeat',
+        active: true,
+        href: link + '/repeat'
+      },
+      {
+        key: 'E',
+        title: 'E',
+        description: 'Example',
+        active: true,
+        href: link + '/repeat/example'
+      },
+      {
+        key: 'A',
+        title: 'A',
+        description: 'Approach',
+        disabled: true
+      },
+      {
+        key: 'CT',
+        title: 'CT',
+        description: 'Code+Test',
+        disabled: true
+      },
+      {
+        key: 'O',
+        title: 'O',
+        description: 'Optimize',
+        disabled: true
       }
-      
+    ]
+
     return (
       <div>
+        <Step.Group
+          items={steps}
+          widths={8}
+          size="tiny"
+          style={{
+            width: '60%',
+            display: 'flex',
+            margin: 'auto',
+            height: '42px'
+          }}
+        />
         {this.state.loaded && (
           <div>
+            <br />
             <Container>
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
-              <Form >
-                  <TextArea autoHeight placeholder='your answer here' />
-                
+              <Form>
+                <TextArea autoHeight placeholder="your answer here" />
               </Form>
-              <Button animated fluid size='massive'>
+              <Button animated fluid size="massive">
                 <Button.Content visible> Hover for answer</Button.Content>
-                <Button.Content hidden> {rightAnswer ? rightAnswer : null}</Button.Content>
+                <Button.Content hidden>
+                  {' '}
+                  {rightAnswer ? rightAnswer : null}
+                </Button.Content>
               </Button>
-              <br/>
-              <br/>
-                <Container textAlign='center'>
-                    <Link to={
-                                this.props.history.location.pathname +
-                                '/approach'
-                              }
-                              onClick={() => {this.handleClick()}}
-                    >
-                    <Button icon labelPosition='right' color='green'> 
-                     Move on 
-                    <Icon name='right arrow' />
-                    </Button>
-                    </Link>
-                </Container>
+              <br />
+              <br />
+              <Container textAlign="center">
+                <Link
+                  to={this.props.history.location.pathname + '/approach'}
+                  onClick={() => {
+                    this.handleClick()
+                  }}
+                >
+                  <Button icon labelPosition="right" color="green">
+                    Move on
+                    <Icon name="right arrow" />
+                  </Button>
+                </Link>
+              </Container>
             </Container>
           </div>
         )}
@@ -114,4 +169,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExampleNoHelpNoHelp)
-
