@@ -47,7 +47,7 @@ class Optimize extends React.Component {
 
   render() {
     let pathnameArr = this.props.location.pathname.split('/')
-    const link = `/${pathnameArr[1]}/${pathnameArr[1]}/${pathnameArr[1]}`
+    const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}`
     const steps = [
       {
         key: 'R',
