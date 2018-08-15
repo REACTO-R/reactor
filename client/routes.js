@@ -17,7 +17,8 @@ import {
   ExampleNoHelp,
   ApproachNoHelp,
   Optimize,
-  OptimizeNoHelp
+  OptimizeNoHelp,
+  QuestionForm
 } from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
@@ -47,6 +48,7 @@ class Routes extends Component {
               {/* Routes placed here are only available after logging in */}
               <Route path="/home" component={UserHome} />
               <Route exact path="/profile" component={Profile} />
+              <Route exact path="/newquestion" component={QuestionForm} />
               <Route exact path="/:topic" component={Topic} />
               <Route exact path="/:topic/:subtopic" component={Subtopic} />
               <Route
