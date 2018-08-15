@@ -10,7 +10,7 @@ class VideoComponent extends React.Component {
       identity: null,
       roomName: '',
       roomNameErr: false,
-      previousTracks: null,
+      previewTracks: null,
       localMediaAvailable: false,
       hasJoinedRoom: false,
       activeRoom: null,
@@ -56,14 +56,17 @@ class VideoComponent extends React.Component {
     )
   }
 
-  attachTracks(tracks, container) {
+attachTracks(tracks, container) {
     tracks.forEach(track => {
+      console.log('track', track.track.isEnabled)
+      // console.log(track.track.get())
       container.appendChild(track.track.attach())
     })
   }
 
   attachParticipantTracks(participant, container) {
     var tracks = Array.from(participant.tracks.values())
+
     this.attachTracks(tracks, container)
   }
 
@@ -78,6 +81,7 @@ class VideoComponent extends React.Component {
 
     let previewContainer = this.refs.localMedia
     if (!previewContainer.querySelector('video')) {
+      console.log('prev', previewContainer)
       this.attachParticipantTracks(room.localParticipant, previewContainer)
     }
 

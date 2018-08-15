@@ -10,7 +10,7 @@ var VideoGrant = AccessToken.VideoGrant;
 
 router.get('/', (req, res, next) =>{
   try{
-    let identity = 'reacto-r'
+    let identity = Math.random().toString()
     var accessToken = new AccessToken(
       process.env.ACCOUNT_SID,
       process.env.API_KEY_SID,
