@@ -72,7 +72,12 @@ class Editor extends React.Component {
         let result
         try {
           let input = JSON.parse(test.Input)
-          let output = JSON.parse(test.Output)
+          let output
+          if(test.Output === 'undefined'){
+            output = undefined
+          } else {
+            output = JSON.parse(test.Output)
+          }
           result = userFunc(...input)
           expect(result).to.be.deep.equal(output)
           return {passed: true, output: result}
