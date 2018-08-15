@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchUser} from '../store'
 import {fetchQuestions} from '../store/questions'
 import UserForm from './userForm'
-import {List, Button, Header} from 'semantic-ui-react'
+import {List, Button, Header, Popup} from 'semantic-ui-react'
 
 class Profile extends React.Component {
   async componentDidMount() {
@@ -14,8 +14,8 @@ class Profile extends React.Component {
 
   render() {
     console.log('user', this.props.user.userQuestions)
-    // console.log('questions', this.props.questions)
-    // console.log('subtopic', this.props.questions[0])
+    console.log('questions', this.props.questions)
+    console.log('subtopic', this.props.questions[0])
 
     const topics = this.props.questions
 
@@ -42,24 +42,21 @@ class Profile extends React.Component {
                         {subtopic.Questions.map(question => {
                           return (
                             <List horizontal key={question.id}>
-                              <List.Item>Q{question.id}:</List.Item>
                               <List.Item>
-                                <Button circular color="blue">
-                                  R
-                                </Button>
+                                <Popup
+                                  trigger={
+                                    <Button basic>Q{question.id}:</Button>
+                                  }
+                                  content={question.text}
+                                />
                               </List.Item>
-                              <List.Item>
-                                <Button circular>E</Button>
-                              </List.Item>
-                              <List.Item>
-                                <Button circular>A</Button>
-                              </List.Item>
-                              <List.Item>
-                                <Button circular>CT</Button>
-                              </List.Item>
-                              <List.Item>
-                                <Button circular>O</Button>
-                              </List.Item>
+                              <Button.Group>
+                                <Button color="blue">R</Button>
+                                <Button color="blue">E</Button>
+                                <Button>A</Button>
+                                <Button>CT</Button>
+                                <Button>O</Button>
+                              </Button.Group>
                             </List>
                           )
                         })}

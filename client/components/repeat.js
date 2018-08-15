@@ -3,7 +3,15 @@ import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import {List, Button, Header, Container, Message, Icon} from 'semantic-ui-react'
+import {
+  List,
+  Button,
+  Header,
+  Container,
+  Message,
+  Icon,
+  Step
+} from 'semantic-ui-react'
 
 class Repeat extends React.Component {
   constructor(props) {
@@ -59,12 +67,59 @@ class Repeat extends React.Component {
   }
 
   render() {
-    console.log(this.state)
+    let pathnameArr = this.props.location.pathname.split('/')
+    const link = `/${pathnameArr[1]}/${pathnameArr[1]}/${pathnameArr[1]}`
+    const steps = [
+      {
+        key: 'R',
+        title: 'R',
+        description: 'Repeat',
+        active: true,
+        href: link + '/repeat'
+      },
+      {
+        key: 'E',
+        title: 'E',
+        description: 'Example',
+        disabled: true
+      },
+      {
+        key: 'A',
+        title: 'A',
+        description: 'Approach',
+        disabled: true
+      },
+      {
+        key: 'CT',
+        title: 'CT',
+        description: 'Code+Test',
+        disabled: true
+      },
+      {
+        key: 'O',
+        title: 'O',
+        description: 'Optimize',
+        disabled: true
+      }
+    ]
+
     return (
       <div>
+        <Step.Group
+          items={steps}
+          widths={8}
+          size="tiny"
+          style={{
+            width: '60%',
+            display: 'flex',
+            margin: 'auto',
+            height: '42px'
+          }}
+        />
         {this.state.loaded && (
           <div>
             <Container>
+              <br />
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
               <List animated relaxed verticalAlign="middle">
@@ -88,6 +143,7 @@ class Repeat extends React.Component {
                             }}
                             size="large"
                             basic
+                            style={{textAlign: 'left'}}
                           >
                             {answer.answerText}
                           </Button>
@@ -106,13 +162,14 @@ class Repeat extends React.Component {
                                 this.handleClick()
                               }}
                             >
-                              <Button color="green">
+                              <Button color="green" style={{margin: '10px'}}>
                                 GO NEXT <Icon name="right arrow" />
                               </Button>
                             </Link>
                           )}
                         </React.Fragment>
                       )}
+                      <br />
                     </div>
                   )
                 })}
