@@ -37,96 +37,115 @@ class QuestionForm extends React.Component {
 				QLAQuestion: '',
 				QLAQuestionConsideration: ''
 			},
-			RQuestion: [{
-				correct: false,
-				answerText: '',
-				explanationText: '',
-			}],
+			RQuestion: [
+				{
+					correct: false,
+					answerText: '',
+					explanationText: ''
+				}
+			],
 			EQuestion: [],
 			AQuestion: [],
 			CTStuff: []
 		}
 		this.onChange = this.onChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.addRQuestion = this.addRQuestion.bind(this)
 	}
 
-	handleSubmit(event){
-		event.preventDefault();
+	addRQuestion() {
+		let RQuestion = this.state.RQuestion
+		let newRQuestion = {
+			correct: false,
+			answerText: '',
+			explanationText: '',
+		}
+		RQuestion.push(newRQuestion)
+		this.setState({RQuestion})
+	}
+
+	handleSubmit(event) {
+		event.preventDefault()
 		console.log(this.state)
 	}
 
 	onChange(event) {
 		console.log(event.target.value)
-		switch (event.target.className){
-			case "maintopic": {
+		switch (event.target.className) {
+			case 'maintopic': {
 				let mainTopic = Object.assign({}, this.state.mainTopic)
 				mainTopic.name = event.target.value
 				this.setState({mainTopic})
-				break;
+				break
 			}
-			case "subtopic": {
+			case 'subtopic': {
 				let subTopic = Object.assign({}, this.state.subTopic)
 				subTopic.name = event.target.value
 				this.setState({subTopic})
-				break;
+				break
 			}
-			case "question": {
+			case 'question': {
 				let question = Object.assign({}, this.state.question)
 				question.questionText = event.target.value
 				this.setState({question})
-				break;
+				break
 			}
-			case "QLRQuestion": {
+			case 'QLRQuestion': {
 				let questionList = Object.assign({}, this.state.questionList)
 				questionList.QLRQuestion = event.target.value
 				this.setState({questionList})
-				break;
+				break
 			}
-			case "QLEQuestion": {
+			case 'QLEQuestion': {
 				let questionList = Object.assign({}, this.state.questionList)
 				questionList.QLEQuestion = event.target.value
 				this.setState({questionList})
-				break;
+				break
 			}
-			case "QLAQuestion": {
+			case 'QLAQuestion': {
 				let questionList = Object.assign({}, this.state.questionList)
 				questionList.QLAQuestion = event.target.value
 				this.setState({questionList})
-				break;
+				break
 			}
-			case "QLAQuestionConsideration": {
+			case 'QLAQuestionConsideration': {
 				let questionList = Object.assign({}, this.state.questionList)
 				questionList.QLAQuestionConsideration = event.target.value
 				this.setState({questionList})
-				break;
+				break
 			}
-			case "RQuestionAnswerText": {
+			case 'RQuestionAnswerText': {
 				let RQuestion = this.state.RQuestion
 				let newRQuestion = RQuestion[Number(event.target.id)]
 				newRQuestion.answerText = event.target.value
 				RQuestion[Number(event.target.id)] = newRQuestion
 				this.setState({RQuestion})
-				break;
+				break
 			}
-			case "RQuestionExplanationText": {
+			case 'RQuestionExplanationText': {
 				let RQuestion = this.state.RQuestion
 				let newRQuestion = RQuestion[Number(event.target.id)]
 				newRQuestion.explanationText = event.target.value
 				RQuestion[Number(event.target.id)] = newRQuestion
 				this.setState({RQuestion})
-				break;
+				break
 			}
-			case "RQuestionCorrect": {
+			case 'RQuestionCorrect': {
 				let RQuestion = this.state.RQuestion
 				let newRQuestion = RQuestion[Number(event.target.id)]
-				let checkBoxes = document.getElementsByClassName("RQuestionCorrect")
-				if (checkBoxes[Number(event.target.id)].checked) {newRQuestion.correct = true}
-				else {newRQuestion.correct = false}
+				let checkBoxes = document.getElementsByClassName(
+					'RQuestionCorrect'
+				)
+				if (checkBoxes[Number(event.target.id)].checked) {
+					newRQuestion.correct = true
+				} else {
+					newRQuestion.correct = false
+				}
 				this.setState({RQuestion})
-				break;
+				break
 			}
 			default:
-				break;
+				break
 		}
 	}
 
@@ -134,75 +153,102 @@ class QuestionForm extends React.Component {
 		return (
 			<div>
 				<form onSubmit={this.handleSubmit}>
-					Topic: 
+					Topic:
 					<input
 						type="text"
 						className="maintopic"
 						onChange={this.onChange}
 						value={this.state.mainTopic.name}
-					/><br/>
-					Subtopic: 
+					/>
+					<br />
+					Subtopic:
 					<input
 						type="text"
 						className="subtopic"
 						onChange={this.onChange}
 						value={this.state.subTopic.name}
-					/><br/>
+					/>
+					<br />
 					Question:
 					<input
 						type="text"
 						className="question"
 						onChange={this.onChange}
 						value={this.state.question.questionText}
-					/><br/>
+					/>
+					<br />
 					Repeat Question:
 					<input
 						type="text"
 						className="QLRQuestion"
 						onChange={this.onChange}
 						value={this.state.questionList.QLRQuestion}
-					/><br/>
+					/>
+					<br />
 					Example Question:
 					<input
 						type="text"
 						className="QLEQuestion"
 						onChange={this.onChange}
 						value={this.state.questionList.QLEQuestion}
-					/><br/>
+					/>
+					<br />
 					Approach Question:
 					<input
 						type="text"
 						className="QLAQuestion"
 						onChange={this.onChange}
 						value={this.state.questionList.QLAQuestion}
-					/><br/>
+					/>
+					<br />
 					Approach Consideration:
 					<input
 						type="text"
 						className="QLAQuestionConsideration"
 						onChange={this.onChange}
 						value={this.state.questionList.QLAQuestionConsideration}
-					/><br/>
-					RQuestion Answer Text: 
-					<input
-						type="text"
-						className="RQuestionAnswerText"
-						onChange={this.onChange}
-						id = "0"
-						value={this.state.RQuestion[0].answerText}
-					/><br/>
-					RQuestion Explanation Text: 
-					<input
-						type="text"
-						className="RQuestionExplanationText"
-						onChange={this.onChange}
-						id = "0"
-						value={this.state.RQuestion[0].explanationText}
-					/><br/>
-					RQuestion Truthiness:
-					<input type="checkbox" className="RQuestionCorrect" onChange={this.onChange} id="0" />
+					/>
+					<br />
+					{this.state.RQuestion.map((rQuest, index) => {
+						return (
+							<div key={"RQuestion"+index}>
+								RQuestion Answer Text:
+								<input
+									type="text"
+									className="RQuestionAnswerText"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.RQuestion[index.toString()]
+											.answerText
+									}
+								/>
+								<br />
+								RQuestion Explanation Text:
+								<input
+									type="text"
+									className="RQuestionExplanationText"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.RQuestion[index.toString()]
+											.explanationText
+									}
+								/>
+								<br />
+								RQuestion Truthiness:
+								<input
+									type="checkbox"
+									className="RQuestionCorrect"
+									onChange={this.onChange}
+									id={index.toString()}
+								/>
+							</div>
+						)
+					})}
 					<input type="submit" value="Submit" />
 				</form>
+				<button type="button" onClick={this.addRQuestion}>Add a Repeat Question</button>
 			</div>
 		)
 	}

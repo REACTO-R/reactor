@@ -8,7 +8,7 @@ const {
   EQuestion,
   AQuestion,
   CTStuff
-} = require('../server/db/models')
+} = require('../db/models')
  module.exports = router
 
  function requireAdmin(req, res, next) {
@@ -40,13 +40,13 @@ router.post('/', requireAdmin, async (req, res, next) => {
 		} //Else, we can assume the association already exists.
 
 		const question = await Question.create({
-			text: req.body.questionText
+			text: req.body.question.questionText
 		})
 		const questionList = await QuestionList.create({
-			RQuestion: req.body.QLRQuestion,
-			EQuestion: req.body.QLEQuestion,
-			AQuestion: req.body.QLAQuestion,
-			AQuestionConsideration: req.body.QLAQuestionConsideration
+			RQuestion: req.body.questionList.QLRQuestion,
+			EQuestion: req.body.questionList.QLEQuestion,
+			AQuestion: req.body.questionList.QLAQuestion,
+			AQuestionConsideration: req.body.questionList.QLAQuestionConsideration
 		})
 		await question.setQuestionList(questionList)
 		await subTopicFOC[0].addQuestion(question)
