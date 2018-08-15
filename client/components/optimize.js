@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import {List, Button, Header, Container, Message} from 'semantic-ui-react'
+import {Step, Header, Container} from 'semantic-ui-react'
 
 class Optimize extends React.Component {
   constructor(props) {
@@ -46,14 +46,66 @@ class Optimize extends React.Component {
   }
 
   render() {
+    let pathnameArr = this.props.location.pathname.split('/')
+    const link = `/${pathnameArr[1]}/${pathnameArr[1]}/${pathnameArr[1]}`
+    const steps = [
+      {
+        key: 'R',
+        title: 'R',
+        description: 'Repeat',
+        active: true,
+        href: link + '/repeat'
+      },
+      {
+        key: 'E',
+        title: 'E',
+        description: 'Example',
+        active: true,
+        href: link + '/repeat/example'
+      },
+      {
+        key: 'A',
+        title: 'A',
+        description: 'Approach',
+        active: true,
+        href: link + '/repeat/example/approach'
+      },
+      {
+        key: 'CT',
+        title: 'CT',
+        description: 'Code+Test',
+        active: true,
+        href: link + '/repeat/example/approach/editor'
+      },
+      {
+        key: 'O',
+        title: 'O',
+        description: 'Optimize',
+        active: true,
+        href: link + '/repeat/example/approach/editor/optimize'
+      }
+    ]
     return (
       <div>
+        <Step.Group
+          items={steps}
+          widths={8}
+          size="tiny"
+          style={{
+            width: '60%',
+            display: 'flex',
+            margin: 'auto',
+            height: '42px',
+            backgroundColor: 'blue'
+          }}
+        />
         {this.state.loaded && (
           <div>
+            <br />
             <Container>
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
-              <div>{this.state.answerText}</div>
+              <div style={{fontSize: '17px'}}>{this.state.answerText}</div>
             </Container>
           </div>
         )}
