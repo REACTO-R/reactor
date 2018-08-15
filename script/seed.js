@@ -680,6 +680,88 @@ async function seed() {
   await m5s1Q1QuestionList.addAQuestion([m5s1Q1A1, m5s1Q1A2])
   await m5s1Question1.addCTStuff([m5s1Q1CT1, m5s1Q1CT2, m5s1Q1CT3, m5s1Q1CT4]) //Assign CTStuff to Question
 
+  let m3s1Question2 = await Question.create({
+    text:
+      'Write a functions that takes a string represation of a number in base 2 (binary) and converts it to that number in base 10 (decimal)'
+  })
+  let m3s1Q2QuestionList = await QuestionList.create({
+    RQuestion: 'Repeat: What is the question asking for?',
+    EQuestion: 'Example: What would the function return with input "100"?',
+    AQuestion: 'Approach: What would be the best approach for this problem?',
+    AQuestionConsideration:
+      'Iterate through all the digits multiplying them by increasing powers of 2'
+  })
+  let m3s1Q2R1 = await RQuestion.create({
+    correct: true,
+    answerText: 'We want to convert a binary string to a number in base 10.',
+    explanationText:
+      'Correct! Our input will be a number in base 10, and we want to return a binary string.'
+  })
+  let m3s1Q2R2 = await RQuestion.create({
+    correct: false,
+    answerText: 'We want to convert a decimal into a binary string.',
+    explanationText:
+      'Incorret! A decimal is basically a number in base 10 in javascript. We want to convert that into a binary string.'
+  })
+  let m3s1Q2R3 = await RQuestion.create({
+    correct: false,
+    answerText: 'We want to convert a binary string to its string numeral',
+    explanationText:
+      'Not quite right, we want the number as result, and not its string representation'
+  })
+  let m3s1Q2E1 = await EQuestion.create({
+    correct: false,
+    answerText: '100',
+    explanationText: 'Incorrect. We want to convert from binary to decimal. 100 would be the answer if we had "1100100" as input'
+  })
+  let m3s1Q2E2 = await EQuestion.create({
+    correct: false,
+    answerText: '64',
+    explanationText: 'Incorrect. This is the hexadecimal representation of 100'
+  })
+  let m3s1Q2E3 = await EQuestion.create({
+    correct: true,
+    answerText: '4',
+    explanationText: 'Correct! This binary represents the number 4!'
+  })
+  let m3s1Q2A1 = await AQuestion.create({
+    correct: true,
+    answerText:
+      'Iterate through all the digits multiplying them by increasing powers of 2. You will have to track the digit position you are checking to match the power you are doing and a variable with the total',
+    explanationText:
+      'It is a good approach and should work fine',
+    optimizationText:
+      'This solution leads to a O(n) time complexity and it is good for this problem'
+  })
+  let m3s1Q2A2 = await AQuestion.create({
+    correct: true,
+    answerText:
+      'Split the string input in to an array and reverse it. Then loop over it, using Math.pow(2) in every single number, multiplying it by the number itself (0 or 1) and holding the current value in a variable',
+    explanationText: 'It is a good approach and should work fine',
+    optimizationText:
+      'This solution leads to a O(n) time complexity and it is good for this problem'
+  })
+
+  let m3s1Q2CT1 = await CTStuff.create({
+    Input: '["100"]',
+    Output: '4'
+  })
+  let m3s1Q2CT2 = await CTStuff.create({
+    Input: '["1010"]',
+    Output: '10'
+  })
+  let m3s1Q2CT3 = await CTStuff.create({
+    Input: '["10011011"]',
+    Output: '155'
+  })
+
+  await m3subTopic1.addQuestion(m3s1Question2)
+  await m3s1Question2.setQuestionList(m3s1Q2QuestionList)
+  await m3s1Q2QuestionList.addRQuestion([m3s1Q2R1, m3s1Q2R2, m3s1Q2R3]) //Assign REA questions to question list
+  await m3s1Q2QuestionList.addEQuestion([m3s1Q2E1, m3s1Q2E2, m3s1Q2E3])
+  await m3s1Q2QuestionList.addAQuestion([m3s1Q2A1, m3s1Q2A2])
+  await m3s1Question2.addCTStuff([m3s1Q2CT1, m3s1Q2CT2, m3s1Q2CT3])
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
