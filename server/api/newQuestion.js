@@ -25,7 +25,6 @@ const {
 
 router.post('/', requireAdmin, async (req, res, next) => {
 	try {
-		console.log(req.body)
 		const mainTopicFOC = await MainTopic.findOrCreate({
 			where: {
 				id: Number(req.body.mainTopic.Id),
