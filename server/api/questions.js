@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {MainTopic} = require('../db/models')
+const {MainTopic, SubTopic} = require('../db/models')
 module.exports = router
 
 function requireAdmin(req, res, next) {
@@ -13,6 +13,18 @@ function requireAdmin(req, res, next) {
     res.status(401).send('you shall not pass')
   }
 }
+
+router.get('/truncated', requireAdmin, async (req, res, next) => {
+  try {
+    const questions = await MainTopic.findAll({
+      include:[{model: SubTopic}]
+    })
+    res.json(questions)
+  }
+  catch (err) {
+    next(err)
+  }
+})
 
 router.get('/', requireAdmin, async (req, res, next) => {
   try {

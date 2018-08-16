@@ -16,6 +16,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         </Menu.Item>
         <Menu.Item>
           <Link to="/video">VideoChat</Link>
+          <Link to="/newquestion">Submit A Question</Link>
         </Menu.Item>
         <Menu.Item>
           <Link to="/profile">My Profile</Link>
