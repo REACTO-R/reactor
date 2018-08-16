@@ -17,8 +17,7 @@ import {
   ExampleNoHelp,
   ApproachNoHelp,
   Optimize,
-  OptimizeNoHelp
-} from './components'
+  OptimizeNoHelp, TestVideoComponent} from './components'
 import {me} from './store'
 import {Container} from 'semantic-ui-react'
 
@@ -41,7 +40,7 @@ class Routes extends Component {
           <Route path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
 
-          <Route path="/editor" component={Editor} />
+          <Route exact path='/video' component={TestVideoComponent} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
