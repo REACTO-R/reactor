@@ -23,6 +23,9 @@ const UserQuestions = db.define('userQuestions', {
 	CTQuestion: {
 		type: Sequelize.BOOLEAN,
 		defaultValue: false
+	},
+	CTAnswer: {
+		type: Sequelize.TEXT,
 	}
 })
 
