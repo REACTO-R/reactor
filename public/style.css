@@ -26,6 +26,8 @@ Container{
 }
 
 video {
-  height: 20vh;
-  width: 20vw;
+  /* height: 50vh;
+  width: 50vw; */
+  height: 500px;
+  width: 500px;
 }

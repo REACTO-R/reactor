@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import {Input, Menu} from 'semantic-ui-react'
+import {Menu} from 'semantic-ui-react'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <Menu secondary>
@@ -15,7 +15,11 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/home">Home</Link>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/video">VideoChat</Link>
+          <Link to="/video" target="_blank">
+            VideoChat
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
           <Link to="/newquestion">Submit A Question</Link>
         </Menu.Item>
         <Menu.Item>
