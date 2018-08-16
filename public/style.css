@@ -24,3 +24,8 @@ Container{
   padding: 10px;
   margin: 10px;
 }
+
+video {
+  height: 20vh;
+  width: 20vw;
+}

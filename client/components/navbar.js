@@ -15,6 +15,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/home">Home</Link>
         </Menu.Item>
         <Menu.Item>
+          <Link to="/video">VideoChat</Link>
+        </Menu.Item>
+        <Menu.Item>
           <Link to="/profile">My Profile</Link>
         </Menu.Item>
         <Menu.Item>
@@ -27,6 +30,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       <Menu.Menu position="right">
         <Menu.Item>
           <Link to="/login">Login</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/video">VideoChat</Link>
         </Menu.Item>
         <Menu.Item>
           <Link to="/signup">Sign Up</Link>
