@@ -4,31 +4,17 @@ import {fetchUser} from '../store'
 import {fetchQuestions} from '../store/questions'
 import axios from 'axios'
 
-/*
-Alright let's see here, we'll need:
-Either a way to select, or create a topic and subtopic.
-They should be objects, with an id (if found), and name
-After that user should be able to create a question, which is an object with only text.
-
-Next, QuestionList, which is an object with four text properties: QLRQuestion, QLEQUestion, QLAQuestion, and QLAQuestionConsideration.
-
-After that, for each RQuestion, we have an array of objects.
-Each object should have a boolean correct property, a text answerText and explanationText property.
-AQuestion should have an additional text property optimizationText.
-
-Finally, CTStuff is also an array of objects, but each object only has input and output.
-
-*/
 class QuestionForm extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			mainTopic: {
 				name: '',
-				id: 0
+				Id: 0
 			},
 			subTopic: {
-				name: ''
+				name: '',
+				Id: 0
 			},
 			question: {
 				questionText: ''
@@ -67,7 +53,8 @@ class QuestionForm extends React.Component {
 					output: ''
 				}
 			],
-			fetchedQuestions: []
+			fetchedQuestions: [],
+			fetchedSubTopics: []
 		}
 		this.onChange = this.onChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -76,6 +63,7 @@ class QuestionForm extends React.Component {
 		this.addAQuestion = this.addAQuestion.bind(this)
 		this.addCTStuff = this.addCTStuff.bind(this)
 		this.mainTopicDropdown = this.mainTopicDropdown.bind(this)
+		this.subTopicDropdown = this.subTopicDropdown.bind(this)
 	}
 
 	async componentDidMount() {
@@ -83,7 +71,6 @@ class QuestionForm extends React.Component {
 		this.setState({
 			fetchedQuestions: questions.data
 		})
-		console.log(questions)
 	}
 
 	addRQuestion() {
@@ -145,6 +132,24 @@ class QuestionForm extends React.Component {
 					throw new Error('Error, input must be in array form!')
 				}
 			})
+			if ((this.state.RQuestion.filter(RQuestion => {
+				return (RQuestion.correct)
+			})).length === 0)
+			{
+				throw new Error('Error, at least one Repeat answer must be correct!')
+			}
+			if ((this.state.EQuestion.filter(EQuestion => {
+				return (EQuestion.correct)
+			})).length === 0)
+			{
+				throw new Error('Error, at least one Example answer must be correct!')
+			}
+			if ((this.state.AQuestion.filter(AQuestion => {
+				return (AQuestion.correct)
+			})).length === 0)
+			{
+				throw new Error('Error, at least one Approach answer must be correct!')
+			}
 			await axios.post('/api/newquestion', this.state)
 			console.log('Posted!')
 		} catch (error) {
@@ -153,7 +158,6 @@ class QuestionForm extends React.Component {
 	}
 
 	onChange(event) {
-		console.log(event.target.value)
 		switch (event.target.className) {
 			case 'maintopic': {
 				let mainTopic = Object.assign({}, this.state.mainTopic)
@@ -320,17 +324,45 @@ class QuestionForm extends React.Component {
 
 	mainTopicDropdown(event) {
 		let mainTopic = Object.assign({}, this.state.mainTopic)
-		mainTopic.id = event.target.value
-		let mainTopicForm = document.getElementsByClassName("maintopic")[0]
+		mainTopic.Id = Number(event.target.value)
+		let mainTopicForm = document.getElementsByClassName('maintopic')[0]
 		if (Number(event.target.value) === 0) {
-			mainTopicForm.removeAttribute("disabled")
-			mainTopic.name = ""
+			mainTopicForm.removeAttribute('disabled')
+			mainTopic.name = ''
+		} else {
+			let subtopics = this.state.fetchedQuestions[event.target.value - 1]
+				.SubTopics
+			mainTopicForm.setAttribute('disabled', 'disabled')
+			mainTopic.name = this.state.fetchedQuestions[
+				event.target.value - 1
+			].name
+			this.setState({fetchedSubTopics: subtopics})
 		}
-		else {
-			mainTopicForm.setAttribute("disabled", "disabled")
-			mainTopic.name = this.state.fetchedQuestions[event.target.value-1].name
-		}
+		let subTopic = Object.assign({}, this.state.subTopic) //If we set it to new topic, clear out the subtopic.
+		subTopic.Id = 0
+		subTopic.name = ''
+		let subTopicForm = document.getElementsByClassName('subtopic')[0]
+		subTopicForm.removeAttribute('disabled')
+		this.setState({subTopic})
 		this.setState({mainTopic})
+		console.log('Main topic ID: ', this.state.mainTopic.Id)
+	}
+
+	subTopicDropdown(event) {
+		let subTopic = Object.assign({}, this.state.subTopic)
+		subTopic.Id = this.state.fetchedSubTopics[event.target.value - 1].id
+		let subTopicForm = document.getElementsByClassName('subtopic')[0]
+		if (Number(event.target.value) === 0) {
+			subTopicForm.removeAttribute('disabled')
+			subTopic.name = ''
+		} else {
+			subTopicForm.setAttribute('disabled', 'disabled')
+			subTopic.name = this.state.fetchedSubTopics[
+				event.target.value - 1
+			].name
+		}
+		this.setState({subTopic})
+		console.log('Subtopic ID: ', this.state.subTopic.Id)
 	}
 
 	//Should probably break these down into their own individual components, but then state stuff'll be a mess.
@@ -346,13 +378,16 @@ class QuestionForm extends React.Component {
 						value={this.state.mainTopic.name}
 					/>
 					<select
-						value={this.state.mainTopic.id}
+						value={this.state.mainTopic.Id}
 						onChange={this.mainTopicDropdown}
 					>
 						<option value={0}>New Topic</option>
 						{this.state.fetchedQuestions.map(mainTopic => {
 							return (
-								<option value={mainTopic.id}>
+								<option
+									value={mainTopic.id}
+									key={mainTopic.name}
+								>
 									{mainTopic.name}
 								</option>
 							)
@@ -366,6 +401,24 @@ class QuestionForm extends React.Component {
 						onChange={this.onChange}
 						value={this.state.subTopic.name}
 					/>
+					<select
+						value={this.state.subTopic.Id}
+						onChange={this.subTopicDropdown}
+					>
+						<option value={0} id={0}>
+							New Subtopic
+						</option>
+						{this.state.fetchedSubTopics.map((subTopic, index) => {
+							return (
+								<option
+									value={index + 1}
+									key={subTopic.name}
+								>
+									{subTopic.name}
+								</option>
+							)
+						})}
+					</select>
 					<br />
 					Question:
 					<input

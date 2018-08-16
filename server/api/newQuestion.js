@@ -25,9 +25,10 @@ const {
 
 router.post('/', requireAdmin, async (req, res, next) => {
 	try {
+		console.log(req.body)
 		const mainTopicFOC = await MainTopic.findOrCreate({
 			where: {
-				id: req.body.mainTopic.Id,
+				id: Number(req.body.mainTopic.Id),
 			},
 			defaults: {
 				name: req.body.mainTopic.name
@@ -35,7 +36,7 @@ router.post('/', requireAdmin, async (req, res, next) => {
 		})
 		const subTopicFOC = await SubTopic.findOrCreate({
 			where:{
-				id: req.body.subTopic.Id,
+				id: Number(req.body.subTopic.Id),
 			},
 			defaults:{
 				name: req.body.subTopic.name
