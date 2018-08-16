@@ -24,7 +24,8 @@ class QuestionForm extends React.Component {
 		super(props)
 		this.state = {
 			mainTopic: {
-				name: ''
+				name: '',
+				id: 0
 			},
 			subTopic: {
 				name: ''
@@ -65,7 +66,8 @@ class QuestionForm extends React.Component {
 					input: '',
 					output: ''
 				}
-			]
+			],
+			fetchedQuestions: []
 		}
 		this.onChange = this.onChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -73,6 +75,15 @@ class QuestionForm extends React.Component {
 		this.addEQuestion = this.addEQuestion.bind(this)
 		this.addAQuestion = this.addAQuestion.bind(this)
 		this.addCTStuff = this.addCTStuff.bind(this)
+		this.mainTopicDropdown = this.mainTopicDropdown.bind(this)
+	}
+
+	async componentDidMount() {
+		let questions = await axios.get('/api/questions/truncated')
+		this.setState({
+			fetchedQuestions: questions.data
+		})
+		console.log(questions)
 	}
 
 	addRQuestion() {
@@ -120,10 +131,25 @@ class QuestionForm extends React.Component {
 	}
 
 	async handleSubmit(event) {
-		event.preventDefault()
-		console.log(this.state)
-		await axios.post('/api/newquestion', this.state)
-		console.log("Posted!")
+		try {
+			event.preventDefault()
+			this.state.CTStuff.forEach(ctThing => {
+				let input = ctThing.input
+				let output = ctThing.output
+				if (input === '' || output === '') {
+					throw new Error(
+						'Error, input/output for tests cannot be empty!'
+					)
+				}
+				if (input[0] !== '[' || input[input.length - 1] !== ']') {
+					throw new Error('Error, input must be in array form!')
+				}
+			})
+			await axios.post('/api/newquestion', this.state)
+			console.log('Posted!')
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	onChange(event) {
@@ -191,9 +217,11 @@ class QuestionForm extends React.Component {
 				let RQuestion = this.state.RQuestion
 				let newRQuestion = RQuestion[Number(event.target.id)]
 				let checkBoxes = document.getElementsByClassName(
+					//Turns out, referring to checkboxes is incredibly difficult.
 					'RQuestionCorrect'
 				)
 				if (checkBoxes[Number(event.target.id)].checked) {
+					//So we just get all the checkboxes, then check the index value of the one we want.
 					newRQuestion.correct = true
 				} else {
 					newRQuestion.correct = false
@@ -290,6 +318,22 @@ class QuestionForm extends React.Component {
 		}
 	}
 
+	mainTopicDropdown(event) {
+		let mainTopic = Object.assign({}, this.state.mainTopic)
+		mainTopic.id = event.target.value
+		let mainTopicForm = document.getElementsByClassName("maintopic")[0]
+		if (Number(event.target.value) === 0) {
+			mainTopicForm.removeAttribute("disabled")
+			mainTopic.name = ""
+		}
+		else {
+			mainTopicForm.setAttribute("disabled", "disabled")
+			mainTopic.name = this.state.fetchedQuestions[event.target.value-1].name
+		}
+		this.setState({mainTopic})
+	}
+
+	//Should probably break these down into their own individual components, but then state stuff'll be a mess.
 	render() {
 		return (
 			<div>
@@ -301,6 +345,19 @@ class QuestionForm extends React.Component {
 						onChange={this.onChange}
 						value={this.state.mainTopic.name}
 					/>
+					<select
+						value={this.state.mainTopic.id}
+						onChange={this.mainTopicDropdown}
+					>
+						<option value={0}>New Topic</option>
+						{this.state.fetchedQuestions.map(mainTopic => {
+							return (
+								<option value={mainTopic.id}>
+									{mainTopic.name}
+								</option>
+							)
+						})}
+					</select>
 					<br />
 					Subtopic:
 					<input
