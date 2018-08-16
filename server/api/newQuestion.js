@@ -27,12 +27,18 @@ router.post('/', requireAdmin, async (req, res, next) => {
 	try {
 		const mainTopicFOC = await MainTopic.findOrCreate({
 			where: {
-				id: req.body.mainTopicId,
+				id: req.body.mainTopic.Id,
+			},
+			defaults: {
+				name: req.body.mainTopic.name
 			}
 		})
 		const subTopicFOC = await SubTopic.findOrCreate({
 			where:{
-				id: req.body.subTopicId,
+				id: req.body.subTopic.Id,
+			},
+			defaults:{
+				name: req.body.subTopic.name
 			}
 		})
 		if (subTopicFOC[1]) { //If the subtopic was created,
@@ -51,7 +57,7 @@ router.post('/', requireAdmin, async (req, res, next) => {
 		await question.setQuestionList(questionList)
 		await subTopicFOC[0].addQuestion(question)
 
-		req.body.RQuestions.forEach(async (rQuestion) => {
+		req.body.RQuestion.forEach(async (rQuestion) => {
 			let newRQuestion = await RQuestion.create({
 				correct: rQuestion.correct,
 				answerText: rQuestion.answerText,
@@ -60,7 +66,7 @@ router.post('/', requireAdmin, async (req, res, next) => {
 			await questionList.addRQuestion(newRQuestion)
 		})
 
-		req.body.EQuestions.forEach(async (eQuestion) => {
+		req.body.EQuestion.forEach(async (eQuestion) => {
 			let newEQuestion = await EQuestion.create({
 				correct: eQuestion.correct,
 				answerText: eQuestion.answerText,
@@ -69,7 +75,7 @@ router.post('/', requireAdmin, async (req, res, next) => {
 			await questionList.addEQuestion(newEQuestion)
 		})
 
-		req.body.AQuestions.forEach(async (aQuestion) => {
+		req.body.AQuestion.forEach(async (aQuestion) => {
 			let newAQuestion = await AQuestion.create({
 				correct: aQuestion.correct,
 				answerText: aQuestion.answerText,
@@ -81,8 +87,8 @@ router.post('/', requireAdmin, async (req, res, next) => {
 
 		req.body.CTStuff.forEach(async (cTStuff) => {
 			let newCTStuff = await CTStuff.create({
-				input: cTStuff.input,
-				output: cTStuff.output,
+				Input: cTStuff.input,
+				Output: cTStuff.output,
 			})
 			await question.addCTStuff(newCTStuff)
 		})

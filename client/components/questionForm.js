@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUser} from '../store'
 import {fetchQuestions} from '../store/questions'
+import axios from 'axios'
 
 /*
 Alright let's see here, we'll need:
@@ -44,13 +45,34 @@ class QuestionForm extends React.Component {
 					explanationText: ''
 				}
 			],
-			EQuestion: [],
-			AQuestion: [],
-			CTStuff: []
+			EQuestion: [
+				{
+					correct: false,
+					answerText: '',
+					explanationText: ''
+				}
+			],
+			AQuestion: [
+				{
+					correct: false,
+					answerText: '',
+					explanationText: '',
+					optimizationText: ''
+				}
+			],
+			CTStuff: [
+				{
+					input: '',
+					output: ''
+				}
+			]
 		}
 		this.onChange = this.onChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.addRQuestion = this.addRQuestion.bind(this)
+		this.addEQuestion = this.addEQuestion.bind(this)
+		this.addAQuestion = this.addAQuestion.bind(this)
+		this.addCTStuff = this.addCTStuff.bind(this)
 	}
 
 	addRQuestion() {
@@ -58,15 +80,50 @@ class QuestionForm extends React.Component {
 		let newRQuestion = {
 			correct: false,
 			answerText: '',
-			explanationText: '',
+			explanationText: ''
 		}
 		RQuestion.push(newRQuestion)
 		this.setState({RQuestion})
 	}
 
-	handleSubmit(event) {
+	addCTStuff() {
+		let CTStuff = this.state.CTStuff
+		let newCTStuff = {
+			input: '',
+			output: ''
+		}
+		CTStuff.push(newCTStuff)
+		this.setState({CTStuff})
+	}
+
+	addEQuestion() {
+		let EQuestion = this.state.EQuestion
+		let newEQuestion = {
+			correct: false,
+			answerText: '',
+			explanationText: ''
+		}
+		EQuestion.push(newEQuestion)
+		this.setState({EQuestion})
+	}
+
+	addAQuestion() {
+		let AQuestion = this.state.AQuestion
+		let newAQuestion = {
+			correct: false,
+			answerText: '',
+			explanationText: '',
+			optimizationText: ''
+		}
+		AQuestion.push(newAQuestion)
+		this.setState({AQuestion})
+	}
+
+	async handleSubmit(event) {
 		event.preventDefault()
 		console.log(this.state)
+		await axios.post('/api/newquestion', this.state)
+		console.log("Posted!")
 	}
 
 	onChange(event) {
@@ -144,6 +201,90 @@ class QuestionForm extends React.Component {
 				this.setState({RQuestion})
 				break
 			}
+			case 'EQuestionAnswerText': {
+				let EQuestion = this.state.EQuestion
+				let newEQuestion = EQuestion[Number(event.target.id)]
+				newEQuestion.answerText = event.target.value
+				EQuestion[Number(event.target.id)] = newEQuestion
+				this.setState({EQuestion})
+				break
+			}
+			case 'EQuestionExplanationText': {
+				let EQuestion = this.state.EQuestion
+				let newEQuestion = EQuestion[Number(event.target.id)]
+				newEQuestion.explanationText = event.target.value
+				EQuestion[Number(event.target.id)] = newEQuestion
+				this.setState({EQuestion})
+				break
+			}
+			case 'EQuestionCorrect': {
+				let EQuestion = this.state.EQuestion
+				let newEQuestion = EQuestion[Number(event.target.id)]
+				let checkBoxes = document.getElementsByClassName(
+					'EQuestionCorrect'
+				)
+				if (checkBoxes[Number(event.target.id)].checked) {
+					newEQuestion.correct = true
+				} else {
+					newEQuestion.correct = false
+				}
+				this.setState({EQuestion})
+				break
+			}
+			case 'AQuestionAnswerText': {
+				let AQuestion = this.state.AQuestion
+				let newAQuestion = AQuestion[Number(event.target.id)]
+				newAQuestion.answerText = event.target.value
+				AQuestion[Number(event.target.id)] = newAQuestion
+				this.setState({AQuestion})
+				break
+			}
+			case 'AQuestionExplanationText': {
+				let AQuestion = this.state.AQuestion
+				let newAQuestion = AQuestion[Number(event.target.id)]
+				newAQuestion.explanationText = event.target.value
+				AQuestion[Number(event.target.id)] = newAQuestion
+				this.setState({AQuestion})
+				break
+			}
+			case 'AQuestionOptimizationText': {
+				let AQuestion = this.state.AQuestion
+				let newAQuestion = AQuestion[Number(event.target.id)]
+				newAQuestion.optimizationText = event.target.value
+				AQuestion[Number(event.target.id)] = newAQuestion
+				this.setState({AQuestion})
+				break
+			}
+			case 'AQuestionCorrect': {
+				let AQuestion = this.state.AQuestion
+				let newAQuestion = AQuestion[Number(event.target.id)]
+				let checkBoxes = document.getElementsByClassName(
+					'AQuestionCorrect'
+				)
+				if (checkBoxes[Number(event.target.id)].checked) {
+					newAQuestion.correct = true
+				} else {
+					newAQuestion.correct = false
+				}
+				this.setState({AQuestion})
+				break
+			}
+			case 'CTStuffInput': {
+				let CTStuff = this.state.CTStuff
+				let newCTStuff = CTStuff[Number(event.target.id)]
+				newCTStuff.input = event.target.value
+				CTStuff[Number(event.target.id)] = newCTStuff
+				this.setState({CTStuff})
+				break
+			}
+			case 'CTStuffOutput': {
+				let CTStuff = this.state.CTStuff
+				let newCTStuff = CTStuff[Number(event.target.id)]
+				newCTStuff.output = event.target.value
+				CTStuff[Number(event.target.id)] = newCTStuff
+				this.setState({CTStuff})
+				break
+			}
 			default:
 				break
 		}
@@ -211,7 +352,7 @@ class QuestionForm extends React.Component {
 					<br />
 					{this.state.RQuestion.map((rQuest, index) => {
 						return (
-							<div key={"RQuestion"+index}>
+							<div key={'RQuestion' + index}>
 								RQuestion Answer Text:
 								<input
 									type="text"
@@ -246,9 +387,134 @@ class QuestionForm extends React.Component {
 							</div>
 						)
 					})}
+					{this.state.EQuestion.map((eQuest, index) => {
+						return (
+							<div key={'EQuestion' + index}>
+								EQuestion Answer Text:
+								<input
+									type="text"
+									className="EQuestionAnswerText"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.EQuestion[index.toString()]
+											.answerText
+									}
+								/>
+								<br />
+								EQuestion Explanation Text:
+								<input
+									type="text"
+									className="EQuestionExplanationText"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.EQuestion[index.toString()]
+											.explanationText
+									}
+								/>
+								<br />
+								EQuestion Truthiness:
+								<input
+									type="checkbox"
+									className="EQuestionCorrect"
+									onChange={this.onChange}
+									id={index.toString()}
+								/>
+							</div>
+						)
+					})}
+					{this.state.AQuestion.map((aQuest, index) => {
+						return (
+							<div key={'AQuestion' + index}>
+								AQuestion Answer Text:
+								<input
+									type="text"
+									className="AQuestionAnswerText"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.AQuestion[index.toString()]
+											.answerText
+									}
+								/>
+								<br />
+								AQuestion Explanation Text:
+								<input
+									type="text"
+									className="AQuestionExplanationText"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.AQuestion[index.toString()]
+											.explanationText
+									}
+								/>
+								<br />
+								AQuestion Optimization Text:
+								<input
+									type="text"
+									className="AQuestionOptimizationText"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.AQuestion[index.toString()]
+											.optimizationText
+									}
+								/>
+								<br />
+								AQuestion Truthiness:
+								<input
+									type="checkbox"
+									className="AQuestionCorrect"
+									onChange={this.onChange}
+									id={index.toString()}
+								/>
+							</div>
+						)
+					})}
+					{this.state.CTStuff.map((ctStuff, index) => {
+						return (
+							<div key={'CTStuff' + index}>
+								Test Input:
+								<input
+									type="text"
+									className="CTStuffInput"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.CTStuff[index.toString()]
+											.input
+									}
+								/>
+								Test Output:
+								<input
+									type="text"
+									className="CTStuffOutput"
+									onChange={this.onChange}
+									id={index.toString()}
+									value={
+										this.state.CTStuff[index.toString()]
+											.output
+									}
+								/>
+							</div>
+						)
+					})}
 					<input type="submit" value="Submit" />
 				</form>
-				<button type="button" onClick={this.addRQuestion}>Add a Repeat Question</button>
+				<button type="button" onClick={this.addRQuestion}>
+					Add a Repeat Answer
+				</button>
+				<button type="button" onClick={this.addEQuestion}>
+					Add a Example Answer
+				</button>
+				<button type="button" onClick={this.addAQuestion}>
+					Add a Approach Answer
+				</button>
+				<button type="button" onClick={this.addCTStuff}>
+					Add a Test
+				</button>
 			</div>
 		)
 	}
