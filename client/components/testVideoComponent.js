@@ -24,7 +24,6 @@ class VideoComponent extends React.Component {
     this.detachTracks = this.detachTracks.bind(this)
     this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
     this.handleShareScreenClick = this.handleShareScreenClick.bind(this)
-    this.handleClick = this.handleClick.bind(this)
   }
 
   handleRoomNameChange(e) {

@@ -3,15 +3,7 @@ import {connect} from 'react-redux'
 import {fetchUser} from '../store'
 import {fetchQuestions} from '../store/questions'
 import axios from 'axios'
-import {
-  List,
-  Button,
-  Header,
-  Container,
-  Message,
-  Icon,
-  Form
-} from 'semantic-ui-react'
+import {Button, Form} from 'semantic-ui-react'
 
 class QuestionForm extends React.Component {
   constructor(props) {
@@ -372,217 +364,267 @@ class QuestionForm extends React.Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-          Topic:
-          <input
-            type="text"
-            className="maintopic"
-            onChange={this.onChange}
-            value={this.state.mainTopic.name}
-          />
-          <select
-            value={this.state.mainTopic.Id}
-            onChange={this.mainTopicDropdown}
-          >
-            <option value={0}>New Topic</option>
-            {this.state.fetchedQuestions.map(mainTopic => {
-              return (
-                <option value={mainTopic.id} key={mainTopic.name}>
-                  {mainTopic.name}
-                </option>
-              )
-            })}
-          </select>
+          <Form.Field inline>
+            <label>Topic:</label>
+            <input
+              type="text"
+              className="maintopic"
+              onChange={this.onChange}
+              value={this.state.mainTopic.name}
+            />
+            <select
+              value={this.state.mainTopic.Id}
+              onChange={this.mainTopicDropdown}
+            >
+              <option value={0}>New Topic</option>
+              {this.state.fetchedQuestions.map(mainTopic => {
+                return (
+                  <option value={mainTopic.id} key={mainTopic.name}>
+                    {mainTopic.name}
+                  </option>
+                )
+              })}
+            </select>
+          </Form.Field>
+
+          <Form.Field inline>
+            <label>Subtopic:</label>
+            <input
+              type="text"
+              className="subtopic"
+              onChange={this.onChange}
+              value={this.state.subTopic.name}
+            />
+            <select
+              value={this.state.subTopic.Id}
+              onChange={this.subTopicDropdown}
+            >
+              <option value={0} id={0}>
+                New Subtopic
+              </option>
+              {this.state.fetchedSubTopics.map((subTopic, index) => {
+                return (
+                  <option value={index + 1} key={subTopic.name}>
+                    {subTopic.name}
+                  </option>
+                )
+              })}
+            </select>
+          </Form.Field>
           <br />
-          Subtopic:
-          <input
-            type="text"
-            className="subtopic"
-            onChange={this.onChange}
-            value={this.state.subTopic.name}
-          />
-          <select
-            value={this.state.subTopic.Id}
-            onChange={this.subTopicDropdown}
-          >
-            <option value={0} id={0}>
-              New Subtopic
-            </option>
-            {this.state.fetchedSubTopics.map((subTopic, index) => {
-              return (
-                <option value={index + 1} key={subTopic.name}>
-                  {subTopic.name}
-                </option>
-              )
-            })}
-          </select>
+          <Form.Field inline>
+            <label>Question:</label>
+            <input
+              type="text"
+              className="question"
+              onChange={this.onChange}
+              value={this.state.question.questionText}
+            />
+          </Form.Field>
           <br />
-          Question:
-          <input
-            type="text"
-            className="question"
-            onChange={this.onChange}
-            value={this.state.question.questionText}
-          />
+          <Form.Field inline>
+            <label>Repeat Question:</label>
+            <input
+              type="text"
+              className="QLRQuestion"
+              onChange={this.onChange}
+              value={this.state.questionList.QLRQuestion}
+            />
+          </Form.Field>
           <br />
-          Repeat Question:
-          <input
-            type="text"
-            className="QLRQuestion"
-            onChange={this.onChange}
-            value={this.state.questionList.QLRQuestion}
-          />
+          <Form.Field inline>
+            <label>Example Question:</label>
+            <input
+              type="text"
+              className="QLEQuestion"
+              onChange={this.onChange}
+              value={this.state.questionList.QLEQuestion}
+            />
+          </Form.Field>
           <br />
-          Example Question:
-          <input
-            type="text"
-            className="QLEQuestion"
-            onChange={this.onChange}
-            value={this.state.questionList.QLEQuestion}
-          />
+          <Form.Field inline>
+            <label>Approach Question:</label>
+            <input
+              type="text"
+              className="QLAQuestion"
+              onChange={this.onChange}
+              value={this.state.questionList.QLAQuestion}
+            />
+          </Form.Field>
           <br />
-          Approach Question:
-          <input
-            type="text"
-            className="QLAQuestion"
-            onChange={this.onChange}
-            value={this.state.questionList.QLAQuestion}
-          />
+          <Form.Field inline>
+            <label>Approach Consideration: </label>
+            <input
+              type="text"
+              className="QLAQuestionConsideration"
+              onChange={this.onChange}
+              value={this.state.questionList.QLAQuestionConsideration}
+            />
+          </Form.Field>
           <br />
-          Approach Consideration:
-          <input
-            type="text"
-            className="QLAQuestionConsideration"
-            onChange={this.onChange}
-            value={this.state.questionList.QLAQuestionConsideration}
-          />
-          <br />
+
           {this.state.RQuestion.map((rQuest, index) => {
             return (
               <div key={'RQuestion' + index}>
-                RQuestion Answer Text:
-                <input
-                  type="text"
-                  className="RQuestionAnswerText"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.RQuestion[index.toString()].answerText}
-                />
-                <br />
-                RQuestion Explanation Text:
-                <input
-                  type="text"
-                  className="RQuestionExplanationText"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.RQuestion[index.toString()].explanationText}
-                />
-                <br />
-                RQuestion Truthiness:
-                <input
-                  type="checkbox"
-                  className="RQuestionCorrect"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                />
+                <Form.Field inline>
+                  <label>RQuestion Answer Text:</label>
+                  <input
+                    type="text"
+                    className="RQuestionAnswerText"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={this.state.RQuestion[index.toString()].answerText}
+                  />
+                </Form.Field>
+
+                <Form.Field inline>
+                  <label> RQuestion Explanation Text:</label>
+                  <input
+                    type="text"
+                    className="RQuestionExplanationText"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={
+                      this.state.RQuestion[index.toString()].explanationText
+                    }
+                  />
+                </Form.Field>
+
+                <Form.Field inline>
+                  <label>RQuestion Truthiness:</label>
+                  <input
+                    type="checkbox"
+                    className="RQuestionCorrect"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                  />
+                </Form.Field>
               </div>
             )
           })}
+          <br />
           {this.state.EQuestion.map((eQuest, index) => {
             return (
               <div key={'EQuestion' + index}>
-                EQuestion Answer Text:
-                <input
-                  type="text"
-                  className="EQuestionAnswerText"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.EQuestion[index.toString()].answerText}
-                />
-                <br />
-                EQuestion Explanation Text:
-                <input
-                  type="text"
-                  className="EQuestionExplanationText"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.EQuestion[index.toString()].explanationText}
-                />
-                <br />
-                EQuestion Truthiness:
-                <input
-                  type="checkbox"
-                  className="EQuestionCorrect"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                />
+                <Form.Field inline>
+                  <label>EQuestion Answer Text:</label>
+                  <input
+                    type="text"
+                    className="EQuestionAnswerText"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={this.state.EQuestion[index.toString()].answerText}
+                  />
+                </Form.Field>
+
+                <Form.Field inline>
+                  <label>EQuestion Explanation Text:</label>
+                  <input
+                    type="text"
+                    className="EQuestionExplanationText"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={
+                      this.state.EQuestion[index.toString()].explanationText
+                    }
+                  />
+                </Form.Field>
+
+                <Form.Field inline>
+                  <label>EQuestion Truthiness:</label>
+                  <input
+                    type="checkbox"
+                    className="EQuestionCorrect"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                  />
+                </Form.Field>
               </div>
             )
           })}
+          <br />
           {this.state.AQuestion.map((aQuest, index) => {
             return (
               <div key={'AQuestion' + index}>
-                AQuestion Answer Text:
-                <input
-                  type="text"
-                  className="AQuestionAnswerText"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.AQuestion[index.toString()].answerText}
-                />
-                <br />
-                AQuestion Explanation Text:
-                <input
-                  type="text"
-                  className="AQuestionExplanationText"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.AQuestion[index.toString()].explanationText}
-                />
-                <br />
-                AQuestion Optimization Text:
-                <input
-                  type="text"
-                  className="AQuestionOptimizationText"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={
-                    this.state.AQuestion[index.toString()].optimizationText
-                  }
-                />
-                <br />
-                AQuestion Truthiness:
-                <input
-                  type="checkbox"
-                  className="AQuestionCorrect"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                />
+                <Form.Field inline>
+                  <label>AQuestion Answer Text:</label>
+                  <input
+                    type="text"
+                    className="AQuestionAnswerText"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={this.state.AQuestion[index.toString()].answerText}
+                  />
+                </Form.Field>
+
+                <Form.Field inline>
+                  <label> AQuestion Explanation Text:</label>
+                  <input
+                    type="text"
+                    className="AQuestionExplanationText"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={
+                      this.state.AQuestion[index.toString()].explanationText
+                    }
+                  />
+                </Form.Field>
+
+                <Form.Field inline>
+                  <label>AQuestion Optimization Text:</label>
+                  <input
+                    type="text"
+                    className="AQuestionOptimizationText"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={
+                      this.state.AQuestion[index.toString()].optimizationText
+                    }
+                  />
+                </Form.Field>
+                <Form.Field inline>
+                  <label>AQuestion Truthiness: </label>
+                  <input
+                    type="checkbox"
+                    className="AQuestionCorrect"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                  />
+                </Form.Field>
               </div>
             )
           })}
+          <br />
           {this.state.CTStuff.map((ctStuff, index) => {
             return (
               <div key={'CTStuff' + index}>
-                Test Input:
-                <input
-                  type="text"
-                  className="CTStuffInput"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.CTStuff[index.toString()].input}
-                />
-                Test Output:
-                <input
-                  type="text"
-                  className="CTStuffOutput"
-                  onChange={this.onChange}
-                  id={index.toString()}
-                  value={this.state.CTStuff[index.toString()].output}
-                />
+                <Form.Field inline>
+                  <label> Test Input:</label>
+                  <input
+                    type="text"
+                    className="CTStuffInput"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={this.state.CTStuff[index.toString()].input}
+                  />
+                </Form.Field>
+                <Form.Field inline>
+                  <label>Test Output:</label>
+
+                  <input
+                    type="text"
+                    className="CTStuffOutput"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={this.state.CTStuff[index.toString()].output}
+                  />
+                </Form.Field>
               </div>
             )
           })}
-          <input type="submit" value="Submit" />
+          <Button type="submit" value="Submit">
+            Submit
+          </Button>
         </Form>
         <Button type="button" onClick={this.addRQuestion}>
           Add a Repeat Answer
