@@ -48,8 +48,7 @@ class VideoComponent extends React.Component {
 
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
-    Video.connect(this.state.token, connectOptions).then(
-      this.roomJoined,
+    Video.connect(this.state.token, connectOptions).then(this.roomJoined,
       error => {
         alert('Could not connect to Twilio: ' + error.message)
       }
@@ -58,7 +57,6 @@ class VideoComponent extends React.Component {
 
   attachTracks(tracks, container) {
     tracks.forEach(track => {
-      console.log(track)
       container.appendChild(track.attach())
     })
   }
@@ -131,22 +129,14 @@ class VideoComponent extends React.Component {
     // Once the LocalParticipant leaves the room, detach the Tracks
     // of all Participants, including that of the LocalParticipant.
     room.on('disconnected', () => {
-      if (this.state.previewTracks) {
-        this.state.previewTracks.forEach(track => {
-          track.stop()
-        })
-      }
+      // if (this.state.previewTracks) {
+      //   this.state.previewTracks.forEach(track => {
+      //     track.stop()
+      //   })
+      // }
       this.detachParticipantTracks(room.localParticipant)
       room.participants.forEach(this.detachParticipantTracks)
-      this.state.activeRoom = null
-      this.setState({hasJoinedRoom: false, localMediaAvailable: false})
-    })
-  }
-
-  componentDidMount() {
-    axios.get('/api/video').then(results => {
-      const {identity, token} = results.data
-      this.setState({identity, token})
+      this.setState({activeRoom: null, hasJoinedRoom: false, localMediaAvailable: false})
     })
   }
 
@@ -166,6 +156,16 @@ class VideoComponent extends React.Component {
     }
   }
 
+  async componentDidMount() {
+    try{
+      const { data } = await axios.get('/api/video')
+      const { identity, token } = data
+      this.setState({identity, token})
+    } catch(err){
+      console.log('cannot get data from server', err)
+    }
+  }
+
   render() {
     let showLocalTrack = this.state.localMediaAvailable ? (
       <div className="flex-item">
@@ -177,29 +177,48 @@ class VideoComponent extends React.Component {
     )
 
     let joinOrLeaveRoomButton = this.state.hasJoinedRoom ? (
-      <Button label="Leave Room" secondary={true} onClick={this.leaveRoom} />
+      <Button primary={true} onClick={this.leaveRoom}>
+        Leave Room
+      </Button>
     ) : (
-      <Button label="Join Room" primary={true} onClick={this.joinRoom} />
+      <Button primary={true} onClick={this.joinRoom}>
+        Join Room
+      </Button>
+    )
+
+    let shareOrUnshareScreenButton = !this.state.screenTrack ? (
+      <Button primary={true} onClick={this.handleShareScreenClick}>
+        Share Screen
+      </Button>
+    ) : (
+      <Button primary={true} onClick={this.handleShareScreenClick}>
+        Unshare Screen
+      </Button>
     )
 
     return (
-      <Card>
+      <Card style={{boxShadow: 'none'}}>
         <Card.Content>
-          <div className="flex-container">
-            {showLocalTrack}
+          <div className="empty">
             <div className="flex-item">
               <TextArea
-                placeholder="Room Name"
+                autoHeight
+                placeholder="Enter Room Name"
                 onChange={this.handleRoomNameChange}
                 // errorText={this.state.roomNameErr ? 'Room Name is required' : undefined}
               />
               <br />
               {joinOrLeaveRoomButton}
+              <div className="rowspace" />
+              {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
             </div>
-            <div className="flex-item" ref="remoteMedia" id="remote-media" />
+            <div className="flex-container">
+              {showLocalTrack}
+
+              <div className="flex-item" ref="remoteMedia" id="remote-media" />
+            </div>
           </div>
         </Card.Content>
-        <button onClick={this.handleShareScreenClick}>Share Screen</button>
       </Card>
     )
   }
