@@ -13,7 +13,7 @@ import {
   Step
 } from 'semantic-ui-react'
 
-class Repeat extends React.Component {
+export class Repeat extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
