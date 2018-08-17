@@ -48,3 +48,9 @@ video {
   max-height: 1250px;
   max-width: 1250px;
 }
+
+label{
+  padding-left: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;s
+}
