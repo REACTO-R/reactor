@@ -48,7 +48,8 @@ class VideoComponent extends React.Component {
 
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
-    Video.connect(this.state.token, connectOptions).then(this.roomJoined,
+    Video.connect(this.state.token, connectOptions).then(
+      this.roomJoined,
       error => {
         alert('Could not connect to Twilio: ' + error.message)
       }
@@ -57,6 +58,7 @@ class VideoComponent extends React.Component {
 
   attachTracks(tracks, container) {
     tracks.forEach(track => {
+      console.log(track.attach())
       container.appendChild(track.attach())
     })
   }
@@ -136,7 +138,11 @@ class VideoComponent extends React.Component {
       // }
       this.detachParticipantTracks(room.localParticipant)
       room.participants.forEach(this.detachParticipantTracks)
-      this.setState({activeRoom: null, hasJoinedRoom: false, localMediaAvailable: false})
+      this.setState({
+        activeRoom: null,
+        hasJoinedRoom: false,
+        localMediaAvailable: false
+      })
     })
   }
 
@@ -157,11 +163,11 @@ class VideoComponent extends React.Component {
   }
 
   async componentDidMount() {
-    try{
-      const { data } = await axios.get('/api/video')
-      const { identity, token } = data
+    try {
+      const {data} = await axios.get('/api/video')
+      const {identity, token} = data
       this.setState({identity, token})
-    } catch(err){
+    } catch (err) {
       console.log('cannot get data from server', err)
     }
   }

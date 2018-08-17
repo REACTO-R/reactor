@@ -43,3 +43,8 @@ video {
   display: flex;
   flex-direction: column;
 }
+
+#remote-media video:last-child {
+  max-height: 1250px;
+  max-width: 1250px;
+}
