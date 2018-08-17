@@ -25,7 +25,7 @@ describe.only('useless api endpoint', function() {
       })
   })
 
-  it('posts an object', async () => {
+  xit('posts an xobject', async () => {
     const res = await request
       .get('/api/users')
       .set('Cookie', cookieJar)
