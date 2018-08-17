@@ -58,6 +58,7 @@ class VideoComponent extends React.Component {
 
   attachTracks(tracks, container) {
     tracks.forEach(track => {
+      console.log(track.attach())
       container.appendChild(track.attach())
     })
   }
