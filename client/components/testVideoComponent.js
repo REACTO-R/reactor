@@ -49,8 +49,7 @@ class VideoComponent extends React.Component {
 
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
-    Video.connect(this.state.token, connectOptions).then(
-      this.roomJoined,
+    Video.connect(this.state.token, connectOptions).then(this.roomJoined,
       error => {
         alert('Could not connect to Twilio: ' + error.message)
       }
@@ -59,7 +58,6 @@ class VideoComponent extends React.Component {
 
   attachTracks(tracks, container) {
     tracks.forEach(track => {
-      console.log(track)
       container.appendChild(track.attach())
     })
   }
@@ -132,22 +130,14 @@ class VideoComponent extends React.Component {
     // Once the LocalParticipant leaves the room, detach the Tracks
     // of all Participants, including that of the LocalParticipant.
     room.on('disconnected', () => {
-      if (this.state.previewTracks) {
-        this.state.previewTracks.forEach(track => {
-          track.stop()
-        })
-      }
+      // if (this.state.previewTracks) {
+      //   this.state.previewTracks.forEach(track => {
+      //     track.stop()
+      //   })
+      // }
       this.detachParticipantTracks(room.localParticipant)
       room.participants.forEach(this.detachParticipantTracks)
-      this.state.activeRoom = null
-      this.setState({hasJoinedRoom: false, localMediaAvailable: false})
-    })
-  }
-
-  componentDidMount() {
-    axios.get('/api/video').then(results => {
-      const {identity, token} = results.data
-      this.setState({identity, token})
+      this.setState({activeRoom: null, hasJoinedRoom: false, localMediaAvailable: false})
     })
   }
 
@@ -168,6 +158,16 @@ class VideoComponent extends React.Component {
     } else {
       this.state.activeRoom.localParticipant.removeTrack(this.state.screenTrack)
       this.setState({screenTrack: null})
+    }
+  }
+
+  async componentDidMount() {
+    try{
+      const { data } = await axios.get('/api/video')
+      const { identity, token } = data
+      this.setState({identity, token})
+    } catch(err){
+      console.log('cannot get data from server', err)
     }
   }
 
