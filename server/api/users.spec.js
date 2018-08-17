@@ -13,7 +13,7 @@ const userCredentials = {
 
 let cookieJar
 
-describe.only('useless api endpoint', function() {
+xdescribe('useless api endpoint', function() {
   before(function(done) {
     request
       .post('/auth/login')
