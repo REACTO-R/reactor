@@ -26,7 +26,7 @@ router.get('/truncated', requireAdmin, async (req, res, next) => {
   }
 })
 
-router.get('/', requireAdmin, async (req, res, next) => {
+router.get('/', requireAdmin, async (reseq, res, next) => {
   try {
     const questions = await MainTopic.findAll({
       include: [{all: true, nested: true}]
