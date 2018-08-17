@@ -63,58 +63,60 @@ class Profile extends React.Component {
                         <List.Item>{subtopic.name}:</List.Item>
                         {subtopic.Questions.map(question => {
                           return (
-                            <List key={question.id}>
-                              <List.Item>
-                                {startedQsArr.includes(question.id) ? (
-                                  <Link to={`/${topic.id}/${subtopic.id}`}>
-                                    <Popup
-                                      trigger={
-                                        <Button color="green">
-                                          Q{question.id}:
-                                        </Button>
-                                      }
-                                      content={question.text}
-                                    />
-                                  </Link>
-                                ) : (
-                                  <Link to={`/${topic.id}/${subtopic.id}`}>
-                                    <Popup
-                                      trigger={
-                                        <Button basic>Q{question.id}:</Button>
-                                      }
-                                      content={question.text}
-                                    />
-                                  </Link>
-                                )}
-                              </List.Item>
-                              <Button.Group>
-                                {RstartedQsArr.includes(question.id) ? (
-                                  <Button color="blue">R</Button>
-                                ) : (
-                                  <Button>R</Button>
-                                )}
-                                {EstartedQsArr.includes(question.id) ? (
-                                  <Button color="blue">E</Button>
-                                ) : (
-                                  <Button>E</Button>
-                                )}
-                                {AstartedQsArr.includes(question.id) ? (
-                                  <Button color="blue">A</Button>
-                                ) : (
-                                  <Button>A</Button>
-                                )}
-                                {CTstartedQsArr.includes(question.id) ? (
-                                  <Button color="blue">CT</Button>
-                                ) : (
-                                  <Button>CT</Button>
-                                )}
-                                {CTstartedQsArr.includes(question.id) ? (
-                                  <Button color="blue">O</Button>
-                                ) : (
-                                  <Button>O</Button>
-                                )}
-                              </Button.Group>
-                            </List>
+                            <React.Fragment>
+                              <List horizontal key={question.id}>
+                                <List.Item>
+                                  {startedQsArr.includes(question.id) ? (
+                                    <Link to={`/${topic.id}/${subtopic.id}`}>
+                                      <Popup
+                                        trigger={
+                                          <Button color="green">
+                                            Q{question.id}:
+                                          </Button>
+                                        }
+                                        content={question.text}
+                                      />
+                                    </Link>
+                                  ) : (
+                                    <Link to={`/${topic.id}/${subtopic.id}`}>
+                                      <Popup
+                                        trigger={
+                                          <Button basic>Q{question.id}:</Button>
+                                        }
+                                        content={question.text}
+                                      />
+                                    </Link>
+                                  )}
+                                </List.Item>
+                                <Button.Group>
+                                  {RstartedQsArr.includes(question.id) ? (
+                                    <Button color="blue">R</Button>
+                                  ) : (
+                                    <Button>R</Button>
+                                  )}
+                                  {EstartedQsArr.includes(question.id) ? (
+                                    <Button color="blue">E</Button>
+                                  ) : (
+                                    <Button>E</Button>
+                                  )}
+                                  {AstartedQsArr.includes(question.id) ? (
+                                    <Button color="blue">A</Button>
+                                  ) : (
+                                    <Button>A</Button>
+                                  )}
+                                  {CTstartedQsArr.includes(question.id) ? (
+                                    <Button color="blue">CT</Button>
+                                  ) : (
+                                    <Button>CT</Button>
+                                  )}
+                                  {CTstartedQsArr.includes(question.id) ? (
+                                    <Button color="blue">O</Button>
+                                  ) : (
+                                    <Button>O</Button>
+                                  )}
+                                </Button.Group>
+                              </List>
+                            </React.Fragment>
                           )
                         })}
                       </List.Item>
