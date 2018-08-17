@@ -24,3 +24,10 @@ Container{
   padding: 10px;
   margin: 10px;
 }
+
+video {
+  /* height: 50vh;
+  width: 50vw; */
+  height: 500px;
+  width: 500px;
+}

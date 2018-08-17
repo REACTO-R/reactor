@@ -19,7 +19,7 @@ import {
   Optimize,
   OptimizeNoHelp,
   QuestionForm,
-  TestVideoComponent
+  VideoComponent
 } from './components'
 
 import {me} from './store'
@@ -44,7 +44,7 @@ class Routes extends Component {
           <Route path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
 
-          <Route exact path='/video' component={TestVideoComponent} />
+          <Route exact path="/video" component={VideoComponent} />
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}

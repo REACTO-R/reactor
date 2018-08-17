@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchUser} from '../store'
 import {fetchQuestions} from '../store/questions'
+import {Link} from 'react-router-dom'
 import UserForm from './userForm'
 import {List, Button, Header, Popup} from 'semantic-ui-react'
 
@@ -13,11 +14,32 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log('user', this.props.user.userQuestions)
-    console.log('questions', this.props.questions)
-    console.log('subtopic', this.props.questions[0])
-
     const topics = this.props.questions
+    const startedQs = this.props.user.userQuestions
+    if (startedQs) {
+      var startedQsArr = startedQs.map(question => question.questionId)
+      var RstartedQsArr = startedQs.map(function(question) {
+        if (question.RQuestion) {
+          return question.questionId
+        }
+      })
+      var EstartedQsArr = startedQs.map(function(question) {
+        if (question.EQuestion) {
+          return question.questionId
+        }
+      })
+      var AstartedQsArr = startedQs.map(function(question) {
+        if (question.AQuestion) {
+          return question.questionId
+        }
+      })
+      var CTstartedQsArr = startedQs.map(function(question) {
+        if (question.CTQuestion) {
+          return question.questionId
+        }
+      })
+    }
+    console.log('topics', topics)
 
     return (
       <List celled>
@@ -41,21 +63,56 @@ class Profile extends React.Component {
                         <List.Item>{subtopic.name}:</List.Item>
                         {subtopic.Questions.map(question => {
                           return (
-                            <List horizontal key={question.id}>
+                            <List key={question.id}>
                               <List.Item>
-                                <Popup
-                                  trigger={
-                                    <Button basic>Q{question.id}:</Button>
-                                  }
-                                  content={question.text}
-                                />
+                                {startedQsArr.includes(question.id) ? (
+                                  <Link to={`/${topic.id}/${subtopic.id}`}>
+                                    <Popup
+                                      trigger={
+                                        <Button color="green">
+                                          Q{question.id}:
+                                        </Button>
+                                      }
+                                      content={question.text}
+                                    />
+                                  </Link>
+                                ) : (
+                                  <Link to={`/${topic.id}/${subtopic.id}`}>
+                                    <Popup
+                                      trigger={
+                                        <Button basic>Q{question.id}:</Button>
+                                      }
+                                      content={question.text}
+                                    />
+                                  </Link>
+                                )}
                               </List.Item>
                               <Button.Group>
-                                <Button color="blue">R</Button>
-                                <Button color="blue">E</Button>
-                                <Button>A</Button>
-                                <Button>CT</Button>
-                                <Button>O</Button>
+                                {RstartedQsArr.includes(question.id) ? (
+                                  <Button color="blue">R</Button>
+                                ) : (
+                                  <Button>R</Button>
+                                )}
+                                {EstartedQsArr.includes(question.id) ? (
+                                  <Button color="blue">E</Button>
+                                ) : (
+                                  <Button>E</Button>
+                                )}
+                                {AstartedQsArr.includes(question.id) ? (
+                                  <Button color="blue">A</Button>
+                                ) : (
+                                  <Button>A</Button>
+                                )}
+                                {CTstartedQsArr.includes(question.id) ? (
+                                  <Button color="blue">CT</Button>
+                                ) : (
+                                  <Button>CT</Button>
+                                )}
+                                {CTstartedQsArr.includes(question.id) ? (
+                                  <Button color="blue">O</Button>
+                                ) : (
+                                  <Button>O</Button>
+                                )}
                               </Button.Group>
                             </List>
                           )
