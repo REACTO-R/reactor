@@ -24,6 +24,7 @@ class VideoComponent extends React.Component {
     this.detachTracks = this.detachTracks.bind(this)
     this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
     this.handleShareScreenClick = this.handleShareScreenClick.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleRoomNameChange(e) {
@@ -155,6 +156,10 @@ class VideoComponent extends React.Component {
     this.setState({hasJoinedRoom: false, localMediaAvailable: false})
   }
 
+  handleClick(evt) {
+    console.log('clicked', evt)
+  }
+
   async handleShareScreenClick() {
     if (!this.state.screenTrack) {
       const stream = await getUserScreen()
@@ -215,7 +220,12 @@ class VideoComponent extends React.Component {
             <div className="flex-container">
               {showLocalTrack}
 
-              <div className="flex-item" ref="remoteMedia" id="remote-media" />
+              <div
+                className="flex-item"
+                ref="remoteMedia"
+                id="remote-media"
+                onClick={this.handleClick}
+              />
             </div>
           </div>
         </Card.Content>
