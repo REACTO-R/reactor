@@ -177,29 +177,48 @@ class VideoComponent extends React.Component {
     )
 
     let joinOrLeaveRoomButton = this.state.hasJoinedRoom ? (
-      <Button label="Leave Room" secondary={true} onClick={this.leaveRoom} />
+      <Button primary={true} onClick={this.leaveRoom}>
+        Leave Room
+      </Button>
     ) : (
-      <Button label="Join Room" primary={true} onClick={this.joinRoom} />
+      <Button primary={true} onClick={this.joinRoom}>
+        Join Room
+      </Button>
+    )
+
+    let shareOrUnshareScreenButton = !this.state.screenTrack ? (
+      <Button primary={true} onClick={this.handleShareScreenClick}>
+        Share Screen
+      </Button>
+    ) : (
+      <Button primary={true} onClick={this.handleShareScreenClick}>
+        Unshare Screen
+      </Button>
     )
 
     return (
-      <Card>
+      <Card style={{boxShadow: 'none'}}>
         <Card.Content>
-          <div className="flex-container">
-            {showLocalTrack}
+          <div className="empty">
             <div className="flex-item">
               <TextArea
-                placeholder="Room Name"
+                autoHeight
+                placeholder="Enter Room Name"
                 onChange={this.handleRoomNameChange}
                 // errorText={this.state.roomNameErr ? 'Room Name is required' : undefined}
               />
               <br />
               {joinOrLeaveRoomButton}
+              <div className="rowspace" />
+              {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
             </div>
-            <div className="flex-item" ref="remoteMedia" id="remote-media" />
+            <div className="flex-container">
+              {showLocalTrack}
+
+              <div className="flex-item" ref="remoteMedia" id="remote-media" />
+            </div>
           </div>
         </Card.Content>
-        <button onClick={this.handleShareScreenClick}>Share Screen</button>
       </Card>
     )
   }

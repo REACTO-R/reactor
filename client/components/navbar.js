@@ -7,7 +7,7 @@ import {Menu} from 'semantic-ui-react'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <Menu secondary>
-    <Menu.Item name="REACTO" />
+    <Menu.Item>REACTO-R</Menu.Item>
 
     {isLoggedIn ? (
       <Menu.Menu position="right">

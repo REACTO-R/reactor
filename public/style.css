@@ -28,6 +28,18 @@ Container{
 video {
   /* height: 50vh;
   width: 50vw; */
-  height: 500px;
-  width: 500px;
+  max-height: 500px;
+  max-width: 500px;
+  margin: 0px;
+  padding: 10px;
+}
+
+
+.rowspace {
+  height: 10px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
 }
