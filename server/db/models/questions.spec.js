@@ -206,94 +206,131 @@ describe('Full Topic Model', () => {
 				try {
 					let newCTStuff = await CTStuff.create({
 						Input: 'This is not an array.',
-						Output: "You know, in/out really should be not-null validated."
+						Output:
+							'You know, in/out really should be not-null validated.'
 					})
-				}
-				catch (error) {
+				} catch (error) {
 					expect(error.name).to.be.equal('SequelizeValidationError')
 				}
 			})
 		}) //End CTStuff
 
 		describe('User Questions', () => {
-			it("Can create = true, with default falsities.", async () => {
+			it('Can create = true, with default falsities.', async () => {
 				try {
 					let newUserQuestion = await UserQuestions.create()
 					expect(newUserQuestion.RQuestion).to.be.equal(false)
 					expect(newUserQuestion.EQuestion).to.be.equal(false)
 					expect(newUserQuestion.AQuestion).to.be.equal(false)
 					expect(newUserQuestion.CTQuestion).to.be.equal(false)
+				} catch (error) {
+					throw new 'User Question table failed to be made!'()
 				}
-				catch (error) {
-					throw new ("User Question table failed to be made!")
-				}
-			})//End user questions. Not much to say about this table, it tends to be generated and values added on later, so we'd be testing the API route then.
+			}) //End user questions. Not much to say about this table, it tends to be generated and values added on later, so we'd be testing the API route then.
 		})
 	}) //End individual portions
 
 	describe('Model associations', () => {
-		let fullTopic //Full topic is just the main topic. We should be able to access everything from it.
+		let fullTopic,
+			subTopic,
+			question,
+			questionList,
+			RQuestion1,
+			RQuestion2,
+			EQuestion1,
+			EQuestion2,
+			AQuestion1,
+			AQuestion2,
+			CTStuff1
 
 		beforeEach(async () => {
 			fullTopic = await MainTopic.create({name: 'Main Topic'})
-			let subTopic = await SubTopic.create({name: 'Sub Topic'})
-			let question = await Question.create({text: 'Question Text'})
-			let questionList = await QuestionList.create({
-				RQuestion: "Question List, RQuestion",
-				EQuestion: "Question List, EQuestion",
-				AQuestion: "Question List, AQuestion",
-				AQuestionConsideration: "Question List, AQuestionConsideration"
+			subTopic = await SubTopic.create({name: 'Sub Topic'})
+			question = await Question.create({text: 'Question Text'})
+			questionList = await QuestionList.create({
+				RQuestion: 'Question List, RQuestion',
+				EQuestion: 'Question List, EQuestion',
+				AQuestion: 'Question List, AQuestion',
+				AQuestionConsideration: 'Question List, AQuestionConsideration'
 			})
-			let RQuestion1 = await RQuestion.create({
+			RQuestion1 = await RQuestion.create({
 				correct: true,
-				answerText: "Answer for RQuestion1",
-				explanationText: "Explanation for RQuestion1"
+				answerText: 'Answer for RQuestion1',
+				explanationText: 'Explanation for RQuestion1'
 			})
-			let RQuestion2 = await RQuestion.create({
+			RQuestion2 = await RQuestion.create({
 				correct: false,
-				answerText: "Answer for RQuestion2",
-				explanationText: "Explanation for RQuestion2"
+				answerText: 'Answer for RQuestion2',
+				explanationText: 'Explanation for RQuestion2'
 			})
-			let EQuestion1 = await EQuestion.create({
+			EQuestion1 = await EQuestion.create({
 				correct: true,
-				answerText: "Answer for EQuestion1",
-				explanationText: "Explanation for EQuestion1"
+				answerText: 'Answer for EQuestion1',
+				explanationText: 'Explanation for EQuestion1'
 			})
-			let EQuestion2 = await EQuestion.create({
+			EQuestion2 = await EQuestion.create({
 				correct: false,
-				answerText: "Answer for EQuestion2",
-				explanationText: "Explanation for EQuestion2"
+				answerText: 'Answer for EQuestion2',
+				explanationText: 'Explanation for EQuestion2'
 			})
-			let AQuestion1 = await AQuestion.create({
+			AQuestion1 = await AQuestion.create({
 				correct: true,
-				answerText: "Answer for AQuestion1",
-				explanationText: "Explanation for AQuestion1",
-				optimizationText: "Optimization text for AQuestion1"
+				answerText: 'Answer for AQuestion1',
+				explanationText: 'Explanation for AQuestion1',
+				optimizationText: 'Optimization text for AQuestion1'
 			})
-			let AQuestion2 = await AQuestion.create({
+			AQuestion2 = await AQuestion.create({
 				correct: true,
-				answerText: "Answer for AQuestion2",
-				explanationText: "Explanation for AQuestion2",
-				optimizationText: "Optimization text for AQuestion2"
+				answerText: 'Answer for AQuestion2',
+				explanationText: 'Explanation for AQuestion2',
+				optimizationText: 'Optimization text for AQuestion2'
 			})
-			let CTStuff1 = await CTStuff.create({
-				Input: "[4, 8, 15, 16, 23, 42]",
-				Output: "Gods I hate how my CTStuff properties are in caps and the rest aren't, that's messed me up four times so far, curse my own self."
+			CTStuff1 = await CTStuff.create({
+				Input: '[4, 8, 15, 16, 23, 42]',
+				Output:
+					"Gods I hate how my CTStuff properties are in caps and the rest aren't, that's messed me up four times so far, curse my own self."
 			})
 
-			await fullTopic.addSubTopic(subTopic)
-			await subTopic.addQuestion(question)
-			await question.setQuestionList(questionList)
-			await questionList.addRQuestion([RQuestion1, RQuestion2])
-			await questionList.addEQuestion([EQuestion1, EQuestion2])
-			await questionList.addAQuestion([AQuestion1, AQuestion2])
-			await question.addCTStuff(CTStuff1)
 		})
-		describe('Association Testing', async() => {
-			it("Should be able to initialize and associate everything", () => {
-				console.log(fullTopic)
-				expect(fullTopic.name).to.be.equal("Main Topic")
+		describe('Association Testing', () => {
+			it('Should be able to associate MainTopic with Subtopic', async () => {
+				try {
+					await fullTopic.addSubTopic(subTopic)
+				} catch (error) {
+					throw new 'Failed to create association!'
+				}
 			})
-		})
-	})
+			it('Should be able to associate Subtopic with question', async () => {
+				try {
+					await subTopic.addQuestion(question)
+				} catch (error) {
+					throw new 'Failed to create association!'
+				}
+			})
+			it('Should be able to associate Questionlist with Question', async () => {
+				try {
+					await question.setQuestionList(questionList)
+				} catch (error) {
+					throw new 'Failed to create association!'
+				}
+			})
+			it('Should be able to associate REA questions with QuestionList', async () => {
+				try {
+					await questionList.addRQuestion([RQuestion1, RQuestion2])
+					await questionList.addEQuestion([EQuestion1, EQuestion2])
+					await questionList.addAQuestion([AQuestion1, AQuestion2])
+				} catch (error) {
+					throw new 'Failed to create association!'
+				}
+			})
+			it ('Should be able to associate CTStuff with question', async () => {
+				try {
+					await question.addCTStuff(CTStuff1)
+				}
+				catch (error) {
+					throw new 'Failed to create association!'
+				}
+			})
+		})//End association testing
+	})//End model associations
 }) //End full topic model
