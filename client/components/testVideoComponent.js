@@ -1,7 +1,8 @@
 import React from 'react'
 import Video from 'twilio-video'
 import axios from 'axios'
-import {Button, Card, TextArea, Grid} from 'semantic-ui-react'
+import {Button, Card, TextArea} from 'semantic-ui-react'
+import getUserScreen from './screenShare'
 
 class VideoComponent extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class VideoComponent extends React.Component {
       previewTracks: null,
       localMediaAvailable: false,
       hasJoinedRoom: false,
-      activeRoom: '' // Track the current active room
+      activeRoom: '', // Track the current active room
+      screenTrack: null
     }
     this.joinRoom = this.joinRoom.bind(this)
     this.handleRoomNameChange = this.handleRoomNameChange.bind(this)
@@ -21,6 +23,7 @@ class VideoComponent extends React.Component {
     this.leaveRoom = this.leaveRoom.bind(this)
     this.detachTracks = this.detachTracks.bind(this)
     this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
+    this.handleShareScreenClick = this.handleShareScreenClick.bind(this)
   }
 
   handleRoomNameChange(e) {
@@ -152,9 +155,21 @@ class VideoComponent extends React.Component {
     this.setState({hasJoinedRoom: false, localMediaAvailable: false})
   }
 
+  async handleShareScreenClick() {
+    if (!this.state.screenTrack) {
+      const stream = await getUserScreen()
+      this.setState({screenTrack: stream.getVideoTracks()[0]})
+      this.state.activeRoom.localParticipant.addTrack(this.state.screenTrack)
+    } else {
+      this.state.activeRoom.localParticipant.removeTrack(this.state.screenTrack)
+      this.setState({screenTrack: null})
+    }
+  }
+
   render() {
     let showLocalTrack = this.state.localMediaAvailable ? (
       <div className="flex-item">
+        {' '}
         <div ref="localMedia" />
       </div>
     ) : (
@@ -168,10 +183,9 @@ class VideoComponent extends React.Component {
     )
 
     return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column width={8}>
-            {/* <div className="flex-container"> */}
+      <Card>
+        <Card.Content>
+          <div className="flex-container">
             {showLocalTrack}
             <div className="flex-item">
               <TextArea
@@ -182,13 +196,11 @@ class VideoComponent extends React.Component {
               <br />
               {joinOrLeaveRoomButton}
             </div>
-          </Grid.Column>
-          <Grid.Column width={8}>
             <div className="flex-item" ref="remoteMedia" id="remote-media" />
-            {/* </div> */}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+          </div>
+        </Card.Content>
+        <button onClick={this.handleShareScreenClick}>Share Screen</button>
+      </Card>
     )
   }
 }

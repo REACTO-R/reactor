@@ -63,7 +63,7 @@ class Profile extends React.Component {
                         <List.Item>{subtopic.name}:</List.Item>
                         {subtopic.Questions.map(question => {
                           return (
-                            <List horizontal key={question.id}>
+                            <List key={question.id}>
                               <List.Item>
                                 {startedQsArr.includes(question.id) ? (
                                   <Link to={`/${topic.id}/${subtopic.id}`}>

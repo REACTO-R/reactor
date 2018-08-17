@@ -1,0 +1,17 @@
+{
+  "name": "Reacto-r",
+  "description":
+    "This extension enhances REACTO-R experience for Chrome users.",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["extension.js"],
+    "persistent": false
+  },
+  "externally_connectable": {
+    "matches": ["https://reacto-r.herokuapp.com/*", "*://localhost/*"]
+  },
+  "permissions": ["desktopCapture"]
+}
+
+

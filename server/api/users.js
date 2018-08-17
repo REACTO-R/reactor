@@ -109,6 +109,16 @@ router.put('/:userId/:questionId', requireAdmin, async (req, res, next) => {
           }
         )
         break
+      case 'CTAnswer':
+        await UserQuestions.update(
+          {CTAnswer: req.body.CTAnswer},
+          {
+            where:{
+              userId: req.params.userId,
+              questionId: req.params.questionId
+            }
+          })
+        break
       default:
         break
     }

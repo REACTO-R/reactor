@@ -27,10 +27,11 @@ class Editor extends React.Component {
       isWorking: 0, // 0: default state; 1: if the user func works; 2: if user func doesn't work
       errorMessage: '',
       results: [],
-      questionid: 0
+      questionid: 0,
     }
     this.onChange = this.onChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.saveCode = this.saveCode.bind(this)
   }
 
   async componentDidMount() {
@@ -52,6 +53,14 @@ class Editor extends React.Component {
     this.setState({
       questionid: this.props.questions.id
     })
+    const {data} = await axios.get('/api/users/'+this.props.userId)
+    const userData = data.userQuestions.find(userQ => {
+      return userQ.questionId === Number(this.props.questions.id)
+    })
+    if (userData.CTAnswer) {
+      this.setState({code: userData.CTAnswer})
+    }
+    console.log(userData)
   }
 
   onChange(newValue) {
@@ -64,7 +73,22 @@ class Editor extends React.Component {
     this.setState({code: newValue})
   }
 
-  handleClick() {
+  async saveCode() {
+    try {
+    await axios.put(
+        '/api/users/' + this.props.userId + '/' + this.state.questionid,
+        {
+          propUpdate: 'CTAnswer',
+          CTAnswer: this.state.code
+        }
+      )
+  }
+  catch (err) {
+    console.log(err)
+  }
+  }
+
+  async handleClick() {
     try {
       const tests = this.props.questions.CTStuffs
       let userFunc = new Function(`return ${this.state.code}`)()
@@ -210,6 +234,7 @@ class Editor extends React.Component {
             <p>Your func is not right, sorry</p>
           )}
           {errorMessage && <p>{errorMessage}</p>}
+          <Button onClick={() => {this.saveCode()}}>Save Code</Button>
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
