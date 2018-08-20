@@ -4,6 +4,7 @@ const db = require('../db')
 const RQuestion = db.define('RQuestion', {
 	correct: {
 		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	},
 	answerText: {
 		type: Sequelize.TEXT,
