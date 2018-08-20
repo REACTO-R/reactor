@@ -6,6 +6,12 @@ const app = require('../index')
 const request = require('supertest')(app)
 const User = db.model('user')
 
+describe('User routes', () => {
+  console.log("Starting.")
+  beforeEach(() => {
+    return db.sync({force: true})
+  })})
+
 const userCredentials = {
   email: 'cody@email.com',
   password: '123'
@@ -13,7 +19,7 @@ const userCredentials = {
 
 let cookieJar
 
-xdescribe('useless api endpoint', function() {
+describe('useless api endpoint', function() {
   before(function(done) {
     request
       .post('/auth/login')
@@ -25,7 +31,7 @@ xdescribe('useless api endpoint', function() {
       })
   })
 
-  xit('posts an xobject', async () => {
+  it('posts an xobject', async () => {
     const res = await request
       .get('/api/users')
       .set('Cookie', cookieJar)
