@@ -24,3 +24,33 @@ Container{
   padding: 10px;
   margin: 10px;
 }
+
+video {
+  /* height: 50vh;
+  width: 50vw; */
+  max-height: 500px;
+  max-width: 500px;
+  margin: 0px;
+  padding: 10px;
+}
+
+
+.rowspace {
+  height: 10px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#remote-media video:last-child {
+  max-height: 1250px;
+  max-width: 1250px;
+}
+
+label{
+  padding-left: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;s
+}

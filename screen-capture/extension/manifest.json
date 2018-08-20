@@ -9,7 +9,7 @@
     "persistent": false
   },
   "externally_connectable": {
-    "matches": ["*"]
+    "matches": ["https://reacto-r.herokuapp.com/*", "*://localhost/*"]
   },
   "permissions": ["desktopCapture"]
 }

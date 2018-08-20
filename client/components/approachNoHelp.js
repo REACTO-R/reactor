@@ -42,7 +42,7 @@ class ApproachNoHelpNoHelp extends React.Component {
       question: root.AQuestion,
       answers: root.AQuestions,
       loaded: true,
-      questionid: this.props.questions.id
+      questionid: questionId
     })
   }
 

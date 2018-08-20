@@ -67,6 +67,9 @@ export class Subtopic extends Component {
                             (index + 1) +
                             '/repeat'
                           }
+                          onClick={() => {
+                            this.handleClick(question.id)
+                          }}
                           params={{index: index}}
                         >
                           Don't help me!

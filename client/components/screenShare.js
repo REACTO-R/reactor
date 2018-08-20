@@ -1,8 +1,8 @@
 export default function getUserScreen() {
-  var extensionId = process.env.EXTENSION_ID
+  var extensionId = 'gllddpdcaodghmbogkaifdhpimnkbhjb'
   return new Promise((resolve, reject) => {
     const request = {
-      sources: ['screen']
+      sources: ['tab']
     }
     chrome.runtime.sendMessage(extensionId, request, response => {
       if (response && response.type === 'success') {

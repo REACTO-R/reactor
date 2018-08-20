@@ -13,7 +13,7 @@ import {
   Step
 } from 'semantic-ui-react'
 
-class Approach extends React.Component {
+export class Approach extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -105,6 +105,8 @@ class Approach extends React.Component {
         disabled: true
       }
     ]
+
+    console.log(this.props)
     return (
       <div>
         <Step.Group
@@ -124,6 +126,11 @@ class Approach extends React.Component {
               <br />
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
+              <div
+                style={{padding: '0px', fontSize: '16px', fontWeight: 'bold'}}
+              >
+                {this.props.questions.QuestionList.AQuestionConsideration}
+              </div>
               <List animated relaxed verticalAlign="middle">
                 {this.state.answers.map(answer => {
                   this.state.showAnswers.push(false)
