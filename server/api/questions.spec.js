@@ -121,5 +121,36 @@ describe('Question routes', () => {
 			expect(res.body[0].name).to.be.equal("Main Topic")
 			expect(res.body[0].SubTopics[0].Questions[0].text).to.be.equal("Question Text")
 		})
+		it('Is able to get a truncated list of questions', async () => {
+			const res = await request
+				.get('/api/questions/truncated')
+				.set('Cookie', cookieJar)
+				.expect(200)
+
+			expect(res.body[0].name).to.be.equal("Main Topic")
+			expect(res.body[0].SubTopics[0].name).to.be.equal("Sub Topic")
+			expect(res.body[0].SubTopics[0].Questions).to.be.equal(undefined)
+		})
+		it('Is able to get a specific topic ID', async () => {
+			const res = await request
+				.get('/api/questions/1')
+				.set('Cookie', cookieJar)
+				.expect(200)
+			expect(res.body.name).to.be.equal("Main Topic")
+		})
+		it('Is able to get a specific Subtopic ID', async () => {
+			const res = await request
+				.get('/api/questions/1/1')
+				.set('Cookie', cookieJar)
+				.expect(200)
+			expect(res.body.name).to.be.equal('Sub Topic')
+		})
+		it('Is able to get a specific Question ID', async () => {
+			const res = await request
+				.get('/api/questions/1/1/1')
+				.set('Cookie', cookieJar)
+				.expect(200)
+			expect(res.body.text).to.be.equal('Question Text')
+		})
 	})
 }) //End describing question routes
