@@ -19,7 +19,7 @@ import {
 } from 'semantic-ui-react'
 import {expect} from 'chai'
 
-class Editor extends React.Component {
+export class Editor extends React.Component {
   constructor() {
     super()
     this.state = {
