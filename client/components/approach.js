@@ -204,12 +204,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Approach)
-
-// <DumbQuestion
-//   question={this.state.question}
-//   answers={this.state.answers}
-//   clickHandlers={clickHandlerArr}
-//   linkToNext={
-//     this.props.history.location.pathname + this.state.linkToNext
-//   }
-// />

@@ -28,8 +28,8 @@ Container{
 video {
   /* height: 50vh;
   width: 50vw; */
-  max-height: 500px;
-  max-width: 500px;
+  height: 155px;
+  width: 200px;
   margin: 0px;
   padding: 10px;
 }
@@ -44,10 +44,10 @@ video {
   flex-direction: column;
 }
 
-#remote-media video:last-child {
+/* #remote-media video:last-child {
   max-height: 1250px;
   max-width: 1250px;
-}
+} */
 
 label{
   padding-left: 10px;
