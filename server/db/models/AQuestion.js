@@ -14,6 +14,13 @@ const AQuestion = db.define('AQuestion', {
 	},
 	optimizationText: {
 		type: Sequelize.TEXT,
+	},
+	optimizationCode: {
+		type: Sequelize.TEXT,
+		defautlValue: "No solution code yet! Check back later!",
+	},
+	optimizationGraph: {
+		type: Sequelize.TEXT,
 	}
 })
 
