@@ -222,6 +222,10 @@ export class Editor extends React.Component {
                       </List.Item>
                     )
                   })}
+                  {errorMessage &&
+                  <Card>
+                  <Card.Header style={{color: 'red'}}>{errorMessage}</Card.Header>
+                  </Card>}
                 </List>
               </Grid.Column>
             )}
@@ -232,14 +236,7 @@ export class Editor extends React.Component {
           ) : (
             <p>Your func is not right, sorry</p>
           )}
-          {errorMessage && <p>{errorMessage}</p>}
-          <Button
-            onClick={() => {
-              this.saveCode()
-            }}
-          >
-            Save Code
-          </Button>
+          <Button onClick={() => {this.saveCode()}}>Save Code</Button>
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
