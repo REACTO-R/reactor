@@ -50,6 +50,7 @@ class VideoComponent extends React.Component {
     // LocalParticipant's Tracks.
     Video.connect(this.state.token, connectOptions).then(
       this.roomJoined,
+
       error => {
         alert('Could not connect to Twilio: ' + error.message)
       }
@@ -92,6 +93,7 @@ class VideoComponent extends React.Component {
     })
 
     // Attach LocalParticipant's Tracks, if not already attached.
+    console.log('ref', this.refs)
     var previewContainer = this.refs.localMedia
     if (!previewContainer.querySelector('video')) {
       this.attachParticipantTracks(room.localParticipant, previewContainer)
