@@ -17,10 +17,11 @@ const AQuestion = db.define('AQuestion', {
 	},
 	optimizationCode: {
 		type: Sequelize.TEXT,
-		defautlValue: "No solution code yet! Check back later!",
+		defaultValue: "No solution code yet! Check back later!",
 	},
 	optimizationGraph: {
 		type: Sequelize.TEXT,
+		defaultValue: `{"label": "O(n)","borderDash": [5,20],"data": [0, 5, 10, 15, 20, 25], "backgroundColor":"rgba(0, 0, 0, 0)", "borderColor": "rgba(255,0,0,1)", "borderWidth": 1}`
 	}
 })
 
