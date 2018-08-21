@@ -27,7 +27,7 @@ export class Editor extends React.Component {
       isWorking: 0, // 0: default state; 1: if the user func works; 2: if user func doesn't work
       errorMessage: '',
       results: [],
-      questionid: 0,
+      questionid: 0
     }
     this.onChange = this.onChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -53,7 +53,7 @@ export class Editor extends React.Component {
     this.setState({
       questionid: this.props.questions.id
     })
-    const {data} = await axios.get('/api/users/'+this.props.userId)
+    const {data} = await axios.get('/api/users/' + this.props.userId)
     const userData = data.userQuestions.find(userQ => {
       return userQ.questionId === Number(this.props.questions.id)
     })
@@ -75,17 +75,16 @@ export class Editor extends React.Component {
 
   async saveCode() {
     try {
-    await axios.put(
+      await axios.put(
         '/api/users/' + this.props.userId + '/' + this.state.questionid,
         {
           propUpdate: 'CTAnswer',
           CTAnswer: this.state.code
         }
       )
-  }
-  catch (err) {
-    console.log(err)
-  }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async handleClick() {
@@ -97,7 +96,7 @@ export class Editor extends React.Component {
         try {
           let input = JSON.parse(test.Input)
           let output
-          if(test.Output === 'undefined'){
+          if (test.Output === 'undefined') {
             output = undefined
           } else {
             output = JSON.parse(test.Output)
@@ -210,9 +209,9 @@ export class Editor extends React.Component {
                           <Card.Header> OUTPUT: </Card.Header>
                           <Card.Meta> {elem.Output} </Card.Meta>
                           {!results.length ? null : results[idx].passed ? (
-                            <p>You passed</p>
+                            <p style={{color: '#32CD32'}}>You passed</p>
                           ) : (
-                            <p>
+                            <p style={{color: 'red'}}>
                               You failed. Your output:{' '}
                               {JSON.stringify(results[idx].output)} Error:{' '}
                               {results[idx].error}
@@ -234,7 +233,13 @@ export class Editor extends React.Component {
             <p>Your func is not right, sorry</p>
           )}
           {errorMessage && <p>{errorMessage}</p>}
-          <Button onClick={() => {this.saveCode()}}>Save Code</Button>
+          <Button
+            onClick={() => {
+              this.saveCode()
+            }}
+          >
+            Save Code
+          </Button>
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
