@@ -89,7 +89,8 @@ async function seed() {
     explanationText:
       'While this is an efficient time solution, you would need to store the hash table of the array, increasing size complexity.',
     optimizationText:
-      'You used a hash table to solve this problem. Your solution is time-optimal at O(n+m), but requires an additional O(m) of space.'
+      'You used a hash table to solve this problem. Your solution is time-optimal at O(n+m), but requires an additional O(m) of space.',
+    optimizationGraph: `{"label": "O(n+m)","borderDash": [5,20],"data": [0, 5, 10, 15, 20, 25], "backgroundColor":"rgba(0, 0, 0, 0)", "borderColor": "rgba(255,0,0,1)", "borderWidth": 1}`
   })
   let m1s1Q1A2 = await AQuestion.create({
     correct: true,
@@ -98,7 +99,20 @@ async function seed() {
     explanationText:
       'This would work, however, it would be rather inefficient, as you would need to parse all elements in array 1 for each element in array 2.',
     optimizationText:
-      'You choose to use nested for loops, therefore the run time of your program would be O(n*m) because for every element in N you would need to loop through all of M.'
+      'You choose to use nested for loops, therefore the run time of your program would be O(n*m) because for every element in N you would need to loop through all of M.',
+    optimizationCode: `function intersection (arrA, arrB) {
+      let solutionArr = [];
+      for (let i = 0; i< arrA.length; i++) {
+        for (let j = 0; j< arrB.length; j++) {
+          if (arrA[i] === arrB[j]) {
+            solutionArr.push(arrA[i])
+          }
+        }
+      }
+      return solutionArr;
+    }
+    `,
+    optimizationGraph: `{"label": "O(n*m)","borderDash": [5,20],"data": [0, 25, 100, 225, 400, 625],"backgroundColor":"rgba(0, 0, 0, 0)","borderColor": "rgba(255,0,0,1)","borderWidth": 1}`
   })
   let m1s1Q1A3 = await AQuestion.create({
     correct: true,
@@ -107,7 +121,27 @@ async function seed() {
     explanationText:
       'Correct! This is the most efficient solution for both time and space for this problem.',
     optimizationText:
-      'You used pointers to iterate through the loop, great! This solution would be O(n+m).'
+      'You used pointers to iterate through the loop, great! This solution would be O(n+m).',
+    optimizationCode: `function intersection (arrA, arrB) {
+  const shared = [];
+  let idxA = 0;
+  let idxB = 0;
+  while (idxA < arrA.length && idxB < arrB.length) {
+    const elemA = arrA[idxA];
+    const elemB = arrB[idxB];
+    if (elemA == elemB) {
+      shared.push(elemA);
+    }
+    if (elemA <= elemB) {
+      idxA++;
+    }
+    if (elemA >= elemB) {
+      idxB++;
+    }
+  }
+  return shared;
+}`,
+    optimizationGraph: `{"label": "O(n+m)","borderDash": [5,20],"data": [0, 5, 10, 15, 20, 25], "backgroundColor":"rgba(0, 0, 0, 0)", "borderColor": "rgba(255,0,0,1)", "borderWidth": 1}`
   })
   let m1s1Q1CT1 = await CTStuff.create({
     Input: '[[0,1,2,3,4,5,6], [2,4,6,8]]',
@@ -177,7 +211,33 @@ async function seed() {
     explanationText:
       'Yep. When dealing with permutations, there tends not to be any efficient way except for going through each permutation.',
     optimizationText:
-      'As stated before, this function will always be some form of O(n!).'
+      'As stated before, this function will always be some form of O(n!).',
+    optimizationCode: `function stringPermutations (str) {
+  var results = [ ];
+  var letters = str.split('');
+  results.push([letters.shift()]); //add first letter (as an array) to results
+  while (letters.length) {
+    var curLetter = letters.shift();
+    var tmpResults = [ ];
+    results.forEach(function (curResult) {
+      for (var i = 0; i<= curResult.length; i++) {
+        var tmp = curResult.slice(); //make copy so we can modify it
+        //insert the letter at the current position
+        tmp.splice(i,0,curLetter);
+        tmpResults.push(tmp);
+      }
+    });
+    results = tmpResults; //overwrite the previous results
+  }
+  return results
+    .map(function (letterArr) {
+      return letterArr.join('');
+    })
+    .filter(function (el, index, self) {
+      return self.indexOf(el) === index; //filter out non-unique words
+    })
+    .sort();
+}`
   })
   let m1s2Q1CT1 = await CTStuff.create({
     Input: '["app"]',
@@ -672,8 +732,6 @@ async function seed() {
     Output: 'false'
   })
 
-  
-
   await mainTopic5.addSubTopic(m5subTopic1) //Assign subtopic to main topic
   await m5subTopic1.addQuestion(m5s1Question1) //Assign question to subtopic
   await m5s1Question1.setQuestionList(m5s1Q1QuestionList) //Assign question list to question
@@ -718,22 +776,18 @@ async function seed() {
   })
   let m6s1Q1R3 = await RQuestion.create({
     correct: true,
-    answerText:
-      'It is asking us for the definitions of the given word',
-    explanationText:
-      'Correct! We only want the defintion for the given word'
+    answerText: 'It is asking us for the definitions of the given word',
+    explanationText: 'Correct! We only want the defintion for the given word'
   })
   let m6s1Q1E1 = await EQuestion.create({
     correct: false,
     answerText: 'Expressing the relationship between a part and a whole',
-    explanationText:
-      'Incorrect! Thats not even in the given dictionary'
+    explanationText: 'Incorrect! Thats not even in the given dictionary'
   })
   let m6s1Q1E2 = await EQuestion.create({
     correct: false,
     answerText: 'be - exist',
-    explanationText:
-      'Incorrect. We only want the definition'
+    explanationText: 'Incorrect. We only want the definition'
   })
   let m6s1Q1E3 = await EQuestion.create({
     correct: true,
@@ -742,8 +796,7 @@ async function seed() {
   })
   let m6s1Q1A1 = await AQuestion.create({
     correct: true,
-    answerText:
-      'Iterate through the array until you find the correct word',
+    answerText: 'Iterate through the array until you find the correct word',
     explanationText:
       'That would work, however you will have to check every possible word',
     optimizationText:
@@ -757,10 +810,11 @@ async function seed() {
     explanationText:
       'Great! This is the most efficient way and will take advatange of the fact that this is a sorted object.',
     optimizationText:
-      'Implementing a binary search results in an O(logn) time complexity',
+      'Implementing a binary search results in an O(logn) time complexity'
   })
   let m6s1Q1CT1 = await CTStuff.create({
-    Input: '["be", [ \
+    Input:
+      '["be", [ \
       "a - Used when mentioning someone or something for the first time in a text or conversation" , \
       "and - Used to connect words of the same part of speech, clauses, or sentences, that are to be taken jointly", \
       "be - Exist", \
@@ -773,7 +827,8 @@ async function seed() {
     Output: '"Exist"'
   })
   let m6s1Q1CT2 = await CTStuff.create({
-    Input: '["that", [ \
+    Input:
+      '["that", [ \
       "a - Used when mentioning someone or something for the first time in a text or conversation" , \
       "and - Used to connect words of the same part of speech, clauses, or sentences, that are to be taken jointly", \
       "be - Exist", \
@@ -783,10 +838,12 @@ async function seed() {
       "the - Denoting one or more people or things already mentioned or assumed to be common knowledge", \
       "to - Expressing motion in the direction of (a particular location)" \
     ]]',
-    Output: '"Used to identify a specific person or thing observed or heard by the speaker"'
+    Output:
+      '"Used to identify a specific person or thing observed or heard by the speaker"'
   })
   let m6s1Q1CT3 = await CTStuff.create({
-    Input: '["MCGOGELFARTBERG", [ \
+    Input:
+      '["MCGOGELFARTBERG", [ \
       "a - Used when mentioning someone or something for the first time in a text or conversation" , \
       "and - Used to connect words of the same part of speech, clauses, or sentences, that are to be taken jointly", \
       "be - Exist", \
@@ -796,10 +853,9 @@ async function seed() {
       "the - Denoting one or more people or things already mentioned or assumed to be common knowledge", \
       "to - Expressing motion in the direction of (a particular location)" \
     ]]',
-    Output: "undefined"
+    Output: 'undefined'
   })
-  
-  
+
   await mainTopic6.addSubTopic(m6subTopic1) //Assign subtopic to main topic
   await m6subTopic1.addQuestion(m6s1Question1) //Assign question to subtopic
   await m6s1Question1.setQuestionList(m6s1Q1QuestionList) //Assign question list to question
@@ -839,7 +895,8 @@ async function seed() {
   let m3s1Q2E1 = await EQuestion.create({
     correct: false,
     answerText: '100',
-    explanationText: 'Incorrect. We want to convert from binary to decimal. 100 would be the answer if we had "1100100" as input'
+    explanationText:
+      'Incorrect. We want to convert from binary to decimal. 100 would be the answer if we had "1100100" as input'
   })
   let m3s1Q2E2 = await EQuestion.create({
     correct: false,
@@ -855,8 +912,7 @@ async function seed() {
     correct: true,
     answerText:
       'Iterate through all the digits multiplying them by increasing powers of 2. You will have to track the digit position you are checking to match the power you are doing and a variable with the total',
-    explanationText:
-      'It is a good approach and should work fine',
+    explanationText: 'It is a good approach and should work fine',
     optimizationText:
       'This solution leads to a O(n) time complexity and it is good for this problem'
   })

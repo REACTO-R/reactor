@@ -4,6 +4,7 @@ import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import {Step, Header, Container} from 'semantic-ui-react'
+import {Line} from 'react-chartjs-2'
 
 class Optimize extends React.Component {
   constructor(props) {
@@ -12,7 +13,30 @@ class Optimize extends React.Component {
       loaded: false,
       questionText: '',
       question: '',
-      answerText: ''
+      answerText: '',
+      answerCode: '',
+      chartData: {},
+      chartOptions: {
+        scales: {
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Time complexity'
+              }
+            }
+          ],
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Number of arguments passed (n)'
+              }
+            }
+          ]
+        },
+        maintainAspectRatio: true
+      }
     }
   }
 
@@ -27,12 +51,29 @@ class Optimize extends React.Component {
     let questionInternalId = this.props.questions.id
     let root = this.props.questions.QuestionList
     let answers = root.AQuestions
+    console.log('Answers: ', answers)
 
     let {data} = await axios.get('/api/users/' + this.props.user.id)
     let userQ = data.userQuestions.find(answerObj => {
       return Number(answerObj.questionId) === Number(questionInternalId)
     })
     let chosenApproach = userQ.AQuestionApproach
+    //Save each dataset within the AQuestion seed model.
+    //Loop through each and push the parsed object into an array.
+    //If answer.id === chosenApproach, then set borderColor: "green"
+    //Else use default color, red
+
+    let chartArray = []
+    answers.forEach(answer => {
+      let parsedGraph = JSON.parse(answer.optimizationGraph)
+      if (answer.id === chosenApproach) {
+        parsedGraph.label = parsedGraph.label + ' (Your solution)'
+        parsedGraph.borderColor = 'rgba(0,255,0,1)'
+        delete parsedGraph.borderDash
+      }
+      chartArray.push(parsedGraph)
+    })
+
     let answer = answers.find(ans => {
       return Number(ans.id) === Number(chosenApproach)
     })
@@ -41,7 +82,12 @@ class Optimize extends React.Component {
       questionText: this.props.questions.text,
       answers: root.AQuestions,
       loaded: true,
-      answerText: answer.optimizationText
+      answerText: answer.optimizationText,
+      answerCode: answer.optimizationCode,
+      chartData: {
+        labels: ['0', '5', '10', '15', '20', '25'],
+        datasets: chartArray
+      }
     })
   }
 
@@ -106,6 +152,13 @@ class Optimize extends React.Component {
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
               <div style={{fontSize: '17px'}}>{this.state.answerText}</div>
+              <div style={{fontSize: '17px'}}>{this.state.answerCode}</div>
+              <Line
+                data={this.state.chartData}
+                options={this.state.chartOptions}
+                width={200}
+                height={100}
+              />
             </Container>
           </div>
         )}
@@ -128,4 +181,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Optimize)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Optimize)
