@@ -60,6 +60,7 @@
     "semantic-ui": "^2.3.3",
     "semantic-ui-react": "^0.82.2",
     "sequelize": "^4.38.0",
+    "sinon": "^6.1.5",
     "socket.io": "^2.1.1",
     "twilio": "^3.11.1",
     "twilio-video": "^1.7.0"
