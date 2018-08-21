@@ -39,7 +39,7 @@ class Profile extends React.Component {
         }
       })
     }
-    console.log('topics', topics)
+    console.log('topics', this.props)
 
     return (
       <List celled>
@@ -63,8 +63,8 @@ class Profile extends React.Component {
                         <List.Item>{subtopic.name}:</List.Item>
                         {subtopic.Questions.map(question => {
                           return (
-                            <React.Fragment>
-                              <List horizontal key={question.id}>
+                            <React.Fragment key={question.id}>
+                              <List horizontal>
                                 <List.Item>
                                   {startedQsArr.includes(question.id) ? (
                                     <Link to={`/${topic.id}/${subtopic.id}`}>

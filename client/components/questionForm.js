@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchUser} from '../store'
 import {fetchQuestions} from '../store/questions'
 import axios from 'axios'
-import {Button, Form} from 'semantic-ui-react'
+import {Button, Form, Modal, Header} from 'semantic-ui-react'
 
 class QuestionForm extends React.Component {
   constructor(props) {
@@ -363,10 +363,12 @@ class QuestionForm extends React.Component {
   render() {
     return (
       <div>
+        <h3> Fill out the following to submit your own REACTO:</h3>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field inline>
             <label>Topic:</label>
             <input
+              style={{width: '20em'}}
               type="text"
               className="maintopic"
               onChange={this.onChange}
@@ -375,6 +377,7 @@ class QuestionForm extends React.Component {
             <select
               value={this.state.mainTopic.Id}
               onChange={this.mainTopicDropdown}
+              style={{fontFamily: 'Oswald', marginLeft: '10px'}}
             >
               <option value={0}>New Topic</option>
               {this.state.fetchedQuestions.map(mainTopic => {
@@ -387,9 +390,10 @@ class QuestionForm extends React.Component {
             </select>
           </Form.Field>
 
-          <Form.Field inline>
+          <Form.Field inline style={{marginLeft: '50px'}}>
             <label>Subtopic:</label>
             <input
+              style={{width: '20em'}}
               type="text"
               className="subtopic"
               onChange={this.onChange}
@@ -398,6 +402,7 @@ class QuestionForm extends React.Component {
             <select
               value={this.state.subTopic.Id}
               onChange={this.subTopicDropdown}
+              style={{fontFamily: 'Oswald', marginLeft: '10px'}}
             >
               <option value={0} id={0}>
                 New Subtopic
@@ -413,8 +418,9 @@ class QuestionForm extends React.Component {
           </Form.Field>
           <br />
           <Form.Field inline>
-            <label>Question:</label>
+            <label>Main Question:</label>
             <input
+              style={{width: '75em'}}
               type="text"
               className="question"
               onChange={this.onChange}
@@ -425,6 +431,7 @@ class QuestionForm extends React.Component {
           <Form.Field inline>
             <label>Repeat Question:</label>
             <input
+              style={{width: '75em'}}
               type="text"
               className="QLRQuestion"
               onChange={this.onChange}
@@ -435,6 +442,7 @@ class QuestionForm extends React.Component {
           <Form.Field inline>
             <label>Example Question:</label>
             <input
+              style={{width: '75em'}}
               type="text"
               className="QLEQuestion"
               onChange={this.onChange}
@@ -445,6 +453,7 @@ class QuestionForm extends React.Component {
           <Form.Field inline>
             <label>Approach Question:</label>
             <input
+              style={{width: '75em'}}
               type="text"
               className="QLAQuestion"
               onChange={this.onChange}
@@ -455,6 +464,7 @@ class QuestionForm extends React.Component {
           <Form.Field inline>
             <label>Approach Consideration: </label>
             <input
+              style={{width: '75em'}}
               type="text"
               className="QLAQuestionConsideration"
               onChange={this.onChange}
@@ -467,8 +477,9 @@ class QuestionForm extends React.Component {
             return (
               <div key={'RQuestion' + index}>
                 <Form.Field inline>
-                  <label>RQuestion Answer Text:</label>
+                  <label style={{paddingRight: '18px'}}>Repeat Answer: </label>
                   <input
+                    style={{width: '21em'}}
                     type="text"
                     className="RQuestionAnswerText"
                     onChange={this.onChange}
@@ -478,8 +489,11 @@ class QuestionForm extends React.Component {
                 </Form.Field>
 
                 <Form.Field inline>
-                  <label> RQuestion Explanation Text:</label>
+                  <label style={{paddingRight: '11px'}}>
+                    Repeat Explanation:
+                  </label>
                   <input
+                    style={{width: '21em'}}
                     type="text"
                     className="RQuestionExplanationText"
                     onChange={this.onChange}
@@ -491,7 +505,7 @@ class QuestionForm extends React.Component {
                 </Form.Field>
 
                 <Form.Field inline>
-                  <label>RQuestion Truthiness:</label>
+                  <label>Correct Answer?:</label>
                   <input
                     type="checkbox"
                     className="RQuestionCorrect"
@@ -507,8 +521,9 @@ class QuestionForm extends React.Component {
             return (
               <div key={'EQuestion' + index}>
                 <Form.Field inline>
-                  <label>EQuestion Answer Text:</label>
+                  <label style={{paddingRight: '9px'}}>Example Answer:</label>
                   <input
+                    style={{width: '21em'}}
                     type="text"
                     className="EQuestionAnswerText"
                     onChange={this.onChange}
@@ -518,8 +533,11 @@ class QuestionForm extends React.Component {
                 </Form.Field>
 
                 <Form.Field inline>
-                  <label>EQuestion Explanation Text:</label>
+                  <label style={{paddingRight: '5px'}}>
+                    Example Explanation:
+                  </label>
                   <input
+                    style={{width: '21em'}}
                     type="text"
                     className="EQuestionExplanationText"
                     onChange={this.onChange}
@@ -531,7 +549,7 @@ class QuestionForm extends React.Component {
                 </Form.Field>
 
                 <Form.Field inline>
-                  <label>EQuestion Truthiness:</label>
+                  <label>Correct Answer?:</label>
                   <input
                     type="checkbox"
                     className="EQuestionCorrect"
@@ -547,8 +565,9 @@ class QuestionForm extends React.Component {
             return (
               <div key={'AQuestion' + index}>
                 <Form.Field inline>
-                  <label>AQuestion Answer Text:</label>
+                  <label>Approach Answer:</label>
                   <input
+                    style={{width: '21em'}}
                     type="text"
                     className="AQuestionAnswerText"
                     onChange={this.onChange}
@@ -558,8 +577,9 @@ class QuestionForm extends React.Component {
                 </Form.Field>
 
                 <Form.Field inline>
-                  <label> AQuestion Explanation Text:</label>
+                  <label> Approach Explanation:</label>
                   <input
+                    style={{width: '21em'}}
                     type="text"
                     className="AQuestionExplanationText"
                     onChange={this.onChange}
@@ -569,10 +589,19 @@ class QuestionForm extends React.Component {
                     }
                   />
                 </Form.Field>
-
                 <Form.Field inline>
-                  <label>AQuestion Optimization Text:</label>
+                  <label>Correct Answer?: </label>
                   <input
+                    type="checkbox"
+                    className="AQuestionCorrect"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                  />
+                </Form.Field>
+                <Form.Field inline>
+                  <label>Approach Optimization:</label>
+                  <input
+                    style={{width: '63em'}}
                     type="text"
                     className="AQuestionOptimizationText"
                     onChange={this.onChange}
@@ -580,15 +609,6 @@ class QuestionForm extends React.Component {
                     value={
                       this.state.AQuestion[index.toString()].optimizationText
                     }
-                  />
-                </Form.Field>
-                <Form.Field inline>
-                  <label>AQuestion Truthiness: </label>
-                  <input
-                    type="checkbox"
-                    className="AQuestionCorrect"
-                    onChange={this.onChange}
-                    id={index.toString()}
                   />
                 </Form.Field>
               </div>
@@ -601,6 +621,7 @@ class QuestionForm extends React.Component {
                 <Form.Field inline>
                   <label> Test Input:</label>
                   <input
+                    style={{width: '20em'}}
                     type="text"
                     className="CTStuffInput"
                     onChange={this.onChange}
@@ -610,8 +631,8 @@ class QuestionForm extends React.Component {
                 </Form.Field>
                 <Form.Field inline>
                   <label>Test Output:</label>
-
                   <input
+                    style={{width: '20em'}}
                     type="text"
                     className="CTStuffOutput"
                     onChange={this.onChange}
@@ -622,9 +643,19 @@ class QuestionForm extends React.Component {
               </div>
             )
           })}
-          <Button type="submit" value="Submit">
-            Submit
-          </Button>
+          <Modal
+            trigger={
+              <Button type="submit" value="Submit">
+                Submit
+              </Button>
+            }
+            closeIcon
+          >
+            <Header
+              content="REACTO SUBMITTED!"
+              style={{textAlign: 'center', justifyContent: 'center'}}
+            />
+          </Modal>
         </Form>
         <Button type="button" onClick={this.addRQuestion}>
           Add a Repeat Answer
