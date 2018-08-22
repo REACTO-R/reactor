@@ -194,7 +194,12 @@ class VideoComponent extends React.Component {
             <div ref="localMedia" className="videoHere" id="local-media" />
           </div>
           <div className="flex-item" ref="remoteMedia" id="remote-media" />
-          <div className="flex-item" ref="screenshare" id="screenshare" />
+          <div
+            className="flex-item"
+            ref="screenshare"
+            id="screenshare"
+            style={{width: '100%', height: '100%'}}
+          />
         </div>
       </div>
     )
