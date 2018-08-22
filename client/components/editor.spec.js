@@ -8,8 +8,7 @@ enzyme.configure({adapter})
 import AceEditor from 'react-ace'
 import { List, Button } from 'semantic-ui-react'
 const ListItem = List.Item
-import { MemoryRouter } from 'react-router-dom'
-import renderer from 'react-test-renderer'
+import sinon from 'sinon'
 
 let location = {pathname: '/1/1/1'}
 let history = {location:
@@ -34,8 +33,9 @@ describe('Editor Component', () => {
   let wrapper
 
   beforeEach('set up wrapper', () => {
+    const getQuestionFunc = sinon.spy()
     wrapper = shallow(
-    <Editor location={location} history={history} questions={questions}/>)
+    <Editor location={location} history={history} questions={questions} getQuestion={getQuestionFunc}/>)
   })
 
   describe('renders', () =>{
