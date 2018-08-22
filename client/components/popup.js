@@ -57,7 +57,7 @@ class PopUp extends React.Component {
         trigger={
           <Button
             basic
-            color="red"
+            color="blue"
             content="VideoChat"
             style={{color: 'red'}}
           />

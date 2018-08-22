@@ -4,7 +4,7 @@ import axios from 'axios'
 import {Button, Card, TextArea} from 'semantic-ui-react'
 import getUserScreen from './screenShare'
 import {leaveRoom} from '../store/video'
-import { connect } from 'react-redux';
+import {connect} from 'react-redux'
 
 class VideoComponent extends React.Component {
   constructor(props) {
@@ -22,8 +22,6 @@ class VideoComponent extends React.Component {
     this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
     this.handleShareScreenClick = this.handleShareScreenClick.bind(this)
   }
-
-
 
   attachTracks(tracks, container) {
     tracks.forEach(track => {
@@ -61,6 +59,7 @@ class VideoComponent extends React.Component {
     })
 
     // Attach LocalParticipant's Tracks, if not already attached.
+    console.log('ref', this.refs)
     var previewContainer = this.refs.localMedia
 
     if (!previewContainer.querySelector('video')) {
@@ -139,20 +138,17 @@ class VideoComponent extends React.Component {
   //     this.roomJoined(this.props.room)}
   // }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     console.log('prevname', prevProps.room.name)
-    console.log('newname',this.props.room.name)
-    if(prevProps.room !== this.props.room){
+    console.log('newname', this.props.room.name)
+    if (prevProps.room !== this.props.room) {
       this.roomJoined(this.props.room)
     }
   }
 
-
-
   render() {
-
     let joinOrLeaveRoomButton = this.state.hasJoinedRoom ? (
-      <Button primary={true} onClick={this.leaveRoom} size='tiny'>
+      <Button primary={true} onClick={this.leaveRoom} size="tiny">
         Leave Room
       </Button>
     ) : (
@@ -160,11 +156,11 @@ class VideoComponent extends React.Component {
     )
 
     let shareOrUnshareScreenButton = !this.state.screenTrack ? (
-      <Button primary={true} onClick={this.handleShareScreenClick} size='small'>
+      <Button primary={true} onClick={this.handleShareScreenClick} size="small">
         Share Screen
       </Button>
     ) : (
-      <Button primary={true} onClick={this.handleShareScreenClick}size='small'>
+      <Button primary={true} onClick={this.handleShareScreenClick} size="small">
         Unshare Screen
       </Button>
     )
@@ -180,10 +176,10 @@ class VideoComponent extends React.Component {
               {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
             </div>
             <div className="flex-container">
-            <div className="flex-item">
-        {' '}
-        <div ref="localMedia" className='videoHere'/>
-      </div>
+              <div className="flex-item">
+                {' '}
+                <div ref="localMedia" className="videoHere" />
+              </div>
 
               <div className="flex-item" ref="remoteMedia" id="remote-media" />
             </div>
@@ -195,7 +191,7 @@ class VideoComponent extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { room } = state.video
+  const {room} = state.video
   return {
     room
   }
@@ -203,8 +199,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    leaveTheRoom: () =>
-      dispatch(leaveRoom())
+    leaveTheRoom: () => dispatch(leaveRoom())
   }
 }
 

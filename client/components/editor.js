@@ -209,9 +209,9 @@ export class Editor extends React.Component {
                           <Card.Header> OUTPUT: </Card.Header>
                           <Card.Meta> {elem.Output} </Card.Meta>
                           {!results.length ? null : results[idx].passed ? (
-                            <p style={{color: '#32CD32'}}>You passed</p>
+                            <p>You passed</p>
                           ) : (
-                            <p style={{color: 'red'}}>
+                            <p>
                               You failed. Your output:{' '}
                               {JSON.stringify(results[idx].output)} Error:{' '}
                               {results[idx].error}
@@ -222,10 +222,6 @@ export class Editor extends React.Component {
                       </List.Item>
                     )
                   })}
-                  {errorMessage &&
-                  <Card>
-                  <Card.Header style={{color: 'red'}}>{errorMessage}</Card.Header>
-                  </Card>}
                 </List>
               </Grid.Column>
             )}
@@ -236,7 +232,14 @@ export class Editor extends React.Component {
           ) : (
             <p>Your func is not right, sorry</p>
           )}
-          <Button onClick={() => {this.saveCode()}}>Save Code</Button>
+          {errorMessage && <p>{errorMessage}</p>}
+          <Button
+            onClick={() => {
+              this.saveCode()
+            }}
+          >
+            Save Code
+          </Button>
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
