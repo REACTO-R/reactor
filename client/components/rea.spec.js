@@ -27,7 +27,7 @@ describe('Repeat', () => {
     instance = repeat.instance()
   })
 
-  it('should be a class component with an initial local state', () => {
+  xit('should be a class component with an initial local state', () => {
     expect(instance).to.exist // eslint-disable-line no-unused-expressions
     expect(instance.state).to.eql({
       loaded: false,
@@ -74,7 +74,7 @@ describe('example', () => {
     instance = example.instance()
   })
 
-  it('should be a class component with an initial local state', () => {
+  xit('should be a class component with an initial local state', () => {
     expect(instance).to.exist // eslint-disable-line no-unused-expressions
     expect(instance.state).to.eql({
       loaded: false,
@@ -119,7 +119,7 @@ describe('Approach', () => {
     instance = approach.instance()
   })
 
-  it('should be a class component with an initial local state', () => {
+  xit('should be a class component with an initial local state', () => {
     expect(instance).to.exist // eslint-disable-line no-unused-expressions
     expect(instance.state).to.eql({
       loaded: false,
