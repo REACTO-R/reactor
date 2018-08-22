@@ -1,135 +1,32 @@
 [![Waffle.io - Issues in progress](https://badge.waffle.io/REACTO-R/reactor.png?label=in%20progress&title=In%20Progress)](http://waffle.io/REACTO-R/reactor)
 
-# Boilermaker
+# REACTO-R -- Technical Interviews, Online!
 
-_Good things come in pairs_
+There are many services online that allow users to practice coding from the comfort of their own home, as well as tackle techincal interview questions that they could be asked. What tends to be neglected, however, is the ability to practice the actual *interview* itself. **REACTO-R** hopes to bridge the gap between working out the coding questions on technical interviews, and the actual interview itself.
 
-Looking to mix up a backend with express/sequelize and a frontend with react/redux? That's `boilermaker`!
+---
+## What is REACTO?
 
-Follow along with the workshop to make your own! This canonical version can serve as a reference, or a starting point all on its own.
+REACTO, taught prominently by Fullstack Academy, is a step-by-step process in order to help an interviewee ace technical interviews from employers, showcasing understanding of the coding problem and the problem solving process. REACTO is a six step process, with each letter representing its own step:
 
-## Setup
+1. **R - Repeat:** In order to ensure that both the interviewer and interviewee are on the same page with the problem, the *Repeat* step of the REACTO process asks the interviewee to repeat, in their own words, the problem being assigned. This is a simple, but crucial step in the process, as otherwise one could be trying to solve a problem that is entirely different from the one being asked!
+2. **E - Examples:** To further ensure that the interviewee understands the problem, they continue onto the *Examples* step of the REACTO process. Here, they list out various inputs that could be placed into the input function, as well as the output of the inputs. This not only reinforces the concept of the problem, but also allows for one to catch edge cases in the problem.
+3. **A - Approach:** With a solid understanding of the problem being asked, the interviewee can move onto figuring out the *Approach* to the question. This tends to involve pseudo-code and talking through the broad concept of the problem with the interviewer, and figuring out which method would work best: an iterative approach? Recursive? Utilizing a data structure? Voicing out these approaches can also help the interviewer out by allowing them insight into the interviewee's logic.
+4. **C - Code:** Finally, the interviewee reaches the actual *Coding* section of the REACTO process! While the normal REACTO process makes use of a whiteboard, the logic still plays out similarly with an in-browser IDE: write out basic, broad properties of the function first before diving into the details and minutiae of the code, as well as tackling the main problem first, before figuring out edge cases.
+5. **T - Test:** Once the code is fully written, it needs to be run through *Tests*, with each test being processed step-by-step. During technical whiteboard interviews, generally this would involve taking an input and literally going step-by-step through the function, but providing test cases and proper error messages within the browser IDE saves on time and mistakes from the user.
+6. **O - Optimization:** While the code may run, it may not always be the most optimal solution. WIth small sample sizes, this wouldn't matter much, but with larger datasets reaching into the hundreds and thousands, it can quickly become an issue! The *Optimization* step of the REACTO process prompts the interviewee to look through their code, and attempt to calculate the big O complexity of the code, and if there's still time, to perhaps go back to the Approach step and find a more optimal solution.
 
-To use this boilerplate, you'll need to take the following steps:
+## How does REACTO-R implement REACTO?
 
-* Don't fork or clone this repo! Instead, create a new, empty directory on your machine and `git init` (or create an empty repo on Github and clone it to your local machine)
-* Run the following commands:
+Due to technical interviews generally requiring two people, in person, with a whiteboard, it is difficult to fully translate the interview process into a website. However, **REACTO-R** provides plenty of resources for the user to improve their interview skills, so that once the proper interview rolls around, they'll be able to successfully navigate the it without a sweat!
 
-```
-git remote add boilermaker https://github.com/FullstackAcademy/boilermaker.git
-git fetch boilermaker
-git merge boilermaker/master
-```
+Features include: 
++ Guided and unguided approaches to various technical interview questions. The user can either receive help and guidance through the process, or attempt a mock-interview by themself with little guidance to properly simulate an interview.
++ Progress is saved to the user profile, allowing them to keep track of their progress, and where in the REACTO process they were for certain problems.
++ An in-browser IDE and compiler, with tests that automatically run for the user to practice the Coding and Testing sections of the REACTO process.
++ Solution code, and optimization information for the user to peruse and bolster their own understanding of the more technical side of code, as well as graphcial representation of the big O of various approaches.
++ Live video chatting, implemented with Twilio, to allow an interviewee to set up mock interviews or tutoring with others!
 
-Why did we do that? Because every once in a while, `boilermaker` may be updated with additional features or bug fixes, and you can easily get those changes from now on by entering:
+If you're confident in your code, but unsure in your interviewing skills, **REACTO-R** is the perfect website for you!
 
-```
-git fetch boilermaker
-git merge boilermaker/master
-```
-
-## Customize
-
-Now that you've got the code, follow these steps to get acclimated:
-
-* Update project name and description in `package.json` and `.travis.yml` files
-* `npm install`, or `yarn install` - whatever you're into
-* Create two postgres databases: `boilermaker` and `boilermaker-test` (you can substitute these with the name of your own application - just be sure to go through and change the `package.json` and `.travis.yml` to refer to the new name)
-  * By default, running `npm test` will use `boilermaker-test`, while regular development uses `boilermaker`
-* Create a file called `secrets.js` in the project root
-
-  * This file is `.gitignore`'d, and will _only_ be required in your _development_ environment
-  * Its purpose is to attach the secret env variables that you'll use while developing
-  * However, it's **very** important that you **not** push it to Github! Otherwise, _prying eyes_ will find your secret API keys!
-  * It might look like this:
-
-  ```
-    process.env.GOOGLE_CLIENT_ID = 'hush hush'
-    process.env.GOOGLE_CLIENT_SECRET = 'pretty secret'
-    process.env.GOOGLE_CALLBACK = '/auth/google/callback'
-  ```
-
-* To use OAuth with Google, complete the step above with a real client ID and client secret from Google
-  * You can get them here: https://console.developers.google.com/apis/credentials
-* Finally, complete the section below to set up your linter
-
-## Linting
-
-Linters are fundamental to any project - they ensure that your code has a consistent style, which is critical to writing readable code.
-
-Boilermaker comes with a working linter (ESLint, with `eslint-config-fullstack`) "out of the box." However, everyone has their own style, so we recommend that you and your team work out yours and stick to it. Any linter rule that you object to can be "turned off" in `.eslintrc.json`. You may also choose an entirely different config if you don't like ours:
-
-* [Standard style guide](https://standardjs.com/)
-* [Airbnb style guide](https://github.com/airbnb/javascript)
-* [Google style guide](https://google.github.io/styleguide/jsguide.html)
-
-## Start
-
-`npm run start-dev` will make great things happen!
-
-If you want to run the server and/or webpack separately, you can also `npm run start-server` and `npm run build-client`.
-
-From there, just follow your bliss.
-
-## Deployment
-
-Ready to go world wide? Here's a guide to deployment! There are two (compatible) ways to deploy:
-
-* automatically, via continuous integration
-* manually, from your local machine
-
-Either way, you'll need to set up your deployment server to start:
-
-### Prep
-
-1.  Set up the [Heroku command line tools](https://devcenter.heroku.com/articles/heroku-cli)
-2.  `heroku login`
-3.  Add a git remote for heroku:
-
-* **If you're creating a new app...**
-
-  1.  `heroku create` or `heroku create your-app-name` if you have a name in mind.
-  2.  `heroku addons:create heroku-postgresql:hobby-dev` to add ("provision") a postgres database to your heroku dyno
-
-* **If you already have a Heroku app...**
-
-  1.  `heroku git:remote your-app-name` You'll need to be a collaborator on the app.
-
-### When you're ready to deploy
-
-#### Option A: Automatic Deployment via Continuous Integration
-
-(_**NOTE**: This step assumes that you already have Travis-CI testing your code._)
-
-CI is not about testing per se – it's about _continuously integrating_ your changes into the live application, instead of periodically _releasing_ new versions. CI tools can not only test your code, but then automatically deploy your app. Boilermaker comes with a `.travis.yml` configuration almost ready for deployment; follow these steps to complete the job.
-
-1.  Run `git checkout master && git pull && git checkout -b f/travis-deploy` (or use some other new branch name).
-2.  Un-comment the bottom part of `.travis.yml` (the `before_deploy` and `deploy` sections)
-3.  Add your Heroku app name to `deploy.app`, where it says "YOUR HEROKU APP NAME HERE". For example, if your domain is `cool-salty-conifer.herokuapp.com`, your app name is `cool-salty-conifer`.
-4.  Install the Travis CLI tools by following [the instructions here](https://github.com/travis-ci/travis.rb#installation).
-5.  Run `travis encrypt $(heroku auth:token) --org` to encrypt your Heroku API key. _**Warning:** do not run the `--add` command suggested by Travis, that will rewrite part of our existing config!_
-6.  Copy-paste your encrypted API key into the `.travis.yml` file under `deploy.api_key.secure`, where it says "YOUR ENCRYPTED API KEY HERE".
-7.  `git add -A && git commit -m 'travis: activate deployment' && git push -u origin f/travis-deploy`
-8.  Make a PR for the new branch, get it approved, and merge it into master.
-
-That's it! From now on, whenever `master` is updated on GitHub, Travis will automatically push the app to Heroku for you.
-
-#### Option B: Manual Deployment from your Local Machine
-
-Some developers may prefer to control deployment rather than rely on automation. Your local copy of the application can be pushed up to Heroku at will, using Boilermaker's handy deployment script:
-
-1.  Make sure that all your work is fully committed and pushed to your master branch on Github.
-2.  If you currently have an existing branch called "deploy", delete it now (`git branch -d deploy`). We're going to use a dummy branch with the name "deploy" (see below), so if you have one lying around, the script below will error
-3.  `npm run deploy` - this will cause the following commands to happen in order:
-
-* `git checkout -b deploy`: checks out a new branch called "deploy". Note that the name "deploy" here isn't magical, but it needs to match the name of the branch we specify when we push to our heroku remote.
-* `webpack -p`: webpack will run in "production mode"
-* `git add -f public/bundle.js public/bundle.js.map`: "force" add the otherwise gitignored build files
-* `git commit --allow-empty -m 'Deploying'`: create a commit, even if nothing changed
-* `git push --force heroku deploy:master`: push your local "deploy" branch to the "master" branch on heroku
-* `git checkout master`: return to your master branch
-* `git branch -D deploy`: remove the deploy branch
-
-Now, you should be deployed!
-
-Why do all of these steps? The big reason is because we don't want our production server to be cluttered up with dev dependencies like webpack, but at the same time we don't want our development git-tracking to be cluttered with production build files like bundle.js! By doing these steps, we make sure our development and production environments both stay nice and clean!
+[Get started now!](https://reacto-r.herokuapp.com/home)
