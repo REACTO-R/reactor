@@ -62,55 +62,19 @@ class RepeatNoHelp extends React.Component {
 
   render() {
     let rightAnswer
-    console.log(this.state.answers)
     if (this.state.loaded) {
       rightAnswer = this.state.answers.filter(el => el.correct)[0].answerText
     }
     let pathnameArr = this.props.location.pathname.split('/')
-    console.log('pathname', pathnameArr)
     const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}/${
       pathnameArr[4]
     }`
-    const steps = [
-      {
-        key: 'R',
-        title: 'R',
-        description: 'Repeat',
-        active: true,
-        href: link + '/repeat'
-      },
-      {
-        key: 'E',
-        title: 'E',
-        description: 'Example',
-        disabled: true
-      },
-      {
-        key: 'A',
-        title: 'A',
-        description: 'Approach',
-        disabled: true
-      },
-      {
-        key: 'CT',
-        title: 'CT',
-        description: 'Code+Test',
-        disabled: true
-      },
-      {
-        key: 'O',
-        title: 'O',
-        description: 'Optimize',
-        disabled: true
-      }
-    ]
 
     return (
       <div>
         {this.state.loaded && (
           <div>
             <Step.Group
-              items={steps}
               widths={8}
               size="tiny"
               style={{
@@ -119,7 +83,40 @@ class RepeatNoHelp extends React.Component {
                 margin: 'auto',
                 height: '42px'
               }}
-            />
+            >
+              <Step active>
+                <Link to={this.props.history.location.pathname}>
+                  <Step.Content>
+                    <Step.Title>R</Step.Title>
+                    <Step.Description>Repeat</Step.Description>
+                  </Step.Content>
+                </Link>
+              </Step>
+              <Step disabled>
+                <Step.Content>
+                  <Step.Title>E</Step.Title>
+                  <Step.Description>Example</Step.Description>
+                </Step.Content>
+              </Step>
+              <Step disabled>
+                <Step.Content>
+                  <Step.Title>A</Step.Title>
+                  <Step.Description>Approach</Step.Description>
+                </Step.Content>
+              </Step>
+              <Step disabled>
+                <Step.Content>
+                  <Step.Title>CT</Step.Title>
+                  <Step.Description>Code+Test</Step.Description>
+                </Step.Content>
+              </Step>
+              <Step disabled>
+                <Step.Content>
+                  <Step.Title>O</Step.Title>
+                  <Step.Description>Optimize</Step.Description>
+                </Step.Content>
+              </Step>
+            </Step.Group>
             <br />
             <Container>
               <Header size="large">{this.state.questionText}</Header>

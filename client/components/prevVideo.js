@@ -3,19 +3,22 @@ import Video from 'twilio-video'
 import axios from 'axios'
 import {Button, Card, TextArea} from 'semantic-ui-react'
 import getUserScreen from './screenShare'
-import {leaveRoom} from '../store/video'
-import {connect} from 'react-redux'
 
 class VideoComponent extends React.Component {
   constructor(props) {
     super()
     this.state = {
       identity: null,
+      roomName: '',
+      roomNameErr: false, // Track error for room name TextField
+      previewTracks: null,
       localMediaAvailable: false,
       hasJoinedRoom: false,
       activeRoom: '', // Track the current active room
       screenTrack: null
     }
+    this.joinRoom = this.joinRoom.bind(this)
+    this.handleRoomNameChange = this.handleRoomNameChange.bind(this)
     this.roomJoined = this.roomJoined.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.detachTracks = this.detachTracks.bind(this)
@@ -23,8 +26,40 @@ class VideoComponent extends React.Component {
     this.handleShareScreenClick = this.handleShareScreenClick.bind(this)
   }
 
+  handleRoomNameChange(e) {
+    let roomName = e.target.value
+    this.setState({roomName})
+  }
+
+  joinRoom() {
+
+    if (!this.state.roomName.trim()) {
+      this.setState({roomNameErr: true})
+      return
+    }
+
+    console.log("Joining room '" + this.state.roomName + "'...")
+    let connectOptions = {
+      name: this.state.roomName
+    }
+
+    if (this.state.previewTracks) {
+      connectOptions.tracks = this.state.previewTracks
+    }
+
+    // Join the Room with the token from the server and the
+    // LocalParticipant's Tracks.
+    Video.connect(this.state.token, connectOptions).then(
+      this.roomJoined,
+      error => {
+        alert('Could not connect to Twilio: ' + error.message)
+      }
+    )
+  }
+
   attachTracks(tracks, container) {
     tracks.forEach(track => {
+      console.log(track.attach())
       container.appendChild(track.attach())
     })
   }
@@ -59,9 +94,7 @@ class VideoComponent extends React.Component {
     })
 
     // Attach LocalParticipant's Tracks, if not already attached.
-    console.log('ref', this.refs)
     var previewContainer = this.refs.localMedia
-
     if (!previewContainer.querySelector('video')) {
       this.attachParticipantTracks(room.localParticipant, previewContainer)
     }
@@ -118,7 +151,6 @@ class VideoComponent extends React.Component {
   leaveRoom() {
     this.state.activeRoom.disconnect()
     this.setState({hasJoinedRoom: false, localMediaAvailable: false})
-    this.props.leaveTheRoom()
   }
 
   async handleShareScreenClick() {
@@ -132,68 +164,72 @@ class VideoComponent extends React.Component {
     }
   }
 
-  // componentDidMount(){
-  //   console.log('length', this.props.room.name)
-  //   if(this.props.room.name){
-  //     this.roomJoined(this.props.room)}
-  // }
-
-  componentDidUpdate(prevProps) {
-    console.log('prevname', prevProps.room.name)
-    console.log('newname', this.props.room.name)
-    if (prevProps.room !== this.props.room) {
-      this.roomJoined(this.props.room)
+  async componentDidMount() {
+    try {
+      const {data} = await axios.get('/api/video')
+      const {identity, token} = data
+      this.setState({identity, token})
+    } catch (err) {
+      console.log('cannot get data from server', err)
     }
   }
 
   render() {
-    let joinOrLeaveRoomButton = this.state.hasJoinedRoom ? (
-      <Button primary={true} onClick={this.leaveRoom} size="tiny">
-        Leave Room
-      </Button>
+    let showLocalTrack = this.state.localMediaAvailable ? (
+      <div className="flex-item">
+        {' '}
+        <div ref="localMedia" />
+      </div>
     ) : (
       ''
     )
 
+    let joinOrLeaveRoomButton = this.state.hasJoinedRoom ? (
+      <Button primary={true} onClick={this.leaveRoom}>
+        Leave Room
+      </Button>
+    ) : (
+      <Button primary={true} onClick={this.joinRoom}>
+        Join Room
+      </Button>
+    )
+
     let shareOrUnshareScreenButton = !this.state.screenTrack ? (
-      <Button primary={true} onClick={this.handleShareScreenClick} size="tiny">
+      <Button primary={true} onClick={this.handleShareScreenClick}>
         Share Screen
       </Button>
     ) : (
-      <Button primary={true} onClick={this.handleShareScreenClick} size="tiny">
+      <Button primary={true} onClick={this.handleShareScreenClick}>
         Unshare Screen
       </Button>
     )
 
     return (
-      <div id="videoCard">
-        <div className="flex-item">
-          {joinOrLeaveRoomButton}
-          <div className="rowspace" />
-          {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
-        </div>
-        <div className="flex-container">
-          <div className="flex-item">
-            <div ref="localMedia" className="videoHere" />
+      <Card style={{boxShadow: 'none'}}>
+        <Card.Content>
+          <div className="empty">
+            <div className="flex-item">
+              <TextArea
+                autoHeight
+                placeholder="Enter Room Name"
+                onChange={this.handleRoomNameChange}
+                // errorText={this.state.roomNameErr ? 'Room Name is required' : undefined}
+              />
+              <br />
+              {joinOrLeaveRoomButton}
+              <div className="rowspace" />
+              {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
+            </div>
+            <div className="flex-container">
+              {showLocalTrack}
+
+              <div className="flex-item" ref="remoteMedia" id="remote-media" />
+            </div>
           </div>
-          <div className="flex-item" ref="remoteMedia" id="remote-media" />
-        </div>
-      </div>
+        </Card.Content>
+      </Card>
     )
   }
 }
 
-const mapStateToProps = state => {
-  const {room} = state.video
-  return {
-    room
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    leaveTheRoom: () => dispatch(leaveRoom())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(VideoComponent)
+export default VideoComponent
