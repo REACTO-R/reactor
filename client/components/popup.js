@@ -11,7 +11,8 @@ class PopUp extends React.Component {
     this.state = {
       identity: '',
       token: '',
-      roomNameErr: false
+      roomNameErr: false,
+      connected: false
     }
     this.joinRoom = this.joinRoom.bind(this)
     this.handleRoomNameChange = this.handleRoomNameChange.bind(this)
@@ -46,12 +47,21 @@ class PopUp extends React.Component {
     try {
       const room = await Video.connect(this.state.token, connectOptions)
       this.props.sendRoomObjToStore(room)
+      this.setState({connected: true})
     } catch (error) {
       alert('Could not connect to Twilio: ' + error.message)
     }
   }
 
+  componentDidUpdate(prevProps){
+    if(prevProps.roomName !== this.props.roomName){
+      this.setState({connected: false})
+    }
+  }
+
+
   render() {
+    console.log(this.props.roomName, this.state.connected)
     return (
       <Popup
         trigger={
@@ -65,7 +75,9 @@ class PopUp extends React.Component {
             VideoChat
           </div>
         }
-        content={
+        content={this.state.connected ?
+          <p> You are connected in room: {this.props.roomName}</p>
+          :
           <div>
             <TextArea
               autoHeight
