@@ -3,8 +3,19 @@ import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import {Step, Header, Container} from 'semantic-ui-react'
+import {
+  List,
+  Header,
+  Card,
+  Container,
+  Button,
+  Icon,
+  Step,
+  Grid
+} from 'semantic-ui-react'
 import {Line} from 'react-chartjs-2'
+import AceEditor from 'react-ace'
+
 
 class Optimize extends React.Component {
   constructor(props) {
@@ -156,13 +167,29 @@ class Optimize extends React.Component {
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
               <div style={{fontSize: '17px'}}>{this.state.answerText}</div>
-              <div style={{fontSize: '17px'}}>{this.state.answerCode}</div>
+              <Grid padded columns={2}>
+              <Grid.Column width={8}>
+              <Header size="small">Solution Code</Header>
+              <AceEditor
+                mode="javascript"
+                theme="monokai"
+                value={this.state.answerCode}
+                enableLiveAutocompletion={true}
+                name="UNIQUE_ID_OF_DIV"
+                editorProps={{
+                  $blockScrolling: true
+                }}
+              />
+            </Grid.Column>
+              <Grid.Column width={8}>
               <Line
                 data={this.state.chartData}
                 options={this.state.chartOptions}
                 width={200}
-                height={100}
+                height={205}
               />
+              </Grid.Column>
+              </Grid>
             </Container>
           </div>
         )}
