@@ -55,12 +55,15 @@ class PopUp extends React.Component {
     return (
       <Popup
         trigger={
-          <Button
-            basic
+          <div
+            basic="true"
             color="blue"
-            content="VideoChat"
-            style={{color: 'red'}}
-          />
+            id="noBorder"
+            className="borderNone"
+            style={{borderStyle: 'none', hover: 'cursor: pointer'}}
+          >
+            VideoChat
+          </div>
         }
         content={
           <div>

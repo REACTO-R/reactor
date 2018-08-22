@@ -7,37 +7,23 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 
 const App = props => {
-  console.log('form App page', props)
-
-  let left
-
-  if (props.room.name) {
-    left = 3
-  } else {
-    left = 1
-  }
-
-  let right = 16 - left
-
   return (
     <div>
       <Navbar />
-
-        {props.room.name ? (
-          <Grid relaxed columns={2}>
+      {props.room.name ? (
+        <Grid columns={2}>
           <Grid.Row>
-            <Grid.Column width={3}>
+            <Grid.Column width={3} style={{margin: '0px', padding: '0px'}}>
               <VideoComponent />
             </Grid.Column>
-            <Grid.Column width={13}>
+            <Grid.Column width={13} style={{margin: '0px', padding: '0px'}}>
               <Routes />
             </Grid.Column>
           </Grid.Row>
-          </Grid>
-        ) : (
-          <Routes />
-        )}
-
+        </Grid>
+      ) : (
+        <Routes />
+      )}
     </div>
   )
 }

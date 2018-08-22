@@ -156,36 +156,29 @@ class VideoComponent extends React.Component {
     )
 
     let shareOrUnshareScreenButton = !this.state.screenTrack ? (
-      <Button primary={true} onClick={this.handleShareScreenClick} size="small">
+      <Button primary={true} onClick={this.handleShareScreenClick} size="tiny">
         Share Screen
       </Button>
     ) : (
-      <Button primary={true} onClick={this.handleShareScreenClick} size="small">
+      <Button primary={true} onClick={this.handleShareScreenClick} size="tiny">
         Unshare Screen
       </Button>
     )
 
     return (
-      <Card style={{boxShadow: 'none'}}>
-        <Card.Content>
-          <div className="empty">
-            <div className="flex-item">
-              <br />
-              {joinOrLeaveRoomButton}
-              <div className="rowspace" />
-              {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
-            </div>
-            <div className="flex-container">
-              <div className="flex-item">
-                {' '}
-                <div ref="localMedia" className="videoHere" />
-              </div>
-
-              <div className="flex-item" ref="remoteMedia" id="remote-media" />
-            </div>
+      <div id="videoCard">
+        <div className="flex-item">
+          {joinOrLeaveRoomButton}
+          <div className="rowspace" />
+          {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
+        </div>
+        <div className="flex-container">
+          <div className="flex-item">
+            <div ref="localMedia" className="videoHere" />
           </div>
-        </Card.Content>
-      </Card>
+          <div className="flex-item" ref="remoteMedia" id="remote-media" />
+        </div>
+      </div>
     )
   }
 }

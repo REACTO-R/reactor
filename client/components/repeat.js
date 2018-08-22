@@ -69,44 +69,9 @@ export class Repeat extends React.Component {
   render() {
     let pathnameArr = this.props.location.pathname.split('/')
     const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}`
-    const steps = [
-      {
-        key: 'R',
-        title: 'R',
-        description: 'Repeat',
-        active: true,
-        href: link + '/repeat'
-      },
-      {
-        key: 'E',
-        title: 'E',
-        description: 'Example',
-        disabled: true
-      },
-      {
-        key: 'A',
-        title: 'A',
-        description: 'Approach',
-        disabled: true
-      },
-      {
-        key: 'CT',
-        title: 'CT',
-        description: 'Code+Test',
-        disabled: true
-      },
-      {
-        key: 'O',
-        title: 'O',
-        description: 'Optimize',
-        disabled: true
-      }
-    ]
-
     return (
       <div>
         <Step.Group
-          items={steps}
           widths={8}
           size="tiny"
           style={{
@@ -115,7 +80,41 @@ export class Repeat extends React.Component {
             margin: 'auto',
             height: '42px'
           }}
-        />
+        >
+          <Step active>
+            <Link to={this.props.history.location.pathname}>
+              <Step.Content>
+                <Step.Title>R</Step.Title>
+                <Step.Description>Repeat</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step disabled>
+            <Step.Content>
+              <Step.Title>E</Step.Title>
+              <Step.Description>Example</Step.Description>
+            </Step.Content>
+          </Step>
+          <Step disabled>
+            <Step.Content>
+              <Step.Title>A</Step.Title>
+              <Step.Description>Approach</Step.Description>
+            </Step.Content>
+          </Step>
+          <Step disabled>
+            <Step.Content>
+              <Step.Title>CT</Step.Title>
+              <Step.Description>Code+Test</Step.Description>
+            </Step.Content>
+          </Step>
+          <Step disabled>
+            <Step.Content>
+              <Step.Title>O</Step.Title>
+              <Step.Description>Optimize</Step.Description>
+            </Step.Content>
+          </Step>
+        </Step.Group>
+
         {this.state.loaded && (
           <div>
             <Container>
