@@ -131,6 +131,38 @@ export class Editor extends React.Component {
   render() {
     let pathnameArr = this.props.location.pathname.split('/')
     const link = `/${pathnameArr[1]}/${pathnameArr[1]}/${pathnameArr[1]}`
+    const steps = [
+      {
+        key: 'R',
+        title: 'R',
+        description: 'Repeat',
+        active: true
+      },
+      {
+        key: 'E',
+        title: 'E',
+        description: 'Example',
+        active: true
+      },
+      {
+        key: 'A',
+        title: 'A',
+        description: 'Approach',
+        active: true
+      },
+      {
+        key: 'CT',
+        title: 'CT',
+        description: 'Code+Test',
+        active: true
+      },
+      {
+        key: 'O',
+        title: 'O',
+        description: 'Optimize',
+        disabled: true
+      }
+    ]
     const {isWorking, errorMessage, code, results} = this.state
     const tests = this.props.questions.CTStuffs
     const checkResults =
@@ -138,6 +170,7 @@ export class Editor extends React.Component {
     return (
       <div>
         <Step.Group
+          items={steps}
           widths={8}
           size="tiny"
           style={{
@@ -146,46 +179,7 @@ export class Editor extends React.Component {
             margin: 'auto',
             height: '42px'
           }}
-        >
-          <Step active>
-            <Link to={link + '/repeat'}>
-              <Step.Content>
-                <Step.Title>R</Step.Title>
-                <Step.Description>Repeat</Step.Description>
-              </Step.Content>
-            </Link>
-          </Step>
-          <Step active>
-            <Link to={link + '/repeat/example'}>
-              <Step.Content>
-                <Step.Title>E</Step.Title>
-                <Step.Description>Example</Step.Description>
-              </Step.Content>
-            </Link>
-          </Step>
-          <Step active>
-            <Link to={link + '/repeat/example/approach'}>
-              <Step.Content>
-                <Step.Title>A</Step.Title>
-                <Step.Description>Approach</Step.Description>
-              </Step.Content>
-            </Link>
-          </Step>
-          <Step active>
-            <Link to={this.props.history.location.pathname}>
-              <Step.Content>
-                <Step.Title>CT</Step.Title>
-                <Step.Description>Code+Test</Step.Description>
-              </Step.Content>
-            </Link>
-          </Step>
-          <Step disabled>
-            <Step.Content>
-              <Step.Title>O</Step.Title>
-              <Step.Description>Optimize</Step.Description>
-            </Step.Content>
-          </Step>
-        </Step.Group>
+        />
         <div>
           <br />
           <Header size="large"> {this.props.questions.text} </Header>
@@ -215,9 +209,9 @@ export class Editor extends React.Component {
                           <Card.Header> OUTPUT: </Card.Header>
                           <Card.Meta> {elem.Output} </Card.Meta>
                           {!results.length ? null : results[idx].passed ? (
-                            <p>You passed</p>
+                            <p style={{color: '#32CD32'}}>You passed</p>
                           ) : (
-                            <p>
+                            <p style={{color: 'red'}}>
                               You failed. Your output:{' '}
                               {JSON.stringify(results[idx].output)} Error:{' '}
                               {results[idx].error}
@@ -228,6 +222,10 @@ export class Editor extends React.Component {
                       </List.Item>
                     )
                   })}
+                  {errorMessage &&
+                  <Card>
+                  <Card.Header style={{color: 'red'}}>{errorMessage}</Card.Header>
+                  </Card>}
                 </List>
               </Grid.Column>
             )}
@@ -238,14 +236,7 @@ export class Editor extends React.Component {
           ) : (
             <p>Your func is not right, sorry</p>
           )}
-          {errorMessage && <p>{errorMessage}</p>}
-          <Button
-            onClick={() => {
-              this.saveCode()
-            }}
-          >
-            Save Code
-          </Button>
+          <Button onClick={() => {this.saveCode()}}>Save Code</Button>
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
