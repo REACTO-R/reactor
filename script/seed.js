@@ -37,7 +37,27 @@ async function seed() {
   let m1subTopic1 = await SubTopic.create({name: 'Intercept'})
   let m1s1Question1 = await Question.create({
     text:
-      'Given two sorted arrays of numbers, return an array containing all values that appear in both arrays. The numbers in the resulting array (the "intersection") may be returned in any order, they needn"t be sorted.'
+      'Given two sorted arrays of numbers, return an array containing all values that appear in both arrays. The numbers in the resulting array (the "intersection") may be returned in any order, they needn"t be sorted.',
+    unguidedOptimize: "Consider the big O of your solution. If you're using two 'for' loops, chances are it will be O(n*m), which is much less efficient to the optimal solution of O(n+m). If so, consider a method of parsing through the arrays at the same time.",
+    unguidedSolution: `function intersection (arrA, arrB) {
+  const shared = [];
+  let idxA = 0;
+  let idxB = 0;
+  while (idxA < arrA.length && idxB < arrB.length) {
+    const elemA = arrA[idxA];
+    const elemB = arrB[idxB];
+    if (elemA == elemB) {
+      shared.push(elemA);
+    }
+    if (elemA <= elemB) {
+      idxA++;
+    }
+    if (elemA >= elemB) {
+      idxB++;
+    }
+  }
+  return shared;
+}`,    
   })
   let m1s1Q1QuestionList = await QuestionList.create({
     RQuestion: 'Repeat: What is the question asking for?',
