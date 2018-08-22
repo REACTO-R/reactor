@@ -109,12 +109,14 @@ class VideoComponent extends React.Component {
     room.on('trackRemoved', (track, participant) => {
       this.log(participant.identity + ' removed track: ' + track.kind)
       this.detachTracks([track])
+      this.setState({tracksOn: this.state.tracksOn - 1})
     })
 
     // When a Participant leaves the Room, detach its Tracks.
     room.on('participantDisconnected', participant => {
       console.log("Participant '" + participant.identity + "' left the room")
       this.detachParticipantTracks(participant)
+      this.setState({tracksOn: 0})
     })
 
     // Once the LocalParticipant leaves the room, detach the Tracks
