@@ -30,7 +30,28 @@ video {
   width: 260px;
   margin: 0px;
   padding-left: 10px;
+  /* left: 50%;
+  min-height: 100%;
+  min-width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%); */
 }
+
+
+/* #local-media{
+  width: 150px;
+  overflow:hidden;
+  display:block;
+  height: 150px;
+}
+
+#remote-media{
+  width: 150px;
+  overflow:hidden;
+  display:block;
+  height: 150px;
+} */
 
 
 .rowspace {

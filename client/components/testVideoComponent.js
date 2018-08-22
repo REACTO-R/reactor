@@ -174,7 +174,7 @@ class VideoComponent extends React.Component {
         </div>
         <div className="flex-container">
           <div className="flex-item">
-            <div ref="localMedia" className="videoHere" />
+            <div ref="localMedia" className="videoHere" id="local-media" />
           </div>
           <div className="flex-item" ref="remoteMedia" id="remote-media" />
         </div>

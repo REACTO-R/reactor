@@ -130,7 +130,7 @@ export class Editor extends React.Component {
 
   render() {
     let pathnameArr = this.props.location.pathname.split('/')
-    const link = `/${pathnameArr[1]}/${pathnameArr[1]}/${pathnameArr[1]}`
+    const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}`
     const {isWorking, errorMessage, code, results} = this.state
     const tests = this.props.questions.CTStuffs
     const checkResults =
@@ -215,9 +215,9 @@ export class Editor extends React.Component {
                           <Card.Header> OUTPUT: </Card.Header>
                           <Card.Meta> {elem.Output} </Card.Meta>
                           {!results.length ? null : results[idx].passed ? (
-                            <p>You passed</p>
+                            <p style={{color: '#32CD32'}}>You passed</p>
                           ) : (
-                            <p>
+                            <p style={{color: 'red'}}>
                               You failed. Your output:{' '}
                               {JSON.stringify(results[idx].output)} Error:{' '}
                               {results[idx].error}
@@ -228,6 +228,13 @@ export class Editor extends React.Component {
                       </List.Item>
                     )
                   })}
+                  {errorMessage && (
+                    <Card>
+                      <Card.Header style={{color: 'red'}}>
+                        {errorMessage}
+                      </Card.Header>
+                    </Card>
+                  )}
                 </List>
               </Grid.Column>
             )}
@@ -238,7 +245,6 @@ export class Editor extends React.Component {
           ) : (
             <p>Your func is not right, sorry</p>
           )}
-          {errorMessage && <p>{errorMessage}</p>}
           <Button
             onClick={() => {
               this.saveCode()
