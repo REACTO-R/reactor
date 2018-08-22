@@ -15,7 +15,8 @@ class VideoComponent extends React.Component {
       hasJoinedRoom: false,
       activeRoom: '', // Track the current active room
       screenTrack: null,
-      tracksOn: 0
+      tracksOn: 0,
+      screenShare: 'none'
     }
     this.roomJoined = this.roomJoined.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
@@ -25,7 +26,7 @@ class VideoComponent extends React.Component {
     this.handleFullScreenClick = this.handleFullScreenClick.bind(this)
   }
 
-  handleFullScreenClick() {
+  handleFullScreenClick(ref) {
     console.log(this.refs.screenshare)
     if (this.refs.screenshare.requestFullscreen) {
       this.refs.screenshare.requestFullscreen()
@@ -96,7 +97,7 @@ class VideoComponent extends React.Component {
       console.log(participant.identity + ' added track: ' + track.kind)
       // console.log('trackadded event', track.mediaStreamTrack)
       this.setState({tracksOn: this.state.tracksOn + 1})
-      if (this.state.tracksOn >= 5) {
+      if (this.state.tracksOn >= 3) {
         var previewContainer = this.refs.screenshare
       } else {
         var previewContainer = this.refs.remoteMedia
@@ -145,13 +146,17 @@ class VideoComponent extends React.Component {
       const stream = await getUserScreen()
       const track = stream.getVideoTracks()[0]
       track.screenshare = true
-      this.setState({screenTrack: track})
+      this.setState({screenTrack: track, screenShare: 'initial'})
       this.state.activeRoom.localParticipant.addTrack(this.state.screenTrack)
       console.log('addtrack', this.state.activeRoom.localParticipant.addTrack)
     } else {
       this.state.activeRoom.localParticipant.removeTrack(this.state.screenTrack)
       this.setState({screenTrack: null})
     }
+  }
+
+  componentDidMount() {
+    this.roomJoined(this.props.room)
   }
 
   componentDidUpdate(prevProps) {
@@ -181,9 +186,6 @@ class VideoComponent extends React.Component {
 
     return (
       <div id="videoCard">
-        <button ref="test" onClick={this.handleFullScreenClick}>
-          Test
-        </button>
         <div className="flex-item">
           {joinOrLeaveRoomButton}
           <div className="rowspace" />
@@ -200,6 +202,22 @@ class VideoComponent extends React.Component {
             id="screenshare"
             style={{width: '100%', height: '100%'}}
           />
+          {this.state.tracksOn >= 3 ? (
+            <Button
+              primary={true}
+              ref="test"
+              size="tiny"
+              onClick={this.handleFullScreenClick}
+              style={{
+                width: '170px',
+                margin: 'auto'
+              }}
+            >
+              ScreenShare Fullscreen
+            </Button>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     )
