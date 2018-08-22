@@ -190,6 +190,7 @@ class VideoComponent extends React.Component {
           {joinOrLeaveRoomButton}
           <div className="rowspace" />
           {this.state.hasJoinedRoom && shareOrUnshareScreenButton}
+          <div className="rowspace" />
         </div>
         <div className="flex-container">
           <div className="flex-item">

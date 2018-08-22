@@ -41,7 +41,7 @@ class ExampleNoHelpNoHelp extends React.Component {
       question: root.EQuestion,
       answers: root.EQuestions,
       loaded: true,
-      questionid: questionId
+      questionid: this.props.questions.id
     })
   }
 
