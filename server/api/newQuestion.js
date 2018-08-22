@@ -46,7 +46,9 @@ router.post('/', requireAdmin, async (req, res, next) => {
 		} //Else, we can assume the association already exists.
 
 		const question = await Question.create({
-			text: req.body.question.questionText
+			text: req.body.question.questionText,
+			unguidedOptimize: req.body.question.unguidedOptimize,
+			unguidedSolution: req.body.question.unguidedSolution
 		})
 		const questionList = await QuestionList.create({
 			RQuestion: req.body.questionList.QLRQuestion,
@@ -80,7 +82,9 @@ router.post('/', requireAdmin, async (req, res, next) => {
 				correct: aQuestion.correct,
 				answerText: aQuestion.answerText,
 				explanationText: aQuestion.explanationText,
-				optimizationText: aQuestion.optimizationText
+				optimizationText: aQuestion.optimizationText,
+				optimizationCode: aQuestion.optimizationCode,
+				optimizationGraph: aQuestion.optimizationGraph
 			})
 			await questionList.addAQuestion(newAQuestion)
 		})

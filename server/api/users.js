@@ -122,6 +122,7 @@ router.put('/:userId/:questionId', requireAdmin, async (req, res, next) => {
       default:
         break
     }
+    res.status(204).send()
   } catch (err) {
     next(err)
   }
