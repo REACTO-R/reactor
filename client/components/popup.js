@@ -5,7 +5,6 @@ import axios from 'axios'
 import {getRoomName, getRoom} from '../store/video'
 import {Button, Popup, TextArea} from 'semantic-ui-react'
 
-
 class PopUp extends React.Component {
   constructor() {
     super()
@@ -33,8 +32,6 @@ class PopUp extends React.Component {
     this.props.sendRoomToStore(roomName)
   }
 
-
-
   async joinRoom() {
     if (!this.props.roomName.trim()) {
       this.setState({roomNameErr: true})
@@ -60,9 +57,9 @@ class PopUp extends React.Component {
         trigger={
           <Button
             basic
-            color="blue"
+            color="red"
             content="VideoChat"
-            style={{boxShadow: 'none'}}
+            style={{color: 'red'}}
           />
         }
         content={
@@ -72,7 +69,11 @@ class PopUp extends React.Component {
               placeholder="Enter Room Name"
               onChange={this.handleRoomNameChange}
             />
-            <Button primary={true} content="Join Room" onClick={this.joinRoom}/>
+            <Button
+              primary={true}
+              content="Join Room"
+              onClick={this.joinRoom}
+            />
           </div>
         }
         on="click"
