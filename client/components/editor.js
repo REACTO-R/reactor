@@ -18,6 +18,7 @@ import {
   Grid
 } from 'semantic-ui-react'
 import {expect} from 'chai'
+
 export class Editor extends React.Component {
   constructor() {
     super()
@@ -26,12 +27,15 @@ export class Editor extends React.Component {
       isWorking: 0, // 0: default state; 1: if the user func works; 2: if user func doesn't work
       errorMessage: '',
       results: [],
-      questionid: 0
+      questionid: 0,
+      saveStatus: '',
+      saveStatusColor: ''
     }
     this.onChange = this.onChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.saveCode = this.saveCode.bind(this)
   }
+
   async componentDidMount() {
     let pathnameArr = this.props.location.pathname.split('/')
     let topicId
@@ -46,6 +50,7 @@ export class Editor extends React.Component {
       subtopicId = pathnameArr[2]
       questionId = pathnameArr[3]
     }
+
     await this.props.getQuestion(topicId, subtopicId, questionId)
     this.setState({
       questionid: this.props.questions.id
@@ -59,6 +64,7 @@ export class Editor extends React.Component {
     }
     console.log(userData)
   }
+
   onChange(newValue) {
     if (this.state.isWorking !== 0) {
       this.setState({isWorking: 0})
@@ -68,7 +74,9 @@ export class Editor extends React.Component {
     }
     this.setState({code: newValue})
   }
+
   async saveCode() {
+    let statusStr
     try {
       await axios.put(
         '/api/users/' + this.props.userId + '/' + this.state.questionid,
@@ -77,10 +85,17 @@ export class Editor extends React.Component {
           CTAnswer: this.state.code
         }
       )
+      statusStr = 'Code saved successfully!'
+      this.setState({saveStatusColor: 'green'})
     } catch (err) {
       console.log(err)
+      statusStr =
+        "Error with saving code! (If you're a dev, check the console.)"
+      this.setState({saveStatusColor: 'red'})
     }
+    this.setState({saveStatus: statusStr})
   }
+
   async handleClick() {
     try {
       const tests = this.props.questions.CTStuffs
@@ -121,10 +136,19 @@ export class Editor extends React.Component {
       console.log(err)
     }
   }
+
   render() {
     let pathnameArr = this.props.location.pathname.split('/')
     const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}`
-    const {isWorking, errorMessage, code, results} = this.state
+
+    const {
+      isWorking,
+      errorMessage,
+      code,
+      results,
+      saveStatus,
+      saveStatusColor
+    } = this.state
     const tests = this.props.questions.CTStuffs
     const checkResults =
       !!results.length && results.every(el => el.passed === true)
@@ -245,6 +269,9 @@ export class Editor extends React.Component {
           >
             Save Code
           </Button>
+          {saveStatus && (
+            <span style={{color: saveStatusColor}}>{saveStatus}</span>
+          )}
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
@@ -261,16 +288,19 @@ export class Editor extends React.Component {
     )
   }
 }
+
 const mapStateToProps = state => {
   return {
     questions: state.questions,
     userId: state.user.id
   }
 }
+
 const mapDispatchToProps = dispatch => {
   return {
     getQuestion: (topicId, subtopicId, questionId) =>
       dispatch(fetchQuestion(topicId, subtopicId, questionId))
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Editor)

@@ -3,8 +3,23 @@ import {connect} from 'react-redux'
 import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import {Header, Container, Step} from 'semantic-ui-react'
+import {
+  List,
+  Header,
+  Card,
+  Container,
+  Button,
+  Icon,
+  Step,
+  Grid
+} from 'semantic-ui-react'
 import {Line} from 'react-chartjs-2'
+import AceEditor from 'react-ace'
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 class OptimizeNoHelp extends React.Component {
   constructor(props) {
@@ -62,6 +77,8 @@ class OptimizeNoHelp extends React.Component {
     let chartArray = []
     answers.forEach(answer => {
       let parsedGraph = JSON.parse(answer.optimizationGraph)
+      let randomBorderColor = 'rgba('+ getRandomInt(0,255) + ',' + getRandomInt(0,255) + ',' + getRandomInt(0,255) + ',1)'
+      parsedGraph.borderColor = randomBorderColor
       delete parsedGraph.borderDash
       chartArray.push(parsedGraph)
     })
@@ -149,14 +166,30 @@ class OptimizeNoHelp extends React.Component {
             <Container>
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
-              <div>{this.state.answerText}</div>
-              <div>{this.state.answerCode}</div>
+              <div style={{fontSize: '17px'}}>{this.state.answerText}</div>
+              <Grid padded columns={2}>
+              <Grid.Column width={8}>
+              <Header size="small">Solution Code</Header>
+              <AceEditor
+                mode="javascript"
+                theme="monokai"
+                value={this.state.answerCode}
+                enableLiveAutocompletion={true}
+                name="UNIQUE_ID_OF_DIV"
+                editorProps={{
+                  $blockScrolling: true
+                }}
+              />
+            </Grid.Column>
+              <Grid.Column width={8}>
               <Line
                 data={this.state.chartData}
                 options={this.state.chartOptions}
                 width={200}
-                height={100}
+                height={205}
               />
+              </Grid.Column>
+              </Grid>
             </Container>
           </div>
         )}
