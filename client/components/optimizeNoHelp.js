@@ -74,8 +74,8 @@ class OptimizeNoHelp extends React.Component {
       questionText: this.props.questions.text,
       answers: root.AQuestions,
       loaded: true,
-      answerText: answer.optimizationText,
-      answerCode: answer.optimizationCode,
+      answerText: this.props.questions.unguidedOptimize,
+      answerCode: this.props.questions.unguidedSolution,
       chartData: {
         labels: ['0', '5', '10', '15', '20', '25'],
         datasets: chartArray
@@ -149,13 +149,8 @@ class OptimizeNoHelp extends React.Component {
             <Container>
               <Header size="large">{this.state.questionText}</Header>
               <Header size="medium">{this.state.question}</Header>
-              {this.state.answers.map(answer => {
-                return (
-                  <div key={answer.id} style={{fontSize: '17px'}}>
-                    {answer.optimizationText}
-                  </div>
-                )
-              })}
+              <div>{this.state.answerText}</div>
+              <div>{this.state.answerCode}</div>
               <Line
                 data={this.state.chartData}
                 options={this.state.chartOptions}
