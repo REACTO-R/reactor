@@ -110,7 +110,16 @@ async function seed() {
       'While this is an efficient time solution, you would need to store the hash table of the array, increasing size complexity.',
     optimizationText:
       'You used a hash table to solve this problem. Your solution is time-optimal at O(n+m), but requires an additional O(m) of space.',
-    optimizationGraph: `{"label": "O(n+m)","borderDash": [5,20],"data": [0, 5, 10, 15, 20, 25], "backgroundColor":"rgba(0, 0, 0, 0)", "borderColor": "rgba(255,0,0,1)", "borderWidth": 1}`
+    optimizationGraph: `{"label": "O(n+m)","borderDash": [5,20],"data": [0, 5, 10, 15, 20, 25], "backgroundColor":"rgba(0, 0, 0, 0)", "borderColor": "rgba(255,0,0,1)", "borderWidth": 1}`,
+    optimizationCode: `function intersection (arrA, arrB) {
+  const smaller = arrB.length < arrA.length ? arrB : arrA;
+  const larger = arrB.length >= arrA.length ? arrB : arrA;
+
+  const hashSmaller = {};
+  smaller.forEach(elem => hashSmaller[elem] = true);
+
+  return larger.filter(elem => hashSmaller.hasOwnProperty(elem));
+}`,
   })
   let m1s1Q1A2 = await AQuestion.create({
     correct: true,
