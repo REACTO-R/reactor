@@ -16,9 +16,19 @@ describe('Repeat', () => {
 
   beforeEach(() => {
     let location = {pathname: '/1/1/1'}
+    let history = {
+      location: {
+        pathname: '/nohelp/1/1/1/repeat/example/approach/editor',
+        search: '',
+        hash: '',
+        state: undefined,
+        key: 'lz5qz3'
+      }
+    }
     const getQuestionFunc = sinon.spy()
     repeat = shallow(
       <Repeat
+        history={history}
         location={location}
         getQuestion={getQuestionFunc}
         questions={question}
@@ -63,9 +73,19 @@ describe('example', () => {
 
   beforeEach(() => {
     let location = {pathname: '/1/1/1'}
+    let history = {
+      location: {
+        pathname: '/nohelp/1/1/1/repeat/example/approach/editor',
+        search: '',
+        hash: '',
+        state: undefined,
+        key: 'lz5qz3'
+      }
+    }
     const getQuestionFunc = sinon.spy()
     example = shallow(
       <Example
+        history={history}
         location={location}
         getQuestion={getQuestionFunc}
         questions={question}
@@ -108,9 +128,19 @@ describe('Approach', () => {
 
   beforeEach(() => {
     let location = {pathname: '/1/1/1'}
+    let history = {
+      location: {
+        pathname: '/nohelp/1/1/1/repeat/example/approach/editor',
+        search: '',
+        hash: '',
+        state: undefined,
+        key: 'lz5qz3'
+      }
+    }
     const getQuestionFunc = sinon.spy()
     approach = shallow(
       <Approach
+        history={history}
         location={location}
         getQuestion={getQuestionFunc}
         questions={question}

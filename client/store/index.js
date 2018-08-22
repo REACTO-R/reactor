@@ -4,10 +4,12 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import question from './questions'
+import video from './video'
 
 const reducer = combineReducers({
   user:user,
-  questions: question
+  questions: question,
+  video: video
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

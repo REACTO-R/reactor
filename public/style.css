@@ -26,12 +26,10 @@ Container{
 }
 
 video {
-  /* height: 50vh;
-  width: 50vw; */
-  max-height: 500px;
-  max-width: 500px;
+  height: 170px;
+  width: 260px;
   margin: 0px;
-  padding: 10px;
+  padding-left: 10px;
 }
 
 
@@ -44,13 +42,32 @@ video {
   flex-direction: column;
 }
 
-#remote-media video:last-child {
+/* #remote-media video:last-child {
   max-height: 1250px;
   max-width: 1250px;
-}
+} */
 
 label{
   padding-left: 10px;
   padding-top: 0px;
-  padding-bottom: 0px;s
+  padding-bottom: 0px;
 }
+
+#noBorder.borderNone{
+  border-style: none;
+  color: #2E86C1;
+}
+
+#noBorder.borderNone:hover{
+  cursor: pointer;
+ }
+
+ #videoCard{
+   justify-content: center;
+   align-content: center;
+   align-items: center;
+   text-align: center;
+   margin: auto;
+ }
+
+
