@@ -4,6 +4,7 @@ import {fetchQuestion} from '../store/questions'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import {Header, Container, Step} from 'semantic-ui-react'
+import {Line} from 'react-chartjs-2'
 
 class OptimizeNoHelp extends React.Component {
   constructor(props) {
@@ -11,7 +12,31 @@ class OptimizeNoHelp extends React.Component {
     this.state = {
       loaded: false,
       questionText: '',
-      question: ''
+      question: '',
+      answerText: '',
+      answerCode: '',
+      chartData: {},
+      chartOptions: {
+        scales: {
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Time complexity'
+              }
+            }
+          ],
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Number of arguments passed (n)'
+              }
+            }
+          ]
+        },
+        maintainAspectRatio: true
+      }
     }
   }
 
@@ -22,14 +47,39 @@ class OptimizeNoHelp extends React.Component {
     let questionId = pathnameArr[4]
 
     await this.props.getQuestion(topicId, subtopicId, questionId)
-    console.log('prop', this.props)
 
+    let questionInternalId = this.props.questions.id
     let root = this.props.questions.QuestionList
+    let answers = root.AQuestions
+    console.log('Answers: ', answers)
+
+    let {data} = await axios.get('/api/users/' + this.props.user.id)
+    let userQ = data.userQuestions.find(answerObj => {
+      return Number(answerObj.questionId) === Number(questionInternalId)
+    })
+    let chosenApproach = userQ.AQuestionApproach
+    
+    let chartArray = []
+    answers.forEach(answer => {
+      let parsedGraph = JSON.parse(answer.optimizationGraph)
+      delete parsedGraph.borderDash
+      chartArray.push(parsedGraph)
+    })
+
+    let answer = answers.find(ans => {
+      return Number(ans.id) === Number(chosenApproach)
+    })
 
     this.setState({
       questionText: this.props.questions.text,
       answers: root.AQuestions,
-      loaded: true
+      loaded: true,
+      answerText: answer.optimizationText,
+      answerCode: answer.optimizationCode,
+      chartData: {
+        labels: ['0', '5', '10', '15', '20', '25'],
+        datasets: chartArray
+      }
     })
   }
 
@@ -103,6 +153,12 @@ class OptimizeNoHelp extends React.Component {
                   </div>
                 )
               })}
+              <Line
+                data={this.state.chartData}
+                options={this.state.chartOptions}
+                width={200}
+                height={100}
+              />
             </Container>
           </div>
         )}
