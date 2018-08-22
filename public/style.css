@@ -26,16 +26,13 @@ Container{
 }
 
 video {
-  height: 170px;
-  width: 260px;
+  /* height: 170px;
+  width: 260px; */
+  height: 500px;
+  width: 500px;
   margin: 0px;
   padding-left: 10px;
-  /* left: 50%;
-  min-height: 100%;
-  min-width: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%); */
+
 }
 
 
