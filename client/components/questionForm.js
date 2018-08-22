@@ -18,7 +18,9 @@ class QuestionForm extends React.Component {
         Id: 0
       },
       question: {
-        questionText: ''
+        questionText: '',
+        unguidedOptimize: '',
+        unguidedSolution: ''
       },
       questionList: {
         QLRQuestion: '',
@@ -45,7 +47,9 @@ class QuestionForm extends React.Component {
           correct: false,
           answerText: '',
           explanationText: '',
-          optimizationText: ''
+          optimizationText: '',
+          optimizationCode: '',
+          optimizationGraph: ''
         }
       ],
       CTStuff: [
@@ -55,7 +59,9 @@ class QuestionForm extends React.Component {
         }
       ],
       fetchedQuestions: [],
-      fetchedSubTopics: []
+      fetchedSubTopics: [],
+      saveStatus: '',
+      saveStatusColor: ''
     }
     this.onChange = this.onChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -125,10 +131,10 @@ class QuestionForm extends React.Component {
         let input = ctThing.input
         let output = ctThing.output
         if (input === '' || output === '') {
-          throw new Error('Error, input/output for tests cannot be empty!')
+          throw new Error(' Input/output for tests cannot be empty!')
         }
         if (input[0] !== '[' || input[input.length - 1] !== ']') {
-          throw new Error('Error, input must be in array form!')
+          throw new Error(' Input must be in array form!')
         }
       })
       if (
@@ -136,25 +142,28 @@ class QuestionForm extends React.Component {
           return RQuestion.correct
         }).length === 0
       ) {
-        throw new Error('Error, at least one Repeat answer must be correct!')
+        throw new Error(' At least one Repeat answer must be correct!')
       }
       if (
         this.state.EQuestion.filter(EQuestion => {
           return EQuestion.correct
         }).length === 0
       ) {
-        throw new Error('Error, at least one Example answer must be correct!')
+        throw new Error(' At least one Example answer must be correct!')
       }
       if (
         this.state.AQuestion.filter(AQuestion => {
           return AQuestion.correct
         }).length === 0
       ) {
-        throw new Error('Error, at least one Approach answer must be correct!')
+        throw new Error(' At least one Approach answer must be correct!')
       }
       await axios.post('/api/newquestion', this.state)
-      console.log('Posted!')
+      this.setState({saveStatusColor: 'green'})
+      this.setState({saveStatus: 'Submitted successfully!'})
     } catch (error) {
+      this.setState({saveStatusColor: 'red'})
+      this.setState({saveStatus: error.toString()})
       console.log(error)
     }
   }
@@ -176,6 +185,18 @@ class QuestionForm extends React.Component {
       case 'question': {
         let question = Object.assign({}, this.state.question)
         question.questionText = event.target.value
+        this.setState({question})
+        break
+      }
+      case 'questionUOptimize': {
+        let question = Object.assign({}, this.state.question)
+        question.unguidedOptimize = event.target.value
+        this.setState({question})
+        break
+      }
+      case 'questionUSolution': {
+        let question = Object.assign({}, this.state.question)
+        question.unguidedSolution = event.target.value
         this.setState({question})
         break
       }
@@ -296,6 +317,22 @@ class QuestionForm extends React.Component {
         } else {
           newAQuestion.correct = false
         }
+        this.setState({AQuestion})
+        break
+      }
+      case 'AQuestionOptimizationCode': {
+        let AQuestion = this.state.AQuestion
+        let newAQuestion = AQuestion[Number(event.target.id)]
+        newAQuestion.optimizationCode = event.target.value
+        AQuestion[Number(event.target.id)] = newAQuestion
+        this.setState({AQuestion})
+        break
+      }
+      case 'AQuestionOptimizationGraph': {
+        let AQuestion = this.state.AQuestion
+        let newAQuestion = AQuestion[Number(event.target.id)]
+        newAQuestion.optimizationGraph = event.target.value
+        AQuestion[Number(event.target.id)] = newAQuestion
         this.setState({AQuestion})
         break
       }
@@ -425,6 +462,26 @@ class QuestionForm extends React.Component {
               className="question"
               onChange={this.onChange}
               value={this.state.question.questionText}
+            />
+          </Form.Field>
+          <Form.Field inline>
+            <label>Unguided Optimization Text:</label>
+            <input
+              style={{width: '75em'}}
+              type="text"
+              className="questionUOptimize"
+              onChange={this.onChange}
+              value={this.state.question.unguidedOptimize}
+            />
+          </Form.Field>
+          <Form.Field inline>
+            <label>Most optimal solution code:</label>
+            <input
+              style={{width: '75em'}}
+              type="text"
+              className="questionUSolution"
+              onChange={this.onChange}
+              value={this.state.question.unguidedSolution}
             />
           </Form.Field>
           <br />
@@ -611,6 +668,32 @@ class QuestionForm extends React.Component {
                     }
                   />
                 </Form.Field>
+                <Form.Field inline>
+                  <label>Approach Solution Code:</label>
+                  <input
+                    style={{width: '63em'}}
+                    type="text"
+                    className="AQuestionOptimizationCode"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={
+                      this.state.AQuestion[index.toString()].optimizationCode
+                    }
+                  />
+                </Form.Field>
+                <Form.Field inline>
+                  <label>Approach Solution Graph:</label>
+                  <input
+                    style={{width: '63em'}}
+                    type="text"
+                    className="AQuestionOptimizationGraph"
+                    onChange={this.onChange}
+                    id={index.toString()}
+                    value={
+                      this.state.AQuestion[index.toString()].optimizationGraph
+                    }
+                  />
+                </Form.Field>
               </div>
             )
           })}
@@ -643,19 +726,14 @@ class QuestionForm extends React.Component {
               </div>
             )
           })}
-          <Modal
-            trigger={
-              <Button type="submit" value="Submit">
-                Submit
-              </Button>
-            }
-            closeIcon
-          >
-            <Header
-              content="REACTO SUBMITTED!"
-              style={{textAlign: 'center', justifyContent: 'center'}}
-            />
-          </Modal>
+          <Button type="submit" value="Submit">
+            Submit
+          </Button>
+          {this.state.saveStatus && (
+            <div style={{color: this.state.saveStatusColor}}>
+              {this.state.saveStatus}
+            </div>
+          )}
         </Form>
         <Button type="button" onClick={this.addRQuestion}>
           Add a Repeat Answer

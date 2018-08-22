@@ -27,7 +27,9 @@ export class Editor extends React.Component {
       isWorking: 0, // 0: default state; 1: if the user func works; 2: if user func doesn't work
       errorMessage: '',
       results: [],
-      questionid: 0
+      questionid: 0,
+      saveStatus: '',
+      saveStatusColor: '',
     }
     this.onChange = this.onChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -74,6 +76,7 @@ export class Editor extends React.Component {
   }
 
   async saveCode() {
+    let statusStr;
     try {
       await axios.put(
         '/api/users/' + this.props.userId + '/' + this.state.questionid,
@@ -82,9 +85,14 @@ export class Editor extends React.Component {
           CTAnswer: this.state.code
         }
       )
+      statusStr = "Code saved successfully!"
+      this.setState({saveStatusColor: 'green'})
     } catch (err) {
       console.log(err)
+      statusStr = "Error with saving code! (If you're a dev, check the console.)"
+      this.setState({saveStatusColor: 'red'})
     }
+    this.setState({saveStatus: statusStr})
   }
 
   async handleClick() {
@@ -163,7 +171,7 @@ export class Editor extends React.Component {
         disabled: true
       }
     ]
-    const {isWorking, errorMessage, code, results} = this.state
+    const {isWorking, errorMessage, code, results, saveStatus, saveStatusColor} = this.state
     const tests = this.props.questions.CTStuffs
     const checkResults =
       !!results.length && results.every(el => el.passed === true)
@@ -237,6 +245,8 @@ export class Editor extends React.Component {
             <p>Your func is not right, sorry</p>
           )}
           <Button onClick={() => {this.saveCode()}}>Save Code</Button>
+          {saveStatus &&
+                  <span style={{color: saveStatusColor}}>{saveStatus}</span>}
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
