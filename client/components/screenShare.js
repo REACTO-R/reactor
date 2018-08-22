@@ -1,5 +1,5 @@
 export default function getUserScreen() {
-  var extensionId = 'gllddpdcaodghmbogkaifdhpimnkbhjb'
+  var extensionId = 'ooolecnpfkeogfmmjpnkiiofknmddfdi'
   return new Promise((resolve, reject) => {
     const request = {
       sources: ['tab']

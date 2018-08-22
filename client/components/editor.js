@@ -18,7 +18,6 @@ import {
   Grid
 } from 'semantic-ui-react'
 import {expect} from 'chai'
-
 export class Editor extends React.Component {
   constructor() {
     super()
@@ -33,7 +32,6 @@ export class Editor extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.saveCode = this.saveCode.bind(this)
   }
-
   async componentDidMount() {
     let pathnameArr = this.props.location.pathname.split('/')
     let topicId
@@ -48,7 +46,6 @@ export class Editor extends React.Component {
       subtopicId = pathnameArr[2]
       questionId = pathnameArr[3]
     }
-
     await this.props.getQuestion(topicId, subtopicId, questionId)
     this.setState({
       questionid: this.props.questions.id
@@ -62,7 +59,6 @@ export class Editor extends React.Component {
     }
     console.log(userData)
   }
-
   onChange(newValue) {
     if (this.state.isWorking !== 0) {
       this.setState({isWorking: 0})
@@ -72,7 +68,6 @@ export class Editor extends React.Component {
     }
     this.setState({code: newValue})
   }
-
   async saveCode() {
     try {
       await axios.put(
@@ -86,7 +81,6 @@ export class Editor extends React.Component {
       console.log(err)
     }
   }
-
   async handleClick() {
     try {
       const tests = this.props.questions.CTStuffs
@@ -127,7 +121,6 @@ export class Editor extends React.Component {
       console.log(err)
     }
   }
-
   render() {
     let pathnameArr = this.props.location.pathname.split('/')
     const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}`
@@ -138,7 +131,6 @@ export class Editor extends React.Component {
     return (
       <div>
         <Step.Group
-          items={steps}
           widths={8}
           size="tiny"
           style={{
@@ -147,7 +139,46 @@ export class Editor extends React.Component {
             margin: 'auto',
             height: '42px'
           }}
-        />
+        >
+          <Step active>
+            <Link to={link + '/repeat'}>
+              <Step.Content>
+                <Step.Title>R</Step.Title>
+                <Step.Description>Repeat</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step active>
+            <Link to={link + '/repeat/example'}>
+              <Step.Content>
+                <Step.Title>E</Step.Title>
+                <Step.Description>Example</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step active>
+            <Link to={link + '/repeat/example/approach'}>
+              <Step.Content>
+                <Step.Title>A</Step.Title>
+                <Step.Description>Approach</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step active>
+            <Link to={this.props.history.location.pathname}>
+              <Step.Content>
+                <Step.Title>CT</Step.Title>
+                <Step.Description>Code+Test</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step disabled>
+            <Step.Content>
+              <Step.Title>O</Step.Title>
+              <Step.Description>Optimize</Step.Description>
+            </Step.Content>
+          </Step>
+        </Step.Group>
         <div>
           <br />
           <Header size="large"> {this.props.questions.text} </Header>
@@ -230,19 +261,16 @@ export class Editor extends React.Component {
     )
   }
 }
-
 const mapStateToProps = state => {
   return {
     questions: state.questions,
     userId: state.user.id
   }
 }
-
 const mapDispatchToProps = dispatch => {
   return {
     getQuestion: (topicId, subtopicId, questionId) =>
       dispatch(fetchQuestion(topicId, subtopicId, questionId))
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Editor)

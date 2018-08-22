@@ -81,6 +81,7 @@ class VideoComponent extends React.Component {
     // When a Participant adds a Track, attach it to the DOM.
     room.on('trackAdded', (track, participant) => {
       console.log(participant.identity + ' added track: ' + track.kind)
+      console.log('trackadded event')
       var previewContainer = this.refs.remoteMedia
       this.attachTracks([track], previewContainer)
     })
@@ -124,23 +125,21 @@ class VideoComponent extends React.Component {
   async handleShareScreenClick() {
     if (!this.state.screenTrack) {
       const stream = await getUserScreen()
+      // console.log('stream', stream)
+      const track = stream.getVideoTracks()[0]
+      track.screenshare = true
+      console.log('trackk', track)
       this.setState({screenTrack: stream.getVideoTracks()[0]})
+      // console.log('streamvideotracks', stream.getVideoTracks())
       this.state.activeRoom.localParticipant.addTrack(this.state.screenTrack)
+      console.log('addtrack', this.state.activeRoom.localParticipant.addTrack)
     } else {
       this.state.activeRoom.localParticipant.removeTrack(this.state.screenTrack)
       this.setState({screenTrack: null})
     }
   }
 
-  // componentDidMount(){
-  //   console.log('length', this.props.room.name)
-  //   if(this.props.room.name){
-  //     this.roomJoined(this.props.room)}
-  // }
-
   componentDidUpdate(prevProps) {
-    console.log('prevname', prevProps.room.name)
-    console.log('newname', this.props.room.name)
     if (prevProps.room !== this.props.room) {
       this.roomJoined(this.props.room)
     }
@@ -177,6 +176,7 @@ class VideoComponent extends React.Component {
             <div ref="localMedia" className="videoHere" id="local-media" />
           </div>
           <div className="flex-item" ref="remoteMedia" id="remote-media" />
+          <div className="flex-item" ref="screenshare" />
         </div>
       </div>
     )
