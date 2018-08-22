@@ -16,9 +16,19 @@ describe('Repeat', () => {
 
   beforeEach(() => {
     let location = {pathname: '/1/1/1'}
+    let history = {
+      location: {
+        pathname: '/nohelp/1/1/1/repeat/example/approach/editor',
+        search: '',
+        hash: '',
+        state: undefined,
+        key: 'lz5qz3'
+      }
+    }
     const getQuestionFunc = sinon.spy()
     repeat = shallow(
       <Repeat
+        history={history}
         location={location}
         getQuestion={getQuestionFunc}
         questions={question}
@@ -27,7 +37,7 @@ describe('Repeat', () => {
     instance = repeat.instance()
   })
 
-  xit('should be a class component with an initial local state', () => {
+  it('should be a class component with an initial local state', () => {
     expect(instance).to.exist // eslint-disable-line no-unused-expressions
     expect(instance.state).to.eql({
       loaded: false,
@@ -63,9 +73,19 @@ describe('example', () => {
 
   beforeEach(() => {
     let location = {pathname: '/1/1/1'}
+    let history = {
+      location: {
+        pathname: '/nohelp/1/1/1/repeat/example/approach/editor',
+        search: '',
+        hash: '',
+        state: undefined,
+        key: 'lz5qz3'
+      }
+    }
     const getQuestionFunc = sinon.spy()
     example = shallow(
       <Example
+        history={history}
         location={location}
         getQuestion={getQuestionFunc}
         questions={question}
@@ -74,7 +94,7 @@ describe('example', () => {
     instance = example.instance()
   })
 
-  xit('should be a class component with an initial local state', () => {
+  it('should be a class component with an initial local state', () => {
     expect(instance).to.exist // eslint-disable-line no-unused-expressions
     expect(instance.state).to.eql({
       loaded: false,
@@ -108,9 +128,19 @@ describe('Approach', () => {
 
   beforeEach(() => {
     let location = {pathname: '/1/1/1'}
+    let history = {
+      location: {
+        pathname: '/nohelp/1/1/1/repeat/example/approach/editor',
+        search: '',
+        hash: '',
+        state: undefined,
+        key: 'lz5qz3'
+      }
+    }
     const getQuestionFunc = sinon.spy()
     approach = shallow(
       <Approach
+        history={history}
         location={location}
         getQuestion={getQuestionFunc}
         questions={question}
@@ -119,7 +149,7 @@ describe('Approach', () => {
     instance = approach.instance()
   })
 
-  xit('should be a class component with an initial local state', () => {
+  it('should be a class component with an initial local state', () => {
     expect(instance).to.exist // eslint-disable-line no-unused-expressions
     expect(instance.state).to.eql({
       loaded: false,
