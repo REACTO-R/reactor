@@ -56,7 +56,7 @@ class RepeatNoHelp extends React.Component {
       question: root.RQuestion,
       answers: root.RQuestions,
       loaded: true,
-      questionid: questionId
+      questionid: this.props.questions.id
     })
   }
 

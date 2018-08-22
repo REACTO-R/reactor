@@ -63,7 +63,7 @@ class Profile extends React.Component {
                         <List.Item>{subtopic.name}:</List.Item>
                         {subtopic.Questions.map(question => {
                           return (
-                            <React.Fragment key={question.id}>
+                            <List.Item key={question.id}>
                               <List horizontal>
                                 <List.Item>
                                   {startedQsArr.includes(question.id) ? (
@@ -116,7 +116,7 @@ class Profile extends React.Component {
                                   )}
                                 </Button.Group>
                               </List>
-                            </React.Fragment>
+                            </List.Item>
                           )
                         })}
                       </List.Item>
