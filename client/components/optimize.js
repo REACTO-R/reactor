@@ -69,11 +69,7 @@ class Optimize extends React.Component {
       return Number(answerObj.questionId) === Number(questionInternalId)
     })
     let chosenApproach = userQ.AQuestionApproach
-    //Save each dataset within the AQuestion seed model.
-    //Loop through each and push the parsed object into an array.
-    //If answer.id === chosenApproach, then set borderColor: "green"
-    //Else use default color, red
-
+    
     let chartArray = []
     answers.forEach(answer => {
       let parsedGraph = JSON.parse(answer.optimizationGraph)
