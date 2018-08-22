@@ -14,13 +14,27 @@ class VideoComponent extends React.Component {
       localMediaAvailable: false,
       hasJoinedRoom: false,
       activeRoom: '', // Track the current active room
-      screenTrack: null
+      screenTrack: null,
+      tracksOn: 0,
+      screenShare: 'none'
     }
     this.roomJoined = this.roomJoined.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.detachTracks = this.detachTracks.bind(this)
     this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
     this.handleShareScreenClick = this.handleShareScreenClick.bind(this)
+    this.handleFullScreenClick = this.handleFullScreenClick.bind(this)
+  }
+
+  handleFullScreenClick(ref) {
+    console.log(this.refs.screenshare)
+    if (this.refs.screenshare.requestFullscreen) {
+      this.refs.screenshare.requestFullscreen()
+    } else if (this.refs.screenshare.mozRequestFullScreen) {
+      this.refs.screenshare.mozRequestFullScreen()
+    } else if (this.refs.screenshare.webkitRequestFullscreen) {
+      this.refs.screenshare.webkitRequestFullscreen()
+    }
   }
 
   attachTracks(tracks, container) {
@@ -81,7 +95,13 @@ class VideoComponent extends React.Component {
     // When a Participant adds a Track, attach it to the DOM.
     room.on('trackAdded', (track, participant) => {
       console.log(participant.identity + ' added track: ' + track.kind)
-      var previewContainer = this.refs.remoteMedia
+      // console.log('trackadded event', track.mediaStreamTrack)
+      this.setState({tracksOn: this.state.tracksOn + 1})
+      if (this.state.tracksOn >= 3) {
+        var previewContainer = this.refs.screenshare
+      } else {
+        var previewContainer = this.refs.remoteMedia
+      }
       this.attachTracks([track], previewContainer)
     })
 
@@ -124,23 +144,22 @@ class VideoComponent extends React.Component {
   async handleShareScreenClick() {
     if (!this.state.screenTrack) {
       const stream = await getUserScreen()
-      this.setState({screenTrack: stream.getVideoTracks()[0]})
+      const track = stream.getVideoTracks()[0]
+      track.screenshare = true
+      this.setState({screenTrack: track, screenShare: 'initial'})
       this.state.activeRoom.localParticipant.addTrack(this.state.screenTrack)
+      console.log('addtrack', this.state.activeRoom.localParticipant.addTrack)
     } else {
       this.state.activeRoom.localParticipant.removeTrack(this.state.screenTrack)
       this.setState({screenTrack: null})
     }
   }
 
-  // componentDidMount(){
-  //   console.log('length', this.props.room.name)
-  //   if(this.props.room.name){
-  //     this.roomJoined(this.props.room)}
-  // }
+  componentDidMount() {
+    this.roomJoined(this.props.room)
+  }
 
   componentDidUpdate(prevProps) {
-    console.log('prevname', prevProps.room.name)
-    console.log('newname', this.props.room.name)
     if (prevProps.room !== this.props.room) {
       this.roomJoined(this.props.room)
     }
@@ -174,9 +193,31 @@ class VideoComponent extends React.Component {
         </div>
         <div className="flex-container">
           <div className="flex-item">
-            <div ref="localMedia" className="videoHere" />
+            <div ref="localMedia" className="videoHere" id="local-media" />
           </div>
           <div className="flex-item" ref="remoteMedia" id="remote-media" />
+          <div
+            className="flex-item"
+            ref="screenshare"
+            id="screenshare"
+            style={{width: '100%', height: '100%'}}
+          />
+          {this.state.tracksOn >= 3 ? (
+            <Button
+              primary={true}
+              ref="test"
+              size="tiny"
+              onClick={this.handleFullScreenClick}
+              style={{
+                width: '170px',
+                margin: 'auto'
+              }}
+            >
+              ScreenShare Fullscreen
+            </Button>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     )

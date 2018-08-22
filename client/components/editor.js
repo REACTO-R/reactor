@@ -29,7 +29,7 @@ export class Editor extends React.Component {
       results: [],
       questionid: 0,
       saveStatus: '',
-      saveStatusColor: '',
+      saveStatusColor: ''
     }
     this.onChange = this.onChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -76,7 +76,7 @@ export class Editor extends React.Component {
   }
 
   async saveCode() {
-    let statusStr;
+    let statusStr
     try {
       await axios.put(
         '/api/users/' + this.props.userId + '/' + this.state.questionid,
@@ -85,11 +85,12 @@ export class Editor extends React.Component {
           CTAnswer: this.state.code
         }
       )
-      statusStr = "Code saved successfully!"
+      statusStr = 'Code saved successfully!'
       this.setState({saveStatusColor: 'green'})
     } catch (err) {
       console.log(err)
-      statusStr = "Error with saving code! (If you're a dev, check the console.)"
+      statusStr =
+        "Error with saving code! (If you're a dev, check the console.)"
       this.setState({saveStatusColor: 'red'})
     }
     this.setState({saveStatus: statusStr})
@@ -138,47 +139,22 @@ export class Editor extends React.Component {
 
   render() {
     let pathnameArr = this.props.location.pathname.split('/')
-    const link = `/${pathnameArr[1]}/${pathnameArr[1]}/${pathnameArr[1]}`
-    const steps = [
-      {
-        key: 'R',
-        title: 'R',
-        description: 'Repeat',
-        active: true
-      },
-      {
-        key: 'E',
-        title: 'E',
-        description: 'Example',
-        active: true
-      },
-      {
-        key: 'A',
-        title: 'A',
-        description: 'Approach',
-        active: true
-      },
-      {
-        key: 'CT',
-        title: 'CT',
-        description: 'Code+Test',
-        active: true
-      },
-      {
-        key: 'O',
-        title: 'O',
-        description: 'Optimize',
-        disabled: true
-      }
-    ]
-    const {isWorking, errorMessage, code, results, saveStatus, saveStatusColor} = this.state
+    const link = `/${pathnameArr[1]}/${pathnameArr[2]}/${pathnameArr[3]}`
+
+    const {
+      isWorking,
+      errorMessage,
+      code,
+      results,
+      saveStatus,
+      saveStatusColor
+    } = this.state
     const tests = this.props.questions.CTStuffs
     const checkResults =
       !!results.length && results.every(el => el.passed === true)
     return (
       <div>
         <Step.Group
-          items={steps}
           widths={8}
           size="tiny"
           style={{
@@ -187,7 +163,46 @@ export class Editor extends React.Component {
             margin: 'auto',
             height: '42px'
           }}
-        />
+        >
+          <Step active>
+            <Link to={link + '/repeat'}>
+              <Step.Content>
+                <Step.Title>R</Step.Title>
+                <Step.Description>Repeat</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step active>
+            <Link to={link + '/repeat/example'}>
+              <Step.Content>
+                <Step.Title>E</Step.Title>
+                <Step.Description>Example</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step active>
+            <Link to={link + '/repeat/example/approach'}>
+              <Step.Content>
+                <Step.Title>A</Step.Title>
+                <Step.Description>Approach</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step active>
+            <Link to={this.props.history.location.pathname}>
+              <Step.Content>
+                <Step.Title>CT</Step.Title>
+                <Step.Description>Code+Test</Step.Description>
+              </Step.Content>
+            </Link>
+          </Step>
+          <Step disabled>
+            <Step.Content>
+              <Step.Title>O</Step.Title>
+              <Step.Description>Optimize</Step.Description>
+            </Step.Content>
+          </Step>
+        </Step.Group>
         <div>
           <br />
           <Header size="large"> {this.props.questions.text} </Header>
@@ -230,10 +245,13 @@ export class Editor extends React.Component {
                       </List.Item>
                     )
                   })}
-                  {errorMessage &&
-                  <Card>
-                  <Card.Header style={{color: 'red'}}>{errorMessage}</Card.Header>
-                  </Card>}
+                  {errorMessage && (
+                    <Card>
+                      <Card.Header style={{color: 'red'}}>
+                        {errorMessage}
+                      </Card.Header>
+                    </Card>
+                  )}
                 </List>
               </Grid.Column>
             )}
@@ -244,9 +262,16 @@ export class Editor extends React.Component {
           ) : (
             <p>Your func is not right, sorry</p>
           )}
-          <Button onClick={() => {this.saveCode()}}>Save Code</Button>
-          {saveStatus &&
-                  <span style={{color: saveStatusColor}}>{saveStatus}</span>}
+          <Button
+            onClick={() => {
+              this.saveCode()
+            }}
+          >
+            Save Code
+          </Button>
+          {saveStatus && (
+            <span style={{color: saveStatusColor}}>{saveStatus}</span>
+          )}
         </div>
         <Button disabled={!checkResults} color="green">
           <Link
