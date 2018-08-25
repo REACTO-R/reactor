@@ -28,6 +28,32 @@ function intersection (arrA, arrB) {
   return shared;
 }
 
+
+function intersect (arrOne, arrTwo) {
+  const shared = [];
+  let idxOne = 0;
+  let idxTwo = 0;
+  while (idxOne < arrOne.length && idxTwo < arrTwo.length) {
+    const elemOne = arrOne[idxOne];
+    const elemTwo = arrTwo[idxTwo];
+    if (elemOne == elemTwo) {
+      shared.push(elemOne);
+    }
+    if (elemOne <= elemTwo) {
+      idxOne++;
+    }
+    if (elemOne >= elemTwo) {
+      idxTwo++;
+    }
+  }
+  return shared;
+}
+
+
+
+
+
+
 function stringPermutations (str) {
   var results = [ ];
   var letters = str.split('');

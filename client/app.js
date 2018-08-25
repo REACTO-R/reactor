@@ -13,10 +13,10 @@ const App = props => {
       {props.room.name ? (
         <Grid columns={2}>
           <Grid.Row>
-            <Grid.Column width={3} style={{margin: '0px', padding: '0px'}}>
+            <Grid.Column width={3} style={{margin: '0px', paddingRight: '40px'}}>
               <VideoComponent />
             </Grid.Column>
-            <Grid.Column width={13} style={{margin: '0px', padding: '0px'}}>
+            <Grid.Column width={13} style={{margin: '0px',  padding: '0px'}}>
               <Routes />
             </Grid.Column>
           </Grid.Row>

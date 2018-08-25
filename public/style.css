@@ -32,6 +32,10 @@ video {
   width: 100%;
   margin: 0px;
   padding-left: 10px;
+  margin-left: 10px;
+  border-style: solid;
+ border-color: #2E86C1;
+ border-width: 3px;
 
 }
 
@@ -94,3 +98,12 @@ label{
  }
 
 
+ /* #screenshare video{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding-left: 10px;
+  border-style: solid;
+  border-color: #2E86C1;
+  border-width: 7px;
+ } */
